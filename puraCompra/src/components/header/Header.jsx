@@ -8,14 +8,14 @@ import { IoMdHeart } from "react-icons/io";
 
 
 // Assets
-import logo from '../../assets/JieShopLogo.png'
+import Logo from '../../assets/JieShopLogo.png'
 
 
 export default function Header() {
   return (
     <header className='flex justify-between mx-4'>
         <div>
-            <h1>Logo</h1>
+            <img src={Logo} alt="" className='flex w-10 h-auto'/>
             <Link to='/'>
                 <img src='' />
             </Link>
@@ -24,7 +24,7 @@ export default function Header() {
 
         <Navbar />
 
-        <div className='flex gap-4'>
+        <div className='flex gap-4 pt-2'>
         <IoMdHeart className='text-2xl' />
         <TiShoppingCart className='text-2xl' />
         </div>

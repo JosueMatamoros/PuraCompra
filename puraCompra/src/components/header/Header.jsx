@@ -1,36 +1,27 @@
-import React from 'react'
-
-// Components
-import Navbar from './Navbar'
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { TiShoppingCart } from "react-icons/ti";
 import { IoMdHeart } from "react-icons/io";
-
-
-// Assets
-import logo from '../../assets/JieShopLogo.png'
-
+import Navbar from './Navbar';
+import logo from '../../assets/JieShopLogo.png'; 
 
 export default function Header() {
   return (
-    <header className='flex justify-between mx-4'>
-        <div>
-            <h1>Logo</h1>
+    <header className='flex justify-between items-center mx-4 py-2'>
+        <div className='flex items-center gap-2'>
             <Link to='/'>
-                <img src='' />
+                <img src={logo} alt="JieShop Logo" className="h-14" />
             </Link>
+            <h1 className='text-2xl font-bold'>Pura Compra</h1>
         </div>
-
 
         <Navbar />
 
-        <div className='flex gap-4'>
-        <IoMdHeart className='text-2xl' />
-        <TiShoppingCart className='text-2xl' />
+        <div className='flex gap-4 items-center'>
+            
+            <IoMdHeart className='text-2xl cursor-pointer' />
+            <TiShoppingCart className='text-2xl cursor-pointer' />
         </div>
-        
-        
-    
     </header>
   );
 }

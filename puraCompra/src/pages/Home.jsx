@@ -1,11 +1,10 @@
 import React from 'react'
+import Header from '../components/header/Header'
 
 export default function Home() {
   return (
     <>
-      <div className='bg-black text-orange-800'>
-        <p className='text-4xl'>Hola</p>
-      </div>
+      <Header />
   
     </>
   )

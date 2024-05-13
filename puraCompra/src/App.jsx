@@ -1,15 +1,12 @@
-import { useState } from 'react'
-import Routing from './routes'
-import { Rule } from 'postcss'
+import React from 'react';
+import Routing from './routes';
 
 function App() {
-  
-
   return (
     <>
       <Routing />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

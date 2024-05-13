@@ -17,10 +17,9 @@ export default function Header() {
 
         <Navbar />
 
-        <div className='flex gap-4 items-center'>
-            
-            <IoMdHeart className='text-2xl cursor-pointer' />
-            <TiShoppingCart className='text-2xl cursor-pointer' />
+        <div className='flex gap-4 pt-2'>
+        <IoMdHeart className='text-2xl' />
+        <TiShoppingCart className='text-2xl' />
         </div>
     </header>
   );

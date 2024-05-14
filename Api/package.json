@@ -1,0 +1,14 @@
+{
+  "name": "puracompra-api",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.9.7",
+    "nodemon": "^3.1.0",
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7"
+  },
+  "scripts": {
+    "dev": "nodemon main.js"
+  }
+}

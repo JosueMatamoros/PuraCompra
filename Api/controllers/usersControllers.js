@@ -2,7 +2,9 @@ import User from '../models/users.js';
 
 export const getUsers = async (request, response) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      include: 'Addresses',
+    });
     response.json(users);
   } catch (error) {
     response.status(404).json({ message: error.message });

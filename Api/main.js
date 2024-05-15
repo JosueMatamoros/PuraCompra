@@ -1,6 +1,8 @@
 import sequelize from "./models/index.js";
 import express from "express";
 import usersRoutes from "./routes/usersRoutes.js";
+import addressesRoutes from "./routes/addressesRoutes.js";
+
 
 import User from "./models/users.js"; 
 import Orders from "./models/order.js";
@@ -17,7 +19,7 @@ const app = express();
 const port = 3000;
 
 app.use('/users', usersRoutes);
-
+app.use('/addresses', addressesRoutes);
 
 async function main() {
   try {

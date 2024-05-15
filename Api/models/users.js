@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 import sequelize from "./index.js";
+import Addresses from "./addresses.js";
 
 const User = sequelize.define("User", {
   UsersID: {
@@ -24,14 +25,23 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  addresses: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
 },{
     tableName: "Users",
     Sequelize,
   }
 );
+
+User.hasMany(Addresses, {
+  foreignKey: 'UserID',
+  sourceKey: 'UsersID'
+});
+
+Addresses.belongsTo(User, {
+  foreignKey: 'UserID',
+  targetKey: 'UsersID'
+});
+
+await User.sync();
+await Addresses.sync();
 
 export default User;

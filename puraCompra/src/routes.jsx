@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./components/login/Login";
 import SingIn from "./components/login/SignIn";
 import Header from "./components/header/Header";
+import RegisterAccount from "./components/login/RegisterAccount";
 
 const Ruting = () => (
     <Router>
@@ -12,6 +13,7 @@ const Ruting = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/sign" element={<SingIn />} />
             <Route path="/header" element={<Header />} />
+            <Route path="/register" element={<RegisterAccount />} />
         </Routes>
     </Router>
 );

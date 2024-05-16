@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes } from "sequelize";
 import sequelize from "./index.js";
 import Addresses from "./addresses.js";
+import Orders from "./orders.js";
 
 const User = sequelize.define("User", {
   UsersID: {
@@ -40,6 +41,7 @@ Addresses.belongsTo(User, {
   foreignKey: 'UserID',
   targetKey: 'UsersID'
 });
+
 
 await User.sync();
 await Addresses.sync();

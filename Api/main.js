@@ -9,6 +9,9 @@ import reviewsRoutes from "./routes/reviewsRoutes.js";
 import sellersRoutes from "./routes/sellersRoutes.js";
 import shipmentsRoutes from "./routes/shipmentsRoutes.js";
 import transactionLogsRoutes from "./routes/transactionLogsRoutes.js";
+import ordersRoutes from "./routes/ordersRoutes.js";
+import productsRoutes from "./routes/productsRoutes.js";
+import priceHistoryRoutes from "./routes/priceHistoryRoutes.js";
 
 import Promotions from "./models/promotions.js";
 import User from "./models/users.js"; 
@@ -34,6 +37,10 @@ app.use('/reviews', reviewsRoutes);
 app.use('/sellers', sellersRoutes);
 app.use('/shipments', shipmentsRoutes);
 app.use('/transactionLogs', transactionLogsRoutes);
+app.use('/orders', ordersRoutes);
+app.use('/products', productsRoutes);
+app.use('/priceHistory', priceHistoryRoutes);
+
 
 async function main() {
   try {

@@ -13,7 +13,10 @@ export const getUsers = async (request, response) => {
 
 export const getUserById = async (request, response) => {
   try {
-    const user = await User.findByPk(request.params.id);
+    const user = await User.findByPk(request.params.id, {
+      include: 'Addresses',
+    }
+    );
     if (user) {
       response.json(user);
     } else {

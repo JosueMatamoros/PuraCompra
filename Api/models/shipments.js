@@ -29,12 +29,13 @@ const Shipments = sequelize.define("Shipments", {
     allowNull: false,
   },
   state: {
-    type: DataTypes.ENUM('Delivered', 'In_Process', 'Pending'),
-    defaultValue: 'Pending',
+    type: DataTypes.ENUM('DELIVED', 'IN_PROCESS', 'PENDING'),
+    defaultValue: 'PENDING',
     allowNull: false,
   },
 }, {
   tableName: "Shipments",
   sequelize,
 });
+
 export default Shipments;

@@ -25,3 +25,5 @@ const Promotions = sequelize.define('promotions', {
   tableName: 'promotions',
   sequelize,
 });
+
+export default Promotions;

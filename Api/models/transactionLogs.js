@@ -17,7 +17,7 @@ const TransactionLogs = sequelize.define("TransactionLogs", {
     allowNull: false,
   },
   type: {
-    type: DataTypes.ENUM('Refund', 'Purchase'),
+    type: DataTypes.ENUM('Refund', 'purchase'),
     allowNull: false,
   },
   quantity: {

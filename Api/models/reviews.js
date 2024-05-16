@@ -30,6 +30,7 @@ const Reviews = sequelize.define('reviews', {
   },
   date :{
       type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
       allowNull: false,
   }
 },{

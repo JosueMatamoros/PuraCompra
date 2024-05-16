@@ -17,7 +17,7 @@ const Sellers = sequelize.define("Sellers", {
     allowNull: false,
   },
   type: {
-    type: DataTypes.ENUM('Retail_Distributors', 'Platform_Partners', 'Degital_Resellers'),
+    type: DataTypes.ENUM('RETAIL_DISTRIBUTORS', 'PLATFORM_PARTNERS', 'DIGITAL_RESELLERS'),
     allowNull: false,
   },
 }, {

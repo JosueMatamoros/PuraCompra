@@ -5,6 +5,8 @@ import { BiSolidLock } from "react-icons/bi";
 import { HiPhone, HiEye, HiEyeOff } from "react-icons/hi";
 import { FaCheckCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { PiUserCircle } from "react-icons/pi";
+
 
 export default function SignIn() {
   const [formData, setFormData] = useState({
@@ -69,7 +71,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex justify-around w-full py-8">
+    <div className="flex justify-around w-full items-center">
       <div className="flex-column items-center">
         <h1 className='text-3xl pb-3'>Password Requirements</h1>
         <div className="flex items-center gap-2">
@@ -90,7 +92,9 @@ export default function SignIn() {
         </div>
       </div>
 
-      <form className="flex flex-col gap-4 shadow-xl max-w-md flex-grow" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-4 max-w-md flex-grow" onSubmit={handleSubmit}>
+        <PiUserCircle className="text-6xl text-slate-400 mx-auto" />
+        
         <div className='flex justify-between'>
           <TextInput
             id="name"

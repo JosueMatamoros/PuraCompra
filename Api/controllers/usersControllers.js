@@ -5,6 +5,9 @@ export const createUser = async (request, response) => {
   try {
     const { UsersID, name, lastname, mail, phoneNumber } = request.body;
     const newUser = await User.create({ UsersID, name, lastname, mail, phoneNumber });
+    if( UsersID === undefined || name === undefined || lastname === undefined || mail === undefined || phoneNumber === undefined) {
+      response.status(400).json({ message: 'Please provide all the information' });
+    }
     response.status(201).json(newUser);
   } catch (error) {
     response.status(400).json({ message: error.message });

@@ -11,7 +11,7 @@ import { Avatar, ListGroup } from "flowbite-react";
 
 export default function Header() {
   // cambiar variable por logica para ver si se esta registrado o no
-  const user = false;
+  const user = true;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigate = useNavigate();

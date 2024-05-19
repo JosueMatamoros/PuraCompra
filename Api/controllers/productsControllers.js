@@ -2,8 +2,8 @@ import Products from '../models/products.js';
 
 export const createProduct = async (request, response) => {
     try {
-        const { ProductsID, SellersID, name, stock, description, price, image_url } = request.body;
-        const newProduct = await Products.create({ ProductsID, SellersID, name, stock, description, price, image_url });
+        const { ProductsID, Sellers, name, stock, description, price, imageUrl } = request.body;
+        const newProduct = await Products.create({ ProductsID, Sellers, name, stock, description, price, imageUrl });
         response.status(201).json(newProduct);
     } catch (error) {
         response.status(500).json({ message: error.message });
@@ -35,8 +35,8 @@ export const getProductById = async (request, response) => {
 export const updateProduct = async (request, response) => {
     try {
         const { id } = request.params;
-        const { SellersID, name, stock, description, price, image_url } = request.body;
-        const [updated] = await Products.update({ SellersID, name, stock, description, price, image_url }, {
+        const { Sellers, name, stock, description, price, imageUrl } = request.body;
+        const [updated] = await Products.update({ Sellers, name, stock, description, price, imageUrl }, {
             where: { ProductsID: id }
         });
         if (updated) {

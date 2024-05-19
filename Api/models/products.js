@@ -8,7 +8,7 @@ const Products = sequelize.define('Products', {
     allowNull: false,
     autoIncrement: true,
   },
-  SellersID: {
+  Sellers: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
@@ -29,7 +29,7 @@ const Products = sequelize.define('Products', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-  image_url: {
+  imageUrl: {
     type: DataTypes.STRING,
     allowNull: false,
   },

@@ -11,7 +11,7 @@ const Products = () => {
         {products.map(product => (
           <div key={product.ProductsID} className="border p-4 rounded shadow">
             <img 
-              src={`http://localhost:3000${product.image_url}`} 
+              src={`http://localhost:3000${product.imageUrl}`}
               alt={product.name} 
               className="w-full h-48 object-cover mb-4"
             />

@@ -5,9 +5,9 @@ import config from '../config.js';
 
 export const createUser = async (request, response) => {
   try {
-    const { UsersID, name, lastname, mail, phoneNumber } = request.body;
-    const newUser = await User.create({ UsersID, name, lastname, mail, phoneNumber });
-    if( UsersID === undefined || name === undefined || lastname === undefined || mail === undefined || phoneNumber === undefined) {
+    const {name, lastname, mail, phoneNumber } = request.body;
+    const newUser = await User.create({name, lastname, mail, phoneNumber});
+    if(name === undefined || lastname === undefined || mail === undefined || phoneNumber === undefined) {
       response.status(400).json({ message: 'Please provide all the information' });
     }
     response.status(201).json(newUser);
@@ -102,6 +102,7 @@ export const loginUsers = async (request, response) => {
 
 export const registerUsers = async (request, response) => {
   const { name, lastname, mail, phoneNumber, password } = request.body;
+  console.log(name, lastname, mail, phoneNumber, password);
   console.log(`Register attempt with email: ${mail}`);
   try {
     const existingUser = await User.findOne({ where: {mail: mail } });

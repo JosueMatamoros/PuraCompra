@@ -1,7 +1,7 @@
-import { Sequelize, DataTypes } from "sequelize";
-import sequelize from "./index.js";
+import { Sequelize, DataTypes } from 'sequelize';
+import sequelize from './index.js';
 
-const Sellers = sequelize.define("Sellers", {
+const Sellers = sequelize.define('Sellers', {
   SellersID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -14,14 +14,14 @@ const Sellers = sequelize.define("Sellers", {
   },
   url: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   type: {
     type: DataTypes.ENUM('RETAIL_DISTRIBUTORS', 'PLATFORM_PARTNERS', 'DIGITAL_RESELLERS'),
     allowNull: false,
-  },
+  }
 }, {
-  tableName: "Sellers",
+  tableName: 'Sellers',
   sequelize,
 });
 

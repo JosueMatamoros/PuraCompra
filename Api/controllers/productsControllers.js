@@ -1,67 +1,90 @@
 import Products from '../models/products.js';
+import Sellers from '../models/sellers.js';
 
-export const createProduct = async (request, response) => {
+export const getProducts = async (req, res) => {
     try {
-        const { ProductsID, Sellers, name, stock, description, price, imageUrl } = request.body;
-        const newProduct = await Products.create({ ProductsID, Sellers, name, stock, description, price, imageUrl });
-        response.status(201).json(newProduct);
+        const products = await Products.findAll({
+            include: [
+                {
+                    model: Sellers,
+                    attributes: ['name'], // Solo el nombre del vendedor
+                },
+            ],
+        });
+        res.json(products);
     } catch (error) {
-        response.status(500).json({ message: error.message });
+        console.error('Error fetching products:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
 
-export const getProducts = async (request, response) => {
+export const createProduct = async (req, res) => {
     try {
-        const products = await Products.findAll();
-        response.json(products);
+        const { Sellers, name, stock, description, price, imageUrl } = req.body;
+        const newProduct = await Products.create({ Sellers, name, stock, description, price, imageUrl });
+        res.status(201).json(newProduct);
     } catch (error) {
-        response.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 };
 
-export const getProductById = async (request, response) => {
+export const getProductById = async (req, res) => {
     try {
-        const product = await Products.findByPk(request.params.id);
+        const product = await Products.findByPk(req.params.id, {
+            include: [
+                {
+                    model: Sellers,
+                    attributes: ['name'],
+                },
+            ],
+        });
         if (product) {
-            response.json(product);
+            res.json(product);
         } else {
-            response.status(404).json({ message: 'Product not found' });
+            res.status(404).json({ message: 'Product not found' });
         }
     } catch (error) {
-        response.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 };
 
-export const updateProduct = async (request, response) => {
+export const updateProduct = async (req, res) => {
     try {
-        const { id } = request.params;
-        const { Sellers, name, stock, description, price, imageUrl } = request.body;
+        const { id } = req.params;
+        const { Sellers, name, stock, description, price, imageUrl } = req.body;
         const [updated] = await Products.update({ Sellers, name, stock, description, price, imageUrl }, {
             where: { ProductsID: id }
         });
         if (updated) {
-            const updatedProduct = await Products.findByPk(id);
-            response.status(200).json(updatedProduct);
+            const updatedProduct = await Products.findByPk(id, {
+                include: [
+                    {
+                        model: Sellers,
+                        attributes: ['name'],
+                    },
+                ],
+            });
+            res.status(200).json(updatedProduct);
         } else {
-            response.status(404).json({ message: 'Product not found' });
+            res.status(404).json({ message: 'Product not found' });
         }
     } catch (error) {
-        response.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 };
 
-export const deleteProduct = async (request, response) => {
+export const deleteProduct = async (req, res) => {
     try {
-        const { id } = request.params;
+        const { id } = req.params;
         const deleted = await Products.destroy({
             where: { ProductsID: id }
         });
         if (deleted) {
-            response.status(204).end();
+            res.status(204).end();
         } else {
-            response.status(404).json({ message: 'Product not found' });
+            res.status(404).json({ message: 'Product not found' });
         }
     } catch (error) {
-        response.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 };

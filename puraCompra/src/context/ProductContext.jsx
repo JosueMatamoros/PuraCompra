@@ -8,7 +8,7 @@ const ProductContext = createContext();
 const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
-  // Función para obtener los productos
+  // Función para obtener productos
   const fetchProducts = async () => {
     try {
       const response = await axios.get('http://localhost:3000/products');
@@ -18,7 +18,6 @@ const ProductProvider = ({ children }) => {
     }
   };
 
-  // Llama a fetchProducts cuando el componente se monta
   useEffect(() => {
     fetchProducts();
   }, []);

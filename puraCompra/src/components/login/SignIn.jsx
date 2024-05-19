@@ -70,8 +70,10 @@ export default function SignIn() {
     if (formData.termsAgreed && formData.password.length >= 8 && /[A-Z]/.test(formData.password) && /[^A-Za-z0-9]/.test(formData.password) && formData.password === formData.repeatPassword && /^[A-Za-z]+$/.test(formData.name) && /^[A-Za-z]+$/.test(formData.lastname)) {
       console.log('Form Data', formData);
       const success = await register(formData.name, formData.lastname, formData.phone, formData.email, formData.password);
-      navigate('/register');
-      console.log('Form Data:', formData);
+      if (success) {
+        navigate('/register');
+        console.log('Form Data:', formData);
+      }
     } else {
       console.log('Validation failed');
     }

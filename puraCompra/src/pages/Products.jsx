@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import { ProductContext } from '../context/ProductContext';
+import Header from '../components/header/Header';
 
 const Products = () => {
   const { products } = useContext(ProductContext);
 
   return (
     <div className="container mx-auto p-4">
+      <Header />
       <h1 className="text-3xl font-bold mb-4">Products</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map(product => (

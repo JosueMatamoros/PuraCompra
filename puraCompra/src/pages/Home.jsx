@@ -44,21 +44,6 @@ export default function Home() {
           <img src={Logo} alt="Imagen decorativa" className="w-full max-w-full h-auto  object-contain md:object-cover" />
         </div>
       </div>
-
-      <div className="flex flex-grow bg-white text-center p-4">
-        <p className="text-black text-xl font-bold">Beneficios</p>
-        <div className="flex flex-row">
-          {cards.map((card, index) => (
-            <BorderlessCard
-            key={index}
-            image={card.image}
-            title={card.title}
-            description={card.description}
-            />
-          ))
-          }
-        </div>
-      </div>
     </div>
 
     </>

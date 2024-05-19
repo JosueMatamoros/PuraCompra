@@ -45,7 +45,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex-grow bg-white text-center p-4">
+      <div className="flex flex-grow bg-white text-center p-4">
         <p className="text-black text-xl font-bold">Beneficios</p>
         <div className="flex flex-row">
           {cards.map((card, index) => (

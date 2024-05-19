@@ -1,10 +1,13 @@
 import React from 'react';
 import Routing from './routes';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
     <>
-      <Routing />
+      <AuthProvider>
+        <Routing />
+      </AuthProvider>
     </>
   );
 }

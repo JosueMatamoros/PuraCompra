@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TiShoppingCart } from "react-icons/ti";
+import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdHeart } from "react-icons/io";
 import Navbar from './Navbar';
 import logo from '../../assets/JieShopLogo.png'; 
@@ -21,6 +22,9 @@ export default function Header() {
         <DarkThemeToggle />
         <IoMdHeart className='text-2xl' />
         <TiShoppingCart className='text-2xl' />
+        <Link to='/register'>
+            <FaRegUserCircle className='text-2xl' />
+        </Link>
         </div>
     </header>
   );

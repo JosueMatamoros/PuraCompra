@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { TiShoppingCart } from "react-icons/ti";
 import { FaRegUserCircle } from "react-icons/fa";
 import { HiUserCircle, HiOutlineAdjustments } from "react-icons/hi";
@@ -10,8 +11,15 @@ import { Avatar, ListGroup } from "flowbite-react";
 
 export default function Header() {
   // cambiar variable por logica para ver si se esta registrado o no
-  const user = true;
+  const user = false;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => {
+    navigate(path);
+    setIsMenuOpen(false); // Cerrar el menú después de la navegación
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -42,15 +50,15 @@ export default function Header() {
             <ListGroup className="w-48">
               {user ? (
                 <>
-                  <ListGroup.Item as={Link} to="/" icon={HiUserCircle}>
+                  <ListGroup.Item onClick={() => handleNavigate('/register')} icon={HiUserCircle}>
                     Profile
                   </ListGroup.Item>
-                  <ListGroup.Item as={Link} to="/" icon={HiOutlineAdjustments}>
+                  <ListGroup.Item onClick={() => handleNavigate('/register')} icon={HiOutlineAdjustments}>
                     Settings
                   </ListGroup.Item>
                 </>
               ) : (
-                <ListGroup.Item as={Link} to="/register" icon={HiUserCircle}>
+                <ListGroup.Item onClick={() => handleNavigate('/register')} icon={HiUserCircle}>
                   Login
                 </ListGroup.Item>
               )}

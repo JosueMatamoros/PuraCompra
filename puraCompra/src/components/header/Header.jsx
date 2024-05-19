@@ -27,7 +27,7 @@ export default function Header() {
   };
 
   return (
-    <header className='flex justify-between items-center mx-4 py-2'> 
+    <header className='flex justify-between items-center mx-4 py-2 md:mx-8 lg:mx-16'> 
       <div className='flex items-center gap-2'>
         <Link to='/'>
           <img src={logo} alt="JieShop Logo" className="h-14" />

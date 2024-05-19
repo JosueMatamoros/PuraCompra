@@ -10,7 +10,7 @@ import { Avatar, ListGroup } from "flowbite-react";
 
 export default function Header() {
   // cambiar variable por logica para ver si se esta registrado o no
-  const user = false;
+  const user = true;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -42,15 +42,15 @@ export default function Header() {
             <ListGroup className="w-48">
               {user ? (
                 <>
-                  <ListGroup.Item as={Link} to="/profile" icon={HiUserCircle}>
+                  <ListGroup.Item as={Link} to="/" icon={HiUserCircle}>
                     Profile
                   </ListGroup.Item>
-                  <ListGroup.Item as={Link} to="/settings" icon={HiOutlineAdjustments}>
+                  <ListGroup.Item as={Link} to="/" icon={HiOutlineAdjustments}>
                     Settings
                   </ListGroup.Item>
                 </>
               ) : (
-                <ListGroup.Item as={Link} to="/login" icon={HiUserCircle}>
+                <ListGroup.Item as={Link} to="/register" icon={HiUserCircle}>
                   Login
                 </ListGroup.Item>
               )}

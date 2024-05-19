@@ -1,15 +1,14 @@
-import Products from "../models/products.js";
+import Products from '../models/products.js';
 
 export const createProduct = async (request, response) => {
     try {
-        const { ProductsID, Sellers, name, stock, description, price } = request.body;
-        const newProduct = await Products.create({ ProductsID, Sellers, name, stock, description, price });
+        const { ProductsID, SellersID, name, stock, description, price, image_url } = request.body;
+        const newProduct = await Products.create({ ProductsID, SellersID, name, stock, description, price, image_url });
         response.status(201).json(newProduct);
-    }
-    catch (error) {
+    } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    };
+};
 
 export const getProducts = async (request, response) => {
     try {
@@ -18,7 +17,7 @@ export const getProducts = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    };
+};
 
 export const getProductById = async (request, response) => {
     try {
@@ -31,13 +30,13 @@ export const getProductById = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+};
 
 export const updateProduct = async (request, response) => {
     try {
         const { id } = request.params;
-        const { Sellers, name, stock, description, price } = request.body;
-        const [updated] = await Products.update({ Sellers, name, stock, description, price }, {
+        const { SellersID, name, stock, description, price, image_url } = request.body;
+        const [updated] = await Products.update({ SellersID, name, stock, description, price, image_url }, {
             where: { ProductsID: id }
         });
         if (updated) {
@@ -49,7 +48,7 @@ export const updateProduct = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+};
 
 export const deleteProduct = async (request, response) => {
     try {
@@ -65,4 +64,4 @@ export const deleteProduct = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+};

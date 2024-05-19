@@ -1,15 +1,17 @@
 import React from 'react';
 import Routing from './routes';
 import { AuthProvider } from './context/AuthContext';
+import { ProductProvider } from './context/ProductContext';
 
 function App() {
   return (
-    <>
-      <AuthProvider>
+    <AuthProvider>
+      <ProductProvider>
         <Routing />
-      </AuthProvider>
-    </>
+      </ProductProvider>
+    </AuthProvider>
   );
 }
+
 
 export default App;

@@ -1,14 +1,14 @@
-import { Sequelize, DataTypes } from "sequelize";
-import sequelize from "./index.js";
+import { Sequelize, DataTypes } from 'sequelize';
+import sequelize from './index.js';
 
-const Products = sequelize.define("Products", {
+const Products = sequelize.define('Products', {
   ProductsID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
   },
-  Sellers: {
+  SellersID: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
@@ -29,8 +29,12 @@ const Products = sequelize.define("Products", {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+  image_url: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
-  tableName: "Products",
+  tableName: 'Products',
   sequelize,
 });
 

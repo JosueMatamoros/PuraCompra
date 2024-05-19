@@ -6,7 +6,7 @@ const Sellers = sequelize.define("Sellers", {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
-    autoIncrement: false,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING,

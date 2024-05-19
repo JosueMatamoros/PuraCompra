@@ -6,7 +6,7 @@ const Products = sequelize.define("Products", {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
-    autoIncrement: false,
+    autoIncrement: true,
   },
   Sellers: {
     type: DataTypes.INTEGER,

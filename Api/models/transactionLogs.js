@@ -6,7 +6,7 @@ const TransactionLogs = sequelize.define("TransactionLogs", {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
-    autoIncrement: false,
+    autoIncrement: true,
   },
   UsersID: {
     type: DataTypes.INTEGER,

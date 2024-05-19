@@ -6,7 +6,7 @@ const Shipments = sequelize.define("Shipments", {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
-    autoIncrement: false,
+    autoIncrement: true,
   },
   OrdersID: {
     type: DataTypes.INTEGER,

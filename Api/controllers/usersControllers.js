@@ -97,6 +97,25 @@ export const loginUsers = async (request, response) => {
     response.json({ user, token});
   } catch (error) {
     response.status(500).json({ message: error.message });
-  }
-
+  };
 };
+
+export const registerUsers = async (request, response) => {
+  const { name, lastname, mail, phoneNumber, password } = request.body;
+  console.log(`Register attempt with email: ${mail}`);
+  try {
+    const existingUser = await User.findOne({ where: {mail: mail } });
+    if (existingUser) {
+      return response.status(400).json({ message: 'User already exists' });
+    }
+
+    const newUser = await User.create({ name, lastname, mail, phoneNumber, password });
+    const token = jwt.sign({ id: newUser.UsersID }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    console.log('Registration successful', newUser, token);
+    response.status(201).json({ newUser, token });
+  } catch (error) {
+    console.log('Error during registration:', error);
+    response.status(500).json({ message: error.message });
+  }
+};
+

@@ -6,7 +6,7 @@ const PriceHistory = sequelize.define("PriceHistory", {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
-    autoIncrement: false,
+    autoIncrement: true,
   },
   ProductID: {
     type: DataTypes.INTEGER,

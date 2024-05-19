@@ -8,7 +8,7 @@ const User = sequelize.define("User", {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
-    autoIncrement: false,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING,
@@ -37,12 +37,12 @@ const User = sequelize.define("User", {
 );
 
 User.hasMany(Addresses, {
-  foreignKey: 'UserID',
+  foreignKey: 'UsersID',
   sourceKey: 'UsersID'
 });
 
 Addresses.belongsTo(User, {
-  foreignKey: 'UserID',
+  foreignKey: 'UsersID',
   targetKey: 'UsersID'
 });
 

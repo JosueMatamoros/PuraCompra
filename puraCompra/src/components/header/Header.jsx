@@ -10,7 +10,7 @@ import { Avatar, ListGroup } from "flowbite-react";
 
 export default function Header() {
   // cambiar variable por logica para ver si se esta registrado o no
-  const user = false;gi
+  const user = false;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {

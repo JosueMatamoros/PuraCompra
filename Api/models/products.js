@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from './index.js';
+import Sellers from './sellers.js';
 
 const Products = sequelize.define('Products', {
   ProductsID: {
@@ -8,9 +9,13 @@ const Products = sequelize.define('Products', {
     allowNull: false,
     autoIncrement: true,
   },
-  Sellers: {
+  Sellers: {  // Cambié de SellersID a Sellers
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: Sellers,
+      key: 'SellersID',
+    },
   },
   name: {
     type: DataTypes.STRING,
@@ -37,5 +42,7 @@ const Products = sequelize.define('Products', {
   tableName: 'Products',
   sequelize,
 });
+
+Products.belongsTo(Sellers, { foreignKey: 'Sellers' });
 
 export default Products;

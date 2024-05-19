@@ -1,26 +1,29 @@
 import React, { useContext } from 'react';
 import { ProductContext } from '../context/ProductContext';
+import ProductsCarrousel from '../components/carrousel/ProductsCarrousel';
 
 const Products = () => {
   const { products } = useContext(ProductContext);
 
+  // Agrupar productos por Sellers
+  const groupedProducts = products.reduce((acc, product) => {
+    const sellerName = product.Seller.name;
+    if (!acc[sellerName]) {
+      acc[sellerName] = [];
+    }
+    acc[sellerName].push(product);
+    return acc;
+  }, {});
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Products</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {products.map(product => (
-          <div key={product.ProductsID} className="border p-4 rounded shadow">
-            <img 
-              src={`http://localhost:3000${product.imageUrl}`}
-              alt={product.name} 
-              className="w-full h-48 object-cover mb-4"
-            />
-            <h2 className="text-xl font-semibold">{product.name}</h2>
-            <p className="text-gray-700 mb-2">{product.description}</p>
-            <p className="text-lg font-bold">${product.price.toFixed(2)}</p>
-          </div>
-        ))}
-      </div>
+      {Object.keys(groupedProducts).map(sellerName => (
+        <div key={sellerName} className="mb-8">
+          <h2 className="text-2xl font-semibold mb-4">{sellerName}</h2>
+          <ProductsCarrousel products={groupedProducts[sellerName]} />
+        </div>
+      ))}
     </div>
   );
 };

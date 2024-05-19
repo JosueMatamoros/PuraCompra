@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { IoIosMail } from "react-icons/io";
 import { BiSolidLock } from "react-icons/bi";
 import { HiPhone, HiEye, HiEyeOff } from "react-icons/hi";
 import { FaCheckCircle } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PiUserCircle } from "react-icons/pi";
+import { AuthContext } from '../../context/AuthContext';
 
 
 export default function SignIn() {
@@ -18,6 +19,8 @@ export default function SignIn() {
     repeatPassword: '',
     termsAgreed: false
   });
+  const { register } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [errorStyle, setErrorStyle] = useState({
     name: false,
@@ -61,9 +64,13 @@ export default function SignIn() {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.termsAgreed && formData.password.length >= 8 && /[A-Z]/.test(formData.password) && /[^A-Za-z0-9]/.test(formData.password) && formData.password === formData.repeatPassword && /^[A-Za-z]+$/.test(formData.name) && /^[A-Za-z]+$/.test(formData.lastname)) {
+      console.log('Form Data', formData);
+      const success = await register(formData.name, formData.lastname, formData.phone, formData.email, formData.password);
+      navigate('/register');
       console.log('Form Data:', formData);
     } else {
       console.log('Validation failed');

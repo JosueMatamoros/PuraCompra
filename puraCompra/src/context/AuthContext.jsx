@@ -30,6 +30,27 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (name, lastname, phone, email, password) => {
+    try {
+      console.log(phone)
+      const response = await fetch('http://localhost:3000/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, lastname, phoneNumber: phone, mail: email, password }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        console.error('Error al registrar usuario:', data.message);
+        return false;
+      }
+      console.log('Usuario registrado:', data);
+      return true;
+    } catch (error) {
+      console.error('Error al registrar usuario:', error);
+      return false;
+    }
+  };
+
   // Función para cerrar sesión
   const logout = () => {
     setUser(null);
@@ -46,7 +67,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

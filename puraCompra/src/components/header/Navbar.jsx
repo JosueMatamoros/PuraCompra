@@ -8,6 +8,9 @@ export default function Navbar() {
             <li className='mx-2'>
                 <Link to="/" className='hover:text-blue-300  md:text-2xl font-medium'>Home</Link>
             </li>
+            <li className='mx-2'>
+                <Link to="/products" className='hover:text-blue-300 md:text-2xl font-medium'>Products</Link>
+            </li>
             
             
         </ul>

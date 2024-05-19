@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import ProductsCarrousel from '../components/carrousel/ProductsCarrousel';
+import Header from '../components/header/Header';
 
 const Products = () => {
   const { products } = useContext(ProductContext);
@@ -17,6 +18,7 @@ const Products = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <Header />
       <h1 className="text-3xl font-bold mb-4">Products</h1>
       {Object.keys(groupedProducts).map(sellerName => (
         <div key={sellerName} className="mb-8">

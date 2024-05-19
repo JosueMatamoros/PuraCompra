@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import sessionstorage from 'sessionstorage';
 
 // Crea el contexto
 const AuthContext = createContext();
@@ -21,7 +22,7 @@ const AuthProvider = ({ children }) => {
         return false;
       }
       setUser(data.user);
-      localStorage.setItem('token', data.token);
+      sessionstorage.setItem('user', JSON.stringify(data.user)); // Guarda el usuario en sessionStorage
       console.log('Inicio de sesión exitoso:', data);
       return true;
     } catch (error) {
@@ -54,15 +55,14 @@ const AuthProvider = ({ children }) => {
   // Función para cerrar sesión
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('token');
+    sessionstorage.removeItem('user'); // Elimina el usuario de sessionStorage
   };
 
   // Comprueba el token almacenado cuando la app se carga
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Aquí podrías hacer una solicitud para verificar el token y obtener el usuario
-      setUser({ email: 'user@example.com' }); // Este es un ejemplo, deberías obtener el usuario real
+    const storedUser = sessionstorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 

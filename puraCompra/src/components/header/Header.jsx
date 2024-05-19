@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { TiShoppingCart } from "react-icons/ti";
 import { FaRegUserCircle } from "react-icons/fa";
 import { HiUserCircle, HiOutlineAdjustments } from "react-icons/hi";
@@ -8,10 +7,12 @@ import { IoMdHeart } from "react-icons/io";
 import Navbar from './Navbar';
 import logo from '../../assets/JieShopLogo.png'; 
 import { Avatar, ListGroup } from "flowbite-react";
+import { AuthContext } from '../../context/AuthContext';
+import sessionstorage from 'sessionstorage';
 
 export default function Header() {
   // cambiar variable por logica para ver si se esta registrado o no
-  const user = true;
+  const { user, logout } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -50,11 +51,14 @@ export default function Header() {
             <ListGroup className="w-48">
               {user ? (
                 <>
-                  <ListGroup.Item onClick={() => handleNavigate('/register')} icon={HiUserCircle}>
+                  <ListGroup.Item onClick={() => handleNavigate('/user')} icon={HiUserCircle}>
                     Profile
                   </ListGroup.Item>
                   <ListGroup.Item onClick={() => handleNavigate('/register')} icon={HiOutlineAdjustments}>
                     Settings
+                  </ListGroup.Item>
+                  <ListGroup.Item onClick={logout} icon={HiUserCircle}>
+                    Logout
                   </ListGroup.Item>
                 </>
               ) : (

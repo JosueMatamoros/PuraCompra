@@ -22,6 +22,10 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   phoneNumber: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -41,6 +45,7 @@ Addresses.belongsTo(User, {
   foreignKey: 'UserID',
   targetKey: 'UsersID'
 });
+
 
 
 await User.sync();

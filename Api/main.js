@@ -1,5 +1,6 @@
 import sequelize from "./models/index.js";
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 
 import addressesRoutes from "./routes/addressesRoutes.js";
@@ -29,6 +30,8 @@ import Addresses from "./models/addresses.js";
 import Sellers from "./models/sellers.js";
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 const port = 3000;
 
 app.use(bodyParser.json());

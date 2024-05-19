@@ -1,5 +1,7 @@
 import User from '../models/users.js';
 import Addresses from '../models/addresses.js';
+import jwt from 'jsonwebtoken'; // Importar el módulo de JWT para generar tokens
+import config from '../config.js';
 
 export const createUser = async (request, response) => {
   try {
@@ -74,4 +76,27 @@ export const deleteUser = async (request, response) => {
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
+};
+
+export const loginUsers = async (request, response) => {
+  const { mail, password } = request.body;
+  console.log(`Login attempt with email: ${mail}`);
+  try {
+    const user = await User.findOne({ where: {mail: mail } });
+    if (!user) {
+      return response.status(400).json({ message: 'User not found' });
+    }
+
+    if (password !== user.password) {
+      return response.status(400).json({ message: 'Invalid credentials' });
+    }
+    
+
+    const token = jwt.sign({ id: user.UsersID }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    console.log('Login successful', user, token);
+    response.json({ user, token});
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+
 };

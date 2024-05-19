@@ -1,31 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TiShoppingCart } from "react-icons/ti";
 import { FaRegUserCircle } from "react-icons/fa";
+import { HiUserCircle, HiOutlineAdjustments } from "react-icons/hi";
 import { IoMdHeart } from "react-icons/io";
 import Navbar from './Navbar';
 import logo from '../../assets/JieShopLogo.png'; 
-import { DarkThemeToggle, Flowbite } from "flowbite-react";
+import { Avatar, ListGroup } from "flowbite-react";
 
 export default function Header() {
+  // cambiar variable por logica para ver si se esta registrado o no
+  const user = false;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <header className='flex justify-between items-center mx-4 py-2'> 
-        <div className='flex items-center gap-2'>
-            <Link to='/'>
-                <img src={logo} alt="JieShop Logo" className="h-14" />
-            </Link>
-        </div>
-
-        <Navbar />
-
-        <div className='flex gap-4 pt-2 items-center'>
-        <DarkThemeToggle />
+      <div className='flex items-center gap-2'>
+        <Link to='/'>
+          <img src={logo} alt="JieShop Logo" className="h-14" />
+        </Link>
+      </div>
+      <Navbar />
+      <div className='flex gap-4 pt-2 items-center relative'>
         <IoMdHeart className='text-2xl' />
         <TiShoppingCart className='text-2xl' />
-        <Link to='/register'>
-            <FaRegUserCircle className='text-2xl' />
-        </Link>
-        </div>
+
+        {user ? (
+          <div onClick={toggleMenu}>
+            <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded size={"sm"} className="cursor-pointer" />
+          </div>
+        ) : (
+          <FaRegUserCircle className='text-2xl cursor-pointer' onClick={toggleMenu} />
+        )}
+
+        {isMenuOpen && (
+          <div className="absolute top-full mt-4 right-0 bg-white rounded-md shadow-lg transition-transform transform origin-top animate-dropdown">
+            <ListGroup className="w-48">
+              {user ? (
+                <>
+                  <ListGroup.Item as={Link} to="/profile" icon={HiUserCircle}>
+                    Profile
+                  </ListGroup.Item>
+                  <ListGroup.Item as={Link} to="/settings" icon={HiOutlineAdjustments}>
+                    Settings
+                  </ListGroup.Item>
+                </>
+              ) : (
+                <ListGroup.Item as={Link} to="/login" icon={HiUserCircle}>
+                  Login
+                </ListGroup.Item>
+              )}
+            </ListGroup>
+          </div>
+        )}
+      </div>
     </header>
   );
 }

@@ -38,4 +38,5 @@ const Products = sequelize.define('Products', {
   sequelize,
 });
 
+await Products.sync();
 export default Products;

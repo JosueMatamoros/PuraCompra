@@ -17,15 +17,19 @@ const Products = () => {
   }, {});
 
   return (
-    <div className="container mx-auto p-4">
+    <div>
+
       <Header />
-      <h1 className="text-3xl font-bold mb-4">Products</h1>
-      {Object.keys(groupedProducts).map(sellerName => (
-        <div key={sellerName} className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">{sellerName}</h2>
-          <ProductsCarrousel products={groupedProducts[sellerName]} />
-        </div>
-      ))}
+    
+      <div className="container mx-auto p-4">
+        {Object.keys(groupedProducts).map((sellerName, index) => (
+          <div key={sellerName} className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">{sellerName}</h2>
+            <ProductsCarrousel products={groupedProducts[sellerName]} carrouselId={index} />
+          </div>
+        ))}
+      </div>
+
     </div>
   );
 };

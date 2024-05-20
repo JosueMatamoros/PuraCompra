@@ -17,6 +17,12 @@ export default function Header() {
 
   const navigate = useNavigate();
 
+  const logOut = () => {
+    sessionstorage.removeItem('user');
+    logout();
+    navigate('/');
+  }
+
   const handleNavigate = (path) => {
     navigate(path);
     setIsMenuOpen(false); // Cerrar el menú después de la navegación
@@ -51,13 +57,13 @@ export default function Header() {
             <ListGroup className="w-48">
               {user ? (
                 <>
-                  <ListGroup.Item onClick={() => handleNavigate('/user')} icon={HiUserCircle}>
+                  <ListGroup.Item onClick={() => handleNavigate('/account')} icon={HiUserCircle}>
                     Profile
                   </ListGroup.Item>
                   <ListGroup.Item onClick={() => handleNavigate('/register')} icon={HiOutlineAdjustments}>
                     Settings
                   </ListGroup.Item>
-                  <ListGroup.Item onClick={logout} icon={HiUserCircle}>
+                  <ListGroup.Item onClick={logOut} icon={HiUserCircle}>
                     Logout
                   </ListGroup.Item>
                 </>

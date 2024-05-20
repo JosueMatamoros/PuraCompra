@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Header from '../components/header/Header';
 
-export default function UserWebPage() {
+export default function Account() {
   const { user, logout } = useContext(AuthContext);
   const [selectedView, setSelectedView] = useState('Account');
   const [selectedOption, setSelectedOption] = useState('Personal Information');

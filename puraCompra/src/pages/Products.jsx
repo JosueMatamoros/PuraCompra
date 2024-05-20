@@ -17,8 +17,7 @@ const Products = () => {
   }, {});
 
   return (
-    <div>
-
+    <div className="min-h-screen flex flex-col">
       <Header />
     
       <div className="container mx-auto p-4">

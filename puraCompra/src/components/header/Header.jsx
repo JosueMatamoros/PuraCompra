@@ -57,7 +57,7 @@ export default function Header() {
             <ListGroup className="w-48">
               {user ? (
                 <>
-                  <ListGroup.Item onClick={() => handleNavigate('/user')} icon={HiUserCircle}>
+                  <ListGroup.Item onClick={() => handleNavigate('/account')} icon={HiUserCircle}>
                     Profile
                   </ListGroup.Item>
                   <ListGroup.Item onClick={() => handleNavigate('/register')} icon={HiOutlineAdjustments}>

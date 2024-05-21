@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ProductContext } from '../context/ProductContext';
-import ProductsCarrousel from '../components/carrousel/ProductsCarrousel';
+import ProductsCarrousel from '../components/Carrousel/ProductsCarrousel'
 import Header from '../components/header/Header';
 
 const Products = () => {

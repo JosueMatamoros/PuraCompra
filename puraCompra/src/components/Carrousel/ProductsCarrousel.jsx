@@ -1,22 +1,28 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { useNavigate } from 'react-router-dom';
 
 const ProductsCarrousel = ({ products, carrouselId }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+
   return (
-    <div className="relative">
+    <div className="relative horizontal-swiper">
       <Swiper
+        direction="horizontal"
         spaceBetween={16}
         slidesPerView={1}
         navigation={{
           nextEl: `.swiper-button-next-${carrouselId}`,
           prevEl: `.swiper-button-prev-${carrouselId}`,
         }}
-        pagination={{ clickable: true }}
-        modules={[Navigation, Pagination]}
+        modules={[Navigation]}
         breakpoints={{
           640: {
             slidesPerView: 2,
@@ -31,7 +37,10 @@ const ProductsCarrousel = ({ products, carrouselId }) => {
       >
         {products.map(product => (
           <SwiperSlide key={product.ProductsID}>
-            <div className="carousel-item border p-4 rounded shadow">
+            <div 
+              className="carousel-item border p-4 rounded shadow cursor-pointer"
+              onClick={() => handleCardClick(product.ProductsID)}
+            >
               <div className="w-full h-48 mb-4 overflow-hidden flex justify-center items-center">
                 <img 
                   src={`http://localhost:3000${product.imageUrl}`}
@@ -47,11 +56,8 @@ const ProductsCarrousel = ({ products, carrouselId }) => {
       </Swiper>
 
       {/* Navigation buttons */}
-      <div className={`swiper-button-prev swiper-button-prev-${carrouselId} `}>
-        
-      </div>
-      <div className={`swiper-button-next swiper-button-next-${carrouselId}`}>
-      </div>
+      <div className={`swiper-button-prev swiper-button-prev-${carrouselId} absolute left-0 top-1/2 transform -translate-y-1/2 z-10`}></div>
+      <div className={`swiper-button-next swiper-button-next-${carrouselId} absolute right-0 top-1/2 transform -translate-y-1/2 z-10`}></div>
     </div>
   );
 };

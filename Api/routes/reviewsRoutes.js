@@ -1,11 +1,11 @@
 import express from "express";
-import { createReview, getReviews, getReviewById, updateReview, deleteReview } from "../controllers/reviewsControllers.js";
+import { createReview, getReviews, getReviewByProductId, updateReview, deleteReview } from "../controllers/reviewsControllers.js";
 
 const router = express.Router();
 
 router.post('/', createReview);
 router.get('/', getReviews);
-router.get('/:id', getReviewById);
+router.get('/:id', getReviewByProductId);
 router.put('/:id', updateReview);
 router.delete('/:id', deleteReview);
 

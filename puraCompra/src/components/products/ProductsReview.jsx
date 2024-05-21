@@ -39,6 +39,7 @@ const ProductsReview = () => {
             date={review.date}
             reviewText={review.body}
             reviewerName={review.User.name}
+            reviewerLastname={review.User.lastname}
             reviewerRole="user"
             reviewerImage={Hasbulla}
           />

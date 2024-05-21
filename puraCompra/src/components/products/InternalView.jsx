@@ -86,8 +86,8 @@ export default function InternalView() {
           </div>
 
           <div className="w-1/2 flex flex-col items-center justify-center">
-            <div className="card border p-4 rounded shadow bg-white mb-4">
-              <div className="w-96 h-96 overflow-hidden flex justify-center items-center">
+            <div className="card p-4 bg-white mb-4">
+              <div className="w-full h-96 md:w-120 md:h-120 overflow-hidden flex justify-center items-center">
                 <img
                   src={hoveredImage}
                   alt="Hovered Product"
@@ -116,7 +116,7 @@ export default function InternalView() {
           </div>
         </div>
       </div>
-      <ProductsReview productId={id} />
+      <ProductsReview />
     </>
   );
 }

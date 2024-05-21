@@ -18,7 +18,7 @@ const Products = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto ">
         {Object.keys(groupedProducts).map((sellerName, index) => (
           <div key={sellerName} className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">{sellerName}</h2>

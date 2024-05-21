@@ -4,6 +4,7 @@ import 'swiper/css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Header from '../header/Header';
+import ProductsReview from './ProductsReview';
 
 export default function InternalView() {
   const { id } = useParams();
@@ -115,6 +116,7 @@ export default function InternalView() {
           </div>
         </div>
       </div>
+      <ProductsReview productId={id} />
     </>
   );
 }

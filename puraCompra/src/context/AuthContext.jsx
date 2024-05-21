@@ -21,6 +21,7 @@ const AuthProvider = ({ children }) => {
         console.error('Error al iniciar sesión:', data.message);
         return false;
       }
+      console.log('User data after login:', data.user); // Verifica los datos del usuario
       setUser(data.user);
       sessionstorage.setItem('user', JSON.stringify(data.user)); // Guarda el usuario en sessionStorage
       console.log('Inicio de sesión exitoso:', data);

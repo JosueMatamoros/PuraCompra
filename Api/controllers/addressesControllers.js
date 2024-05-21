@@ -10,7 +10,7 @@ export const createAddress = async (request, response) => {
     catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+}
 
 
 export const getAddresses = async (request, response) => {
@@ -20,7 +20,7 @@ export const getAddresses = async (request, response) => {
     } catch (error) {
         response.status(404).json({ message: error.message });
     }
-    };
+};
 
 export const getAddressById = async (request, response) => {
     try {
@@ -33,15 +33,15 @@ export const getAddressById = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+}
 
 
 
 export const updateAddress = async (request, response) => {
     try {
         const { id } = request.params;
-        const { address} = request.body;
-        const [updated] = await Addresses.update({address}, {
+        const { address } = request.body;
+        const [updated] = await Addresses.update({ address }, {
             where: { addressID: id }
         });
         if (updated) {
@@ -53,7 +53,7 @@ export const updateAddress = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+}
 
 export const deleteAddress = async (request, response) => {
     try {
@@ -69,4 +69,4 @@ export const deleteAddress = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+}

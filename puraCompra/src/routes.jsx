@@ -6,7 +6,7 @@ import RegisterAccount from "./components/login/RegisterAccount";
 import Products from "./pages/Products";
 import Account from "./pages/Account";
 import Shop from "./pages/Shop";
-import InternalView from "./components/products/InternalView";
+import InternalView from "./components/products/InternalView"; 
 
 const Ruting = () => (
     <Router>
@@ -15,9 +15,9 @@ const Ruting = () => (
             <Route path="/header" element={<Header />} />
             <Route path="/register" element={<RegisterAccount />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/account" element={<Account/>} />
+            <Route path="/account" element={<Account />} />
             <Route path="/shop" element={<Shop />} />
-            <Route path="/internalView" element={<InternalView />} />
+            <Route path="/product/:id" element={<InternalView />} /> 
         </Routes>
     </Router>
 );

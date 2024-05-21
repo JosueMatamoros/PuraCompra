@@ -1,14 +1,13 @@
 import React, { useContext } from 'react';
 import { ProductContext } from '../context/ProductContext';
-import ProductsCarrousel from '../components/Carrousel/ProductsCarrousel'
+import ProductsCarrousel from '../components/Carrousel/ProductsCarrousel';
 import Header from '../components/header/Header';
 
 const Products = () => {
   const { products } = useContext(ProductContext);
-
-  // Agrupar productos por Sellers
+  // Agrupar productos por vendedor
   const groupedProducts = products.reduce((acc, product) => {
-    const sellerName = product.Seller.name;
+    const sellerName = product.Seller.name; // Ajusta según tu estructura de datos
     if (!acc[sellerName]) {
       acc[sellerName] = [];
     }
@@ -19,7 +18,6 @@ const Products = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-    
       <div className="container mx-auto p-4">
         {Object.keys(groupedProducts).map((sellerName, index) => (
           <div key={sellerName} className="mb-8">
@@ -28,7 +26,6 @@ const Products = () => {
           </div>
         ))}
       </div>
-
     </div>
   );
 };

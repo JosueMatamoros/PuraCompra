@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Header from '../components/header/Header';
+import UserAddress from '../components/addressBook/UserAddress';
 
 export default function Account() {
   const { user, logout } = useContext(AuthContext);
@@ -17,7 +18,7 @@ export default function Account() {
         case 'Personal Information':
           return <p>This is your personal information.</p>;
         case 'Address Book':
-          return <p>This is your address book.</p>;
+          return <UserAddress />;
         case 'Payment Methods':
           return <p>These are your payment methods.</p>;
         case 'Order History':
@@ -57,34 +58,34 @@ export default function Account() {
         </div>
         <div className="mt-4 flex">
           {selectedView === 'Account' && (
-            <div className="w-1/4">
-              <ul className="space-y-2">
+            <div className="w-1/4 mx-4">
+              <ul className="space-y-3">
                 <li 
-                  className={`hover:underline cursor-pointer ${selectedOption === 'Personal Information' ? 'font-bold' : ''}`} 
+                  className={`border p-2 rounded-lg p-2 hover:underline cursor-pointer ${selectedOption === 'Personal Information' ? 'font-bold' : ''} space-x-3`}
                   onClick={() => setSelectedOption('Personal Information')}
                 >
                   Personal Information
                 </li>
                 <li 
-                  className={`hover:underline cursor-pointer ${selectedOption === 'Address Book' ? 'font-bold' : ''}`} 
+                  className={`border p-2 rounded-lg hover:underline cursor-pointer ${selectedOption === 'Address Book' ? 'font-bold' : ''} space-x-3`} 
                   onClick={() => setSelectedOption('Address Book')}
                 >
                   Address Book
                 </li>
                 <li 
-                  className={`hover:underline cursor-pointer ${selectedOption === 'Payment Methods' ? 'font-bold' : ''}`} 
+                  className={`border p-2 rounded-lg hover:underline cursor-pointer ${selectedOption === 'Payment Methods' ? 'font-bold' : ''} space-x-3`} 
                   onClick={() => setSelectedOption('Payment Methods')}
                 >
                   Payment Methods
                 </li>
                 <li 
-                  className={`hover:underline cursor-pointer ${selectedOption === 'Order History' ? 'font-bold' : ''}`} 
+                  className={`border p-2 rounded-lg hover:underline cursor-pointer ${selectedOption === 'Order History' ? 'font-bold' : ''} space-x-3`} 
                   onClick={() => setSelectedOption('Order History')}
                 >
                   Order History
                 </li>
                 <li 
-                  className={`hover:underline cursor-pointer ${selectedOption === 'Wishlist' ? 'font-bold' : ''}`} 
+                  className={`border p-2 rounded-lg hover:underline cursor-pointer ${selectedOption === 'Wishlist' ? 'font-bold' : ''} space-x-3`} 
                   onClick={() => setSelectedOption('Wishlist')}
                 >
                   Wishlist

@@ -82,7 +82,10 @@ export const loginUsers = async (request, response) => {
   const { mail, password } = request.body;
   console.log(`Login attempt with email: ${mail}`);
   try {
-    const user = await User.findOne({ where: {mail: mail } });
+    const user = await User.findOne({
+       where: {mail: mail },
+        include: [Addresses],
+      });
     if (!user) {
       return response.status(400).json({ message: 'User not found' });
     }

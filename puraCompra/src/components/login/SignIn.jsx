@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Checkbox, Label, TextInput, Toast } from "flowbite-react";
 import { IoIosMail } from "react-icons/io";
 import { BiSolidLock } from "react-icons/bi";
-import { HiPhone, HiEye, HiEyeOff } from "react-icons/hi";
+import { HiPhone, HiEye, HiEyeOff,HiCheck } from "react-icons/hi";
 import { FaCheckCircle } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import { PiUserCircle } from "react-icons/pi";
@@ -63,7 +63,6 @@ export default function SignIn() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();

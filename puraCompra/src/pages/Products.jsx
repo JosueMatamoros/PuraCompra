@@ -2,19 +2,8 @@ import React, { useContext } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import ProductsCarrousel from '../components/Carrousel/ProductsCarrousel'
 import Header from '../components/header/Header';
-
 const Products = () => {
   const { products } = useContext(ProductContext);
-
-  // Agrupar productos por Sellers
-  const groupedProducts = products.reduce((acc, product) => {
-    const sellerName = product.Seller.name;
-    if (!acc[sellerName]) {
-      acc[sellerName] = [];
-    }
-    acc[sellerName].push(product);
-    return acc;
-  }, {});
 
   return (
     <div className="min-h-screen flex flex-col">

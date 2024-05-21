@@ -19,16 +19,15 @@ export const getPromotions = async (request, response) => {
   }
 };
 
-export const getPromotionById = async (request, response) => {
+export const getPromotionsByProductId = async (request, response) => {
   try {
     const { id } = request.params;
-    const promotion = await Promotions.findByPk(id);
-    if (promotion) {
-      response.status(200).json(promotion);
-    } else {
-      response.status(404).json({ message: `Promotion with id ${id} not found` });
-    }
-  } catch (error) {
+    const promotions = await Promotions.findAll({
+      where: { PromotionsID: id }
+    });
+    response.status(200).json(promotions);
+  }
+  catch (error) {
     response.status(500).json({ message: error.message });
   }
 };

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Header from '../header/Header';
 import ProductsReview from './ProductsReview';
+import AddToCartButton from './AddToCartButton';
 
 export default function InternalView() {
   const { id } = useParams();
@@ -13,6 +14,7 @@ export default function InternalView() {
   const [hoveredImage, setHoveredImage] = useState('');
   const [hoveredColor, setHoveredColor] = useState('');
   const [colors, setColors] = useState([]);
+  const [promotion, setPromotion] = useState(null);
 
   useEffect(() => {
     // Fetch product details
@@ -40,6 +42,18 @@ export default function InternalView() {
       .catch(error => {
         console.error('Error fetching product details:', error);
       });
+
+    // Fetch promotion details
+    axios.get(`http://localhost:3000/promotions/${id}`)
+      .then(response => {
+        const promotions = response.data;
+        if (promotions.length > 0) {
+          setPromotion(promotions[0]);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching promotion details:', error);
+      });
   }, [id]);
 
   const handleColorClick = (color) => {
@@ -48,6 +62,10 @@ export default function InternalView() {
       setHoveredImage(`http://localhost:3000${selectedImage.imageUrl}`);
       setHoveredColor(color);
     }
+  };
+
+  const calculateDiscountedPrice = (price, discount) => {
+    return price - (price * discount);
   };
 
   return (
@@ -94,25 +112,45 @@ export default function InternalView() {
                   className="object-contain max-h-full max-w-full"
                 />
               </div>
-              <div className="flex space-x-4 mt-4">
-                {colors.map((color, index) => (
-                  <div
-                    key={index}
-                    className={`w-8 h-8 rounded-full cursor-pointer border ${color === hoveredColor ? 'border-gray-800' : 'border-black'}`}
-                    style={{ backgroundColor: color.toLowerCase() }}
-                    onClick={() => handleColorClick(color)}
-                  ></div>
-                ))}
-              </div>
             </div>
           </div>
 
           <div className="w-1/4 flex flex-col items-start justify-center p-4">
             <h2 className="text-2xl font-semibold">{product.name}</h2>
             <p className="text-lg mb-2">{product.description}</p>
-            <p className="text-xl font-bold text-red-600 mb-2">${product.price?.toFixed(2)}</p>
-            <p className="text-lg mb-2">Stock: {product.stock}</p>
-            <p className="text-lg">Seller: {product.Seller?.name}</p>
+            {promotion ? (
+              <div className='flex justify-between w-full'>
+                <div className='flex  '> 
+                  <p className="text-xl font-bold text-stone-800 mb-2 line-through">${product.price?.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-red-500 mb-2 ml-2">{(promotion.discount * 100).toFixed(0)}%</p>
+                </div>
+                <p className="text-xl font-bold text-green-600 mb-2">
+                    ${calculateDiscountedPrice(product.price, promotion.discount).toFixed(2)}
+                </p>
+              </div>
+            ) : (
+              <p className="text-xl font-bold text-stone-800 mb-2">${product.price?.toFixed(2)}</p>
+            )}
+            <div className="flex justify-between w-full">
+              <p className="text-lg mb-2">
+                <span className="text-stone-800 font-bold">Color:</span> {hoveredColor || colors[0]}
+              </p>
+              <p className="text-lg mb-2">
+                <span className="text-stone-800 font-bold">Stock:</span> {product.stock}
+              </p>
+            </div>
+
+            <div className="flex space-x-4 mt-2">
+              {colors.map((color, index) => (
+                <div
+                  key={index}
+                  className={`w-8 h-8 rounded-full cursor-pointer border ${color === hoveredColor ? 'border-gray-800' : 'border-black'}`}
+                  style={{ backgroundColor: color.toLowerCase() }}
+                  onClick={() => handleColorClick(color)}
+                ></div>
+              ))}
+            </div>
+            <AddToCartButton />
           </div>
         </div>
       </div>

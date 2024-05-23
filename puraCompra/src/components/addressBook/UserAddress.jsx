@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import DirectionCard from '../card/DirectionCard';
+import DirectionCard from '../card/DirectionCard'; 
 import { AuthContext } from '../../context/AuthContext';
 
 export default function UserAddress() {

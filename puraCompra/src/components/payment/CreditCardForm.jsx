@@ -1,67 +1,104 @@
 import React from 'react';
 import {
   Box,
-  Button,
   Card,
   CardContent,
   TextField,
-  Typography,
 } from '@mui/material';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
 import BAC from '../../assets/payment/BAC.png';
 
 const CreditCardForm = () => {
   return (
     <Card
-      className="p-6 w-1/2 "
       sx={{
+        width: '400px',
+        height: '250px',
         backgroundImage: `url(${BAC})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center', 
+        boxShadow: 'none',
+
         borderRadius: '20px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        padding: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
+      
     >
-      <CardContent>
-        <Box display="flex" alignItems="center" className="mb-4">
-          <CreditCardIcon className="mr-2" />
-          <Typography variant="h6" className="flex-grow">
-            Credit card
-          </Typography>
-        </Box>
+      <CardContent sx={{ width: '100%' }}>
         <Box component="form" noValidate autoComplete="off">
-          <Box display="flex" justifyContent="space-between" className="mb-4">
+          <Box display="flex" justifyContent="space-between" className="mb-2">
             <TextField
               required
-              fullWidth
-              label="Card number"
               variant="outlined"
               InputLabelProps={{ shrink: true }}
+              InputProps={{ style: { color: 'white' } }}
               placeholder="0000 0000 0000 0000"
-              className="w-2/3 mr-2 bg-white rounded-md"
+              className="mr-2"
+              sx={{
+                width: '70%',
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'transparent',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'transparent',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                },
+              }}
             />
             <TextField
               required
-              label="CVV"
               variant="outlined"
-              InputLabelProps={{ shrink: true
-                
-               }}
+              InputLabelProps={{ shrink: true }}
+              InputProps={{ style: { color: 'white' } }}
               placeholder="123"
-              className="w-1/3 bg-white rounded-md"
+              sx={{
+                width: '25%',
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'transparent',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'transparent',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                },
+              }}
             />
           </Box>
           <TextField
             required
             fullWidth
-            label="Name"
             variant="outlined"
             margin="normal"
             InputLabelProps={{ shrink: true }}
+            InputProps={{ style: { color: 'white' } }}
             placeholder="John Smith"
-            className="mb-4 bg-white rounded-md"
+            sx={{
+              marginBottom: '8px',
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'transparent',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'transparent',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'white',
+                },
+              },
+            }}
           />
-           <TextField
+          <TextField
             required
             fullWidth
             variant="outlined"
@@ -73,7 +110,6 @@ const CreditCardForm = () => {
                 color: 'white',
               },
             }}
-            className="mb-4"
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {

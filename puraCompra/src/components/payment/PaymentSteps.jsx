@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Button } from "flowbite-react";
 import { HiCheck } from "react-icons/hi";
+import ShippingAddresses from './ShippingAddresses';  
 import PaymentDetails from './PaymentDetails';
+import ReviewOrder from './ReviewOrder';
 
 const steps = [
   { title: 'Shipping address', content: 'Enter your shipping address details here.' },
@@ -49,14 +51,10 @@ export default function PaymentSteps() {
         ))}
       </div>
 
-      <div className='w-full'>
-        {currentStep === 1 ? (
-          <PaymentDetails/>
-        ) : (
-          <div className='text-center'>
-            <p>{steps[currentStep].content}</p>
-          </div>
-        )}
+      <div className='w-full flex flex-col items-center justify-center mt-12'>
+        {currentStep === 0 && <ShippingAddresses />}
+        {currentStep === 1 && <PaymentDetails />}
+        {currentStep === 2 && <ReviewOrder />}
       </div>
 
       <div className='mb-20 flex justify-between w-full max-w-md space-x-4'>

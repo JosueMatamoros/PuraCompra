@@ -58,15 +58,15 @@ export default function PaymentSteps() {
       </div>
 
       <div className='mb-20 flex justify-between w-full max-w-md space-x-4'>
-        <Button onClick={handlePrev} disabled={currentStep === 0} className='bg-teal-600 hover:bg-teal-700'>
+        <Button className='bg-blue-600 ' onClick={handlePrev} disabled={currentStep === 0} >
           Previous
         </Button>
         {currentStep < steps.length - 1 ? (
-          <Button onClick={handleNext} className='bg-blue-600 hover:bg-blue-700'>
+          <Button onClick={handleNext} className='bg-blue-600 ' >
             Next
           </Button>
         ) : (
-          <Button onClick={handlePlaceOrder} className='bg-green-600 hover:bg-green-700'>
+          <Button onClick={handlePlaceOrder} className='bg-green-600'>
             Place Order
           </Button>
         )}

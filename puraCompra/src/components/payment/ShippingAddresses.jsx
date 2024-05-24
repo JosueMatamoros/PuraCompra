@@ -18,6 +18,7 @@ export default function ShippingAddresses() {
         <Label >Address</Label>
         <TextInput className='w-full' type='text' placeholder='1234 Main St'/>
       </div>
+      
 
 
     </div>

@@ -1,8 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import hasbulla from '../../assets/profileIcon/Hasbulla.jpg'
+import { AuthContext } from '../../context/AuthContext';
 import { Button } from 'flowbite-react';
+import axios from 'axios';
 
 export default function UserInformation() {
+  const { user, getUserDetails } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    lastName: '',
+    phoneNumber: '',
+    country: '',
+    mail: '',
+    gender: ''
+  });
+
+  useEffect(() => {
+    if (user) {
+      setUserInfo({
+        name: user.name,
+        lastName: user.lastName,
+        phoneNumber: user.phoneNumber,
+        country: user.country,
+        mail: user.mail,
+        gender: user.gender
+      });
+    }
+  }, [user]);
+
   return (
     <>
       <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-md flex">
@@ -29,6 +54,8 @@ export default function UserInformation() {
                   type="text"
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Full Name"
+                  value={user.name}
+                  onChange={(e) => setUser({ ...user, name: e.target.value })}
                 />
               </div>
               <div>
@@ -37,6 +64,8 @@ export default function UserInformation() {
                   type="text"
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Last Name"
+                  value={user.lastname}
+                  onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
                 />
               </div>
               <div>
@@ -45,12 +74,19 @@ export default function UserInformation() {
                   type="tel"
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Phone Number"
+                  value={user.phoneNumber}
+                  onChange={(e) => setUserInfo({ ...userInfo, phoneNumber: e.target.value })}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Country</label>
-                <select className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <select
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  value={user.country}
+                  onChange={(e) => setUserInfo({ ...userInfo, country: e.target.value })}
+                >
                   <option>Costa Rica</option>
+                  <option>Panama</option>
                   {/* Add more options here */}
                 </select>
               </div>
@@ -60,11 +96,17 @@ export default function UserInformation() {
                   type="text"
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Mail"
+                  value={user.mail}
+                  onChange={(e) => setUserInfo({ ...userInfo, mail: e.target.value })}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Gender</label>
-                <select className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <select 
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  value={user.gender}
+                  onChange={(e) => setUserInfo({ ...userInfo, gender: e.target.value })}
+                >
                   <option>Male</option>
                   <option>Female</option>
                   <option>Other</option>

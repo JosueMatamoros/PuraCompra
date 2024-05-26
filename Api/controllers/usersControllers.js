@@ -2,6 +2,7 @@ import User from '../models/users.js';
 import Addresses from '../models/addresses.js';
 import jwt from 'jsonwebtoken'; // Importar el módulo de JWT para generar tokens
 import config from '../config.js';
+import { request } from 'express';
 
 export const createUser = async (request, response) => {
   try {
@@ -123,3 +124,18 @@ export const registerUsers = async (request, response) => {
   }
 };
 
+
+export const getUserDetails = async (request, response) => {
+  try {
+    const userID = request.user.id;
+    const user = await User.findByPk(userID, {
+      include: [Addresses],
+    });
+    if (!user) {
+      return response.status(404).json({ message: 'User not found' });
+    }
+    response.status(200).json(user);
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+}

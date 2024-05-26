@@ -53,6 +53,24 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const getUserDetails = async () => {
+    try {
+      const storedUser = JSON.parse(sessionstorage.getItem('user'));
+      if (storedUser && storedUser.UsersID) {
+        const response = await fetch(`http://localhost:3000/users/profile/${storedUser.UsersID}`);
+        const data = await response.json();
+        if (response.ok) {
+          setUser(data);
+          sessionstorage.setItem('user', JSON.stringify(data));
+        } else {
+          console.error('Error al obtener detalles del usuario:', data.message);
+        }
+      }
+    } catch (error) {
+      console.error('Error al obtener detalles del usuario:', error);
+    }
+  };
+
   // Función para cerrar sesión
   const logout = () => {
     setUser(null);
@@ -76,7 +94,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, updateAddresses }}>
+    <AuthContext.Provider value={{ user, login, register, logout, updateAddresses, getUserDetails }}>
       {children}
     </AuthContext.Provider>
   );

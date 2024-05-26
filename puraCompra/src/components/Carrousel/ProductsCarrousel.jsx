@@ -13,7 +13,7 @@ const ProductsCarrousel = ({ products, carrouselId }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative horizontal-swiper">
       <Swiper
         direction="horizontal"
         spaceBetween={16}

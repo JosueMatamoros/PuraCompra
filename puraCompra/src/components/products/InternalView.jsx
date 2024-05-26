@@ -3,6 +3,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Header from '../header/Header';
+import ProductsReview from './ProductsReview';
+import AddToCartButton from './AddToCartButton';
 
 export default function InternalView() {
   const { id } = useParams();
@@ -11,6 +14,7 @@ export default function InternalView() {
   const [hoveredImage, setHoveredImage] = useState('');
   const [hoveredColor, setHoveredColor] = useState('');
   const [colors, setColors] = useState([]);
+  const [promotion, setPromotion] = useState(null);
 
   useEffect(() => {
     // Fetch product details
@@ -24,7 +28,7 @@ export default function InternalView() {
           .then(response => {
             const images = response.data;
             if (images.length > 0) {
-              setHoveredImage(`http://localhost:3000${images[0].imageUrl}`);
+              setHoveredImage(`http://localhost:3000${productData.imageUrl}`);
               setHoveredColor(images[0].color);
               const availableColors = images.filter(img => img.type).map(img => img.color);
               setColors(availableColors);
@@ -38,6 +42,18 @@ export default function InternalView() {
       .catch(error => {
         console.error('Error fetching product details:', error);
       });
+
+    // Fetch promotion details
+    axios.get(`http://localhost:3000/promotions/${id}`)
+      .then(response => {
+        const promotions = response.data;
+        if (promotions.length > 0) {
+          setPromotion(promotions[0]);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching promotion details:', error);
+      });
   }, [id]);
 
   const handleColorClick = (color) => {
@@ -48,68 +64,97 @@ export default function InternalView() {
     }
   };
 
-  return (
-    <div className="container mx-auto p-4">
-      <div className="flex">
-        <div className="relative w-1/3">
-          <Swiper
-            direction="vertical"
-            spaceBetween={16}
-            slidesPerView={3}
-            mousewheel={true}
-            className="h-full"
-          >
-            {additionalImages.map((image, index) => (
-              <SwiperSlide key={index}>
-                <div 
-                  className="carousel-item border p-2 rounded shadow cursor-pointer bg-white"
-                  onMouseEnter={() => {
-                    setHoveredImage(`http://localhost:3000${image.imageUrl}`);
-                    setHoveredColor(image.color);
-                  }}
-                >
-                  <div className="w-full h-32 overflow-hidden flex justify-center items-center">
-                    <img 
-                      src={`http://localhost:3000${image.imageUrl}`}
-                      alt={`Product ${index + 1}`} 
-                      className="object-contain max-h-full"
-                    />
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+  const calculateDiscountedPrice = (price, discount) => {
+    return price - (price * discount);
+  };
 
-        <div className="w-2/3 flex flex-col items-center">
-          <div className="card border p-4 rounded shadow bg-white mb-4">
-            <div className="w-64 h-64 overflow-hidden flex justify-center items-center">
-              <img 
-                src={hoveredImage} 
-                alt="Hovered Product" 
-                className="object-contain max-h-full"
-              />
+  return (
+    <>
+      <Header />
+      <div className="container mx-auto p-4">
+        <div className="flex">
+          <div className="w-1/4">
+            <Swiper
+              direction="vertical"
+              slidesPerView={3}
+              mousewheel={true}
+              className="h-full vertical-swiper"
+              spaceBetween={10}
+            >
+              {additionalImages.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <div
+                    className="carousel-item p-2"
+                    onMouseEnter={() => {
+                      setHoveredImage(`http://localhost:3000${image.imageUrl}`);
+                      setHoveredColor(image.color);
+                    }}
+                  >
+                    <div className="w-full h-full overflow-hidden flex justify-center items-center">
+                      <img
+                        src={`http://localhost:3000${image.imageUrl}`}
+                        alt={`Product ${index + 1}`}
+                        className="object-contain max-h-full max-w-full"
+                      />
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+
+          <div className="w-1/2 flex flex-col items-center justify-center">
+            <div className="card p-4 bg-white mb-4">
+              <div className="w-full h-96 md:w-120 md:h-120 overflow-hidden flex justify-center items-center">
+                <img
+                  src={hoveredImage}
+                  alt="Hovered Product"
+                  className="object-contain max-h-full max-w-full"
+                />
+              </div>
             </div>
-            <div className="flex space-x-4 mt-4">
+          </div>
+
+          <div className="w-1/4 flex flex-col items-start justify-center p-4">
+            <h2 className="text-2xl font-semibold">{product.name}</h2>
+            <p className="text-lg mb-2">{product.description}</p>
+            {promotion ? (
+              <div className='flex justify-between w-full'>
+                <div className='flex  '> 
+                  <p className="text-xl font-bold text-stone-800 mb-2 line-through">${product.price?.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-red-500 mb-2 ml-2">{(promotion.discount * 100).toFixed(0)}%</p>
+                </div>
+                <p className="text-xl font-bold text-green-600 mb-2">
+                    ${calculateDiscountedPrice(product.price, promotion.discount).toFixed(2)}
+                </p>
+              </div>
+            ) : (
+              <p className="text-xl font-bold text-stone-800 mb-2">${product.price?.toFixed(2)}</p>
+            )}
+            <div className="flex justify-between w-full">
+              <p className="text-lg mb-2">
+                <span className="text-stone-800 font-bold">Color:</span> {hoveredColor || colors[0]}
+              </p>
+              <p className="text-lg mb-2">
+                <span className="text-stone-800 font-bold">Stock:</span> {product.stock}
+              </p>
+            </div>
+
+            <div className="flex space-x-4 mt-2">
               {colors.map((color, index) => (
-                <div 
-                  key={index} 
-                  className="w-8 h-8 rounded-full cursor-pointer border border-black" 
-                  style={{ backgroundColor: color.toLowerCase() }} 
+                <div
+                  key={index}
+                  className={`w-8 h-8 rounded-full cursor-pointer border ${color === hoveredColor ? 'border-gray-800' : 'border-black'}`}
+                  style={{ backgroundColor: color.toLowerCase() }}
                   onClick={() => handleColorClick(color)}
                 ></div>
               ))}
             </div>
-          </div>
-
-          <div className="text-center">
-            <h2 className="text-2xl font-semibold">{product.name}</h2>
-            <p className="text-lg mb-2">{product.description}</p>
-            <p className="text-xl font-bold text-red-600">${product.price?.toFixed(2)}</p>
-            <p className="text-lg">{product.Seller?.name}</p>
+            <AddToCartButton />
           </div>
         </div>
       </div>
-    </div>
+      <ProductsReview />
+    </>
   );
 }

@@ -19,19 +19,19 @@ export const getReviews = async (request, response) => {
   }
 };
 
-export const getReviewById = async (request, response) => {
+export const getReviewByProductId = async (request, response) => {
   try {
     const { id } = request.params;
-    const review = await Reviews.findByPk(id);
-    if (review) {
-      response.status(200).json(review);
-    } else {
-      response.status(404).json({ message: `Review with id ${id} not found` });
-    }
+    const reviews = await Reviews.findAll({
+      where: { ProductsId: id }, 
+      include: { association: 'User', attributes: ['name', 'lastname'] }
+     
+    });
+    response.status(200).json(reviews);
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
-};
+}
 
 export const updateReview = async (request, response) => {
   try {
@@ -47,7 +47,7 @@ export const updateReview = async (request, response) => {
       response.status(404).json({ message: `Review with id ${id} not found` });
     }
   } catch (error) {
-    response.status(500).json({ message: error.message });
+    response.status(500).json({ message: error.message });f
   }
 };
 

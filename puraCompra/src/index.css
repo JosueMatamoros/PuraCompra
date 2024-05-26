@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-credit-card-form input::placeholder {
+  color: rgba(255, 255, 255, 1); /* Blanco */
+  opacity: 1; /* Transparente */
+}
+
+.custom-credit-card-form input {
+  border: none !important; /* Bordes transparentes */
+  outline: none !important; /* Sin borde al enfocar */
+}
+
+.custom-credit-card-form input:focus {
+  border: none !important; /* Bordes transparentes */
+  outline: none !important; /* Sin borde al enfocar */
+  box-shadow: none !important; /* Sin sombra al enfocar */
+}
+
+
 body {
     font-family: "Montserrat", sans-serif;
     font-weight: 200;
@@ -30,25 +47,23 @@ body {
     animation: dropdown 0.3s ease-out;
   }
 
-  .swiper {
+/* Añade una clase específica para el carrusel horizontal */
+.horizontal-swiper {
   width: 100%;
   height: 350px; /* Ajusta la altura según tus necesidades */
   position: relative;
 }
 
-.swiper-pagination {
-  bottom: 10px; /* Ajusta la distancia desde el fondo según tus necesidades */
+
+.horizontal-swiper .swiper-button-prev,
+.horizontal-swiper .swiper-button-next {
+  color: #000; 
 }
 
-.swiper-button-prev,
-.swiper-button-next {
-  color: #000; /* Cambia el color de las flechas aquí */
-  transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
-  margin-top: -20px;
+.vertical-swiper {
+  width: 100%;
+  height: 700px; /* Ajusta la altura según tus necesidades */
+
 }
 
-.swiper-pagination-bullet {
-  background-color: #000; /* Cambia el color de las balas de paginación aquí */
-}
+

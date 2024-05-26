@@ -1,5 +1,6 @@
 import React from 'react'
 import hasbulla from '../../assets/profileIcon/Hasbulla.jpg'
+import { Button } from 'flowbite-react';
 
 export default function UserInformation() {
   return (
@@ -49,7 +50,7 @@ export default function UserInformation() {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Country</label>
                 <select className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  <option>United Arab Emirates</option>
+                  <option>Costa Rica</option>
                   {/* Add more options here */}
                 </select>
               </div>
@@ -62,21 +63,22 @@ export default function UserInformation() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">City</label>
-                <input
-                  type="text"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="City"
-                />
+                <label className="block text-sm font-medium text-gray-700">Gender</label>
+                <select className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
               </div>
             </div>
             <div className="mt-6">
-              <button
-                type="submit"
-                className="w-full px-6 py-2 text-white bg-indigo-600 rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              <Button
+                color="gray"
+                pill
+                className="flex items-center justify-center w-full border border-gray-400 hover:border-blue-300 space-x-2 mt-4"
               >
                 Save Changes
-              </button>
+              </Button>
             </div>
           </form>
         </div>

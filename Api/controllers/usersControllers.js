@@ -46,9 +46,9 @@ export const getUserById = async (request, response) => {
 export const updateUser = async (request, response) => {
   try {
     const { id } = request.params;
-    const { name, lastname, mail, phoneNumber } = request.body; // Desestructurar los campos específicos
+    const { name, lastname, mail, phoneNumber, gender, country } = request.body; // Desestructurar los campos específicos
 
-    const [updated] = await User.update({ name, lastname, mail, phoneNumber }, {
+    const [updated] = await User.update({ name, lastname, mail, phoneNumber, gender, country}, {
       where: { UsersID: id }
     });
 

@@ -85,6 +85,11 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    sessionstorage.setItem('user', JSON.stringify(updatedUser)); // Actualiza el usuario en sessionStorage
+  };
+
   // Comprueba el token almacenado cuando la app se carga
   useEffect(() => {
     const storedUser = sessionstorage.getItem('user');
@@ -94,7 +99,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, updateAddresses, getUserDetails }}>
+    <AuthContext.Provider value={{ user, login, register, logout, updateAddresses, getUserDetails, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

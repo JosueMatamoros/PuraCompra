@@ -8,7 +8,7 @@ router.get('/:id', getUserById);
 router.post('/', createUser);
 router.post('/login', loginUsers);
 router.post('/register', registerUsers);
-router.put('/:id', updateUser);
+router.put('/:id', updateUser); // Verifica que esta ruta exista
 router.delete('/:id', deleteUser);
 router.get('/profile/:id', getUserDetails);
 

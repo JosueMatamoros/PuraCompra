@@ -32,13 +32,13 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (name, lastname, phone, email, password) => {
+  const register = async (name, lastname, phone, email, password, gender, country) => {
+    console.log(country);
     try {
-      console.log(phone)
       const response = await fetch('http://localhost:3000/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, lastname, phoneNumber: phone, mail: email, password }),
+        body: JSON.stringify({ name, lastname, phoneNumber: phone, mail: email, password, gender, country}),
       });
       const data = await response.json();
       if (!response.ok) {

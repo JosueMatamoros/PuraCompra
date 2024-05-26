@@ -105,8 +105,8 @@ export const loginUsers = async (request, response) => {
 };
 
 export const registerUsers = async (request, response) => {
-  const { name, lastname, mail, phoneNumber, password } = request.body;
-  console.log(name, lastname, mail, phoneNumber, password);
+  const { name, lastname, mail, phoneNumber, password, gender, country } = request.body;
+  console.log(name, lastname, mail, phoneNumber, password, gender, country);
   console.log(`Register attempt with email: ${mail}`);
   try {
     const existingUser = await User.findOne({ where: {mail: mail } });
@@ -114,7 +114,7 @@ export const registerUsers = async (request, response) => {
       return response.status(400).json({ message: 'User already exists' });
     }
 
-    const newUser = await User.create({ name, lastname, mail, phoneNumber, password });
+    const newUser = await User.create({ name, lastname, mail, phoneNumber, password, gender, country });
     const token = jwt.sign({ id: newUser.UsersID }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log('Registration successful', newUser, token);
     response.status(201).json({ newUser, token });

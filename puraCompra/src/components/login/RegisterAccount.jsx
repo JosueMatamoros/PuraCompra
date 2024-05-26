@@ -38,7 +38,7 @@ export default function RegisterAccount() {
       
       {/* Panel para el Formulario actual */}
       <div className="w-2/3 flex items-center justify-center">
-        {activeForm === 'login' ? <Login /> : <SignIn />}
+        {activeForm === 'login' ? <Login /> : <SignIn setActiveForm={setActiveForm} />}
       </div>
     </div>
   );

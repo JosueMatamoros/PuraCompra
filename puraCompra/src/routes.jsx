@@ -7,6 +7,7 @@ import Products from "./pages/Products";
 import Account from "./pages/Account";
 import Shop from "./pages/Shop";
 import InternalView from "./components/products/InternalView"; 
+import Payment from "./pages/Payment";
 
 const Ruting = () => (
     <Router>
@@ -18,6 +19,7 @@ const Ruting = () => (
             <Route path="/account" element={<Account />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<InternalView />} /> 
+            <Route path="/payment" element={<Payment />} />
         </Routes>
     </Router>
 );

@@ -10,5 +10,6 @@ router.get('/:id', getPriceHistoryById);
 router.put('/:id', updatePriceHistory);
 router.delete('/:id', deletePriceHistory);
 
+router.get('/addresses', getPriceHistory);
 
 export default router;

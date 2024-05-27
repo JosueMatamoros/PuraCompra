@@ -1,7 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { Button, Checkbox, Label, TextInput, Toast } from "flowbite-react";
+import { Button, Checkbox, Label, TextInput, Toast, Select } from "flowbite-react";
 import { IoIosMail } from "react-icons/io";
 import { BiSolidLock } from "react-icons/bi";
+import { BsGenderAmbiguous } from "react-icons/bs";
+import { TiWorld } from "react-icons/ti";
 import { HiPhone, HiEye, HiEyeOff,HiCheck } from "react-icons/hi";
 import { FaCheckCircle } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,12 +11,14 @@ import { PiUserCircle } from "react-icons/pi";
 import { AuthContext } from '../../context/AuthContext';
 
 
-export default function SignIn() {
+export default function SignIn({ setActiveForm }) {
   const [formData, setFormData] = useState({
     name: '',
     lastname: '',
     phone: '',
     email: '',
+    gender: '',
+    country: '',
     password: '',
     repeatPassword: '',
     termsAgreed: false
@@ -66,11 +70,15 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.country) {
+      console.log('Country cannot be empty');
+      return;
+    }
     if (formData.termsAgreed && formData.password.length >= 8 && /[A-Z]/.test(formData.password) && /[^A-Za-z0-9]/.test(formData.password) && formData.password === formData.repeatPassword && /^[A-Za-z]+$/.test(formData.name) && /^[A-Za-z]+$/.test(formData.lastname)) {
       console.log('Form Data', formData);
-      const success = await register(formData.name, formData.lastname, formData.phone, formData.email, formData.password);
+      const success = await register(formData.name, formData.lastname, formData.phone, formData.email, formData.password, formData.gender, formData.country);
       if (success) {
-        navigate('/register');
+        setActiveForm('login');  // Cambiar a login después del registro exitoso
         console.log('Form Data:', formData);
       }
     } else {
@@ -150,6 +158,33 @@ export default function SignIn() {
             value={formData.email}
             onChange={handleChange}
           />
+        <Select
+            id="gender"
+            name="gender"
+            icon={BsGenderAmbiguous}
+            placeholder="Gender"
+            required
+            shadow
+            value={formData.gender}
+            onChange={handleChange}
+          >
+            <option value="" disabled>Select your gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </Select>
+        <TextInput
+            id="country"
+            name="country"
+            type="text"
+            icon={TiWorld}
+            placeholder="Country"
+            required
+            shadow
+            value={formData.country}
+            onChange={handleChange}
+          />
+
         <div className='relative'>
           <TextInput
             id="password"

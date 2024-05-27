@@ -5,16 +5,11 @@ import { HiCheck } from 'react-icons/hi';
 import photo from '../../assets/address/addressBackground.png';
 import { AuthContext } from '../../context/AuthContext';
 
-export default function DirectionCard({ directionNumber, direction, addressID, updateAddress }) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [newDirection, setNewDirection] = useState(direction);
+export default function DirectionCard({ directionNumber, direction, addressID, onUpdate }) {
     const { user } = useContext(AuthContext);
+    const [newAddress, setNewAddress] = useState(direction);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [showToast, setShowToast] = useState(false);
-
-    useEffect(() => {
-        // Actualiza newDirection cuando la prop direction cambia
-        setNewDirection(direction);
-    }, [direction]);
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -25,21 +20,20 @@ export default function DirectionCard({ directionNumber, direction, addressID, u
     };
 
     const handleSave = async () => {
-        if (!user) {
-            console.error('No user is logged in');
+        if (!user || !user.UsersID) {
+            console.error('No user is logged in or user ID is missing');
             return;
         }
-
+        onUpdate(newAddress);
         try {
             const response = await axios.put(`http://localhost:3000/addresses/${addressID}`, {
-                address: newDirection,
-                userID: user.id,
+                address: newAddress,
+                userID: user.UsersID,
             });
             if (response.status === 200) {
                 setIsModalOpen(false);
-                setShowToast(true); // Muestra el toast
+                setShowToast(true);
                 setTimeout(() => setShowToast(false), 3000);
-                updateAddress(addressID, newDirection); // Actualiza la dirección en el estado del componente padre
             } else {
                 console.error('Failed to update address');
             }
@@ -79,8 +73,8 @@ export default function DirectionCard({ directionNumber, direction, addressID, u
                             id="direction"
                             rows="4"
                             className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                            value={newDirection}
-                            onChange={(e) => setNewDirection(e.target.value)}
+                            value={newAddress}
+                            onChange={(e) => setNewAddress(e.target.value)}
                         />
                     </div>
                 </Modal.Body>

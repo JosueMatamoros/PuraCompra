@@ -3,14 +3,13 @@ import Addresses from "../models/addresses.js"
 
 export const createAddress = async (request, response) => {
     try {
-        const { UserID, address, addressID } = request.body;
-        const newAddress = await Addresses.create({ UserID, address, addressID });
+        const { UsersID, address } = request.body;
+        const newAddress = await Addresses.create({ UsersID, address });
         response.status(201).json(newAddress);
-    }
-    catch (error) {
+    } catch (error) {
         response.status(500).json({ message: error.message });
     }
-}
+};
 
 
 export const getAddresses = async (request, response) => {

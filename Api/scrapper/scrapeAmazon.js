@@ -14,24 +14,27 @@ const scrapeAmazon = async (url, productName) => {
         const title = $(element).find('h2 a span').text().trim();
         const priceText = $(element).find('span.a-price span.a-offscreen').text().trim();
         const image = $(element).find('img.s-image').attr('src');
-        console.log(currentProduct);
-        if (title && priceText && image) {
-          const price = parseFloat(priceText.replace('$', '').replace(',', ''));
-          currentProduct = { title, price, image };
-          products.push(currentProduct);
+        //console.log(currentProduct);
+        //if (title && priceText && image) {
+        const price = parseFloat(priceText.replace('$', '').replace(',', ''));
+        currentProduct = { title, price, image };
+        //console.log(currentProduct);
+        products.push(currentProduct);
           
-        }
+        //}
       });
+      console.log(products);
       let maxPriceProduct = null;
       let maxPrice = 0.0;
       // Guardar el producto con el mayor precio para luego hacer un return del mismo
-      products.forEach(product => {
-        if (product.price > maxPrice) {
-          maxPrice = product.price;
-          maxPriceProduct = product;
-        }
-      });
-      return maxPriceProduct;
+      //products.forEach(product => {
+        //if (product.price > maxPrice) {
+          //maxPrice = product.price;
+          //maxPriceProduct = product;
+        //}
+      //});
+      //return maxPriceProduct;
+      //return products;
 
     } catch (error) {
       console.error('Error:', error);

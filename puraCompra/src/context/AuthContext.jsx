@@ -32,13 +32,13 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (name, lastname, phone, email, password) => {
+  const register = async (name, lastname, phone, email, password, gender, country) => {
+    console.log(country);
     try {
-      console.log(phone)
       const response = await fetch('http://localhost:3000/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, lastname, phoneNumber: phone, mail: email, password }),
+        body: JSON.stringify({ name, lastname, phoneNumber: phone, mail: email, password, gender, country}),
       });
       const data = await response.json();
       if (!response.ok) {
@@ -53,10 +53,41 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const getUserDetails = async () => {
+    try {
+      const storedUser = JSON.parse(sessionstorage.getItem('user'));
+      if (storedUser && storedUser.UsersID) {
+        const response = await fetch(`http://localhost:3000/users/profile/${storedUser.UsersID}`);
+        const data = await response.json();
+        if (response.ok) {
+          setUser(data);
+          sessionstorage.setItem('user', JSON.stringify(data));
+        } else {
+          console.error('Error al obtener detalles del usuario:', data.message);
+        }
+      }
+    } catch (error) {
+      console.error('Error al obtener detalles del usuario:', error);
+    }
+  };
+
   // Función para cerrar sesión
   const logout = () => {
     setUser(null);
     sessionstorage.removeItem('user'); // Elimina el usuario de sessionStorage
+  };
+
+  const updateAddresses = (newAddresses) => {
+    if (user) {
+      const updatedUser = { ...user, Addresses: newAddresses };
+      setUser(updatedUser);
+      sessionstorage.setItem('user', JSON.stringify(updatedUser)); // Actualiza el usuario en sessionStorage
+    }
+  };
+
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    sessionstorage.setItem('user', JSON.stringify(updatedUser)); // Actualiza el usuario en sessionStorage
   };
 
   // Comprueba el token almacenado cuando la app se carga
@@ -68,7 +99,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout, updateAddresses, getUserDetails, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

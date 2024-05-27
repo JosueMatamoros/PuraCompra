@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Header from '../components/header/Header';
-import UserAddress from '../components/addressBook/UserAddress';
+import UserAddress from '../components/dashboard/UserAddress';
+import UserInformation from '../components/dashboard/UserInformation';
 
 export default function Account() {
   const { user, logout } = useContext(AuthContext);
@@ -16,7 +17,7 @@ export default function Account() {
     if (selectedView === 'Account') {
       switch (selectedOption) {
         case 'Personal Information':
-          return <p>This is your personal information.</p>;
+          return <UserInformation />;
         case 'Address Book':
           return <UserAddress />;
         case 'Payment Methods':

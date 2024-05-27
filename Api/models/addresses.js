@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes } from "sequelize";
-import sequelize from "./index.js";
+import sequelize from "./index.js"; // Ajusta el path si es necesario
 
 const Addresses = sequelize.define("Addresses", {
   AddressID: {
@@ -26,5 +26,4 @@ const Addresses = sequelize.define("Addresses", {
   timestamps: false,
 });
 
-await Addresses.sync();
 export default Addresses;

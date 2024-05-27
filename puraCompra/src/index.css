@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-credit-card-form input::placeholder {
+  color: rgba(255, 255, 255, 1); /* Blanco */
+  opacity: 1; /* Transparente */
+}
+
+.custom-credit-card-form input {
+  border: none !important; /* Bordes transparentes */
+  outline: none !important; /* Sin borde al enfocar */
+}
+
+.custom-credit-card-form input:focus {
+  border: none !important; /* Bordes transparentes */
+  outline: none !important; /* Sin borde al enfocar */
+  box-shadow: none !important; /* Sin sombra al enfocar */
+}
+
+
 body {
     font-family: "Montserrat", sans-serif;
     font-weight: 200;

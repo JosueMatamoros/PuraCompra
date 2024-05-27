@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { TiShoppingCart } from "react-icons/ti";
 import { FaRegUserCircle } from "react-icons/fa";
 import { HiUserCircle, HiOutlineAdjustments } from "react-icons/hi";
+import { IoIosLogOut } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
 import Navbar from './Navbar';
 import logo from '../../assets/JieShopLogo.png'; 
@@ -61,10 +62,7 @@ export default function Header() {
                   <ListGroup.Item onClick={() => handleNavigate('/account')} icon={HiUserCircle}>
                     Profile
                   </ListGroup.Item>
-                  <ListGroup.Item onClick={() => handleNavigate('/register')} icon={HiOutlineAdjustments}>
-                    Settings
-                  </ListGroup.Item>
-                  <ListGroup.Item onClick={logOut} icon={HiUserCircle}>
+                  <ListGroup.Item onClick={logOut} icon={IoIosLogOut}>
                     Logout
                   </ListGroup.Item>
                 </>

@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { createProduct ,getProducts, getProductById, updateProduct, deleteProduct } from '../controllers/productsControllers.js';
-import { scrapProduct } from '../controllers/scrapperController.js';
+import { scrapProduct } from '../controllers/scrappersControllers.js';
 
 const router = express.Router();
 

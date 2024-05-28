@@ -7,7 +7,7 @@ const extractSkuId = (url) => {
 }
 
 // Función para obtener los datos del producto de Best Buy usando el skuId
-const getBestBuyProductData = async (url) => {
+const scrapeBestBuy = async (url) => {
   const skuId = extractSkuId(url);
 
   if (!skuId) {
@@ -55,18 +55,14 @@ const getBestBuyProductData = async (url) => {
 
   const productData = {
     altText: product.altText,
-    skushortlabel: product.skushortlabel,
+    name: product.skushortlabel,
     imageUrl: imageUrl,
-    customerrating_facet: product.customerrating_facet,
-    regularPrice: price
+    rating: product.customerrating_facet,
+    price: price
   };
 
-  console.log(productData);
+  return productData;
 }
 
-// Ejemplo de uso
-const url = 'https://www.bestbuy.com/site/apple-11-inch-ipad-pro-m4-chip-wi-fi-256gb-with-oled-space-black/5495362.p?skuId=5495362';
 
-getBestBuyProductData(url);
-
-export default getBestBuyProductData;
+export default scrapeBestBuy;

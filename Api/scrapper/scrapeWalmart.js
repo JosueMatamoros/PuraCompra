@@ -27,7 +27,4 @@ const scrapeWalmart = async (url) => {
     }
 }
 
-// URL del producto en Walmart
-scrapeWalmart('https://www.walmart.co.cr/harina-maiz-pan-precoc-blanco-1000gr-4/p');
-
 export default scrapeWalmart;

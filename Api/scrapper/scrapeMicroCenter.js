@@ -1,4 +1,5 @@
-
+import axios from 'axios';
+import cheerio from 'cheerio';
 
 const extractSkuId = (url) => {
     const regex = /\/product\/(\d+)\//;
@@ -6,10 +7,22 @@ const extractSkuId = (url) => {
     return match ? match[1] : null;
 }
 
-const getMicroCenterData = async (url) => {
+const scrapeMicroCenter = async (url) => {
     const skuId = extractSkuId(url);
-    console.log(skuId);
-    const product = await fetch(`https://api.bazaarvoice.com/data/products.json?passkey=cakxQphpT04Kbk3t7KwFBA6t0y0dwSLSF79MNdzA524Gs&locale=en_US&allowMissing=true&apiVersion=5.4&filter=id:0${skuId}`, {
+    const { data } = await axios.get(url, {
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+        }
+    });
+
+    const $ = cheerio.load(data);
+
+    const priceWhole = $('span#pricing').attr('content').split('.')[0];
+    const priceFraction = $('sup.cent2022').text().trim();
+    const price = `${priceWhole}.${priceFraction}`;
+
+
+    const productResponse = await fetch(`https://api.bazaarvoice.com/data/products.json?passkey=cakxQphpT04Kbk3t7KwFBA6t0y0dwSLSF79MNdzA524Gs&locale=en_US&allowMissing=true&apiVersion=5.4&filter=id:0${skuId}`, {
         "headers": {
           "sec-ch-ua": "\"Google Chrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
           "sec-ch-ua-mobile": "?0",
@@ -22,11 +35,17 @@ const getMicroCenterData = async (url) => {
         "mode": "cors",
         "credentials": "omit"
       });
+    
+    const dataJson = await productResponse.json();
 
+    const product = dataJson.Results[0];
+    const productData = {
+        name: product.Name,
+        imageUrl: product.ImageUrl,
+        price: price,
+      };
 
-    console.log(await product.json());
+    return productData;
 }
 
-const url = "https://www.microcenter.com/product/673279/lian-li-o11-vision-tempered-glass-atx-mid-tower-computer-case-white";
-
-getMicroCenterData(url);
+export default scrapeMicroCenter;

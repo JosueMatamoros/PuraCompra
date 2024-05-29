@@ -14,7 +14,7 @@ export const scrapProduct = async (request, response) => {
         let product;
         if (url.includes("bestbuy.com")) {
             product = await scrapeBestBuy(url);
-        } else if (url.includes("walmart.com")) {
+        } else if (url.includes("walmart.co.cr")) {
             product = await scrapeWalmart(url);
         } else if (url.includes("microcenter.com")) {
             product = await scrapeMicroCenter(url);

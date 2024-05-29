@@ -3,7 +3,6 @@ import DirectionCard from "../card/DirectionCard";
 import { AuthContext } from "../../context/AuthContext";
 import AddAddressModal from "../modal/AddAddressModal";
 import { FaPlus } from "react-icons/fa";
-import { Button } from "flowbite-react";
 
 export default function UserAddress() {
   const { user, updateAddresses } = useContext(AuthContext);
@@ -85,13 +84,18 @@ export default function UserAddress() {
         </div>
       ))}
       {addresses.length === 0 && (
-        <div className="flex items-center justify-center w-full h-full border rounded-lg border-gray-300 mx-2 my-2">
-          <button
-            onClick={handleOpenModal}
-            className="inline-flex items-center justify-center w-12 h-12 text-white bg-blue-700 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        <div className="flex flex-row mb-4">
+          <div
+            className="flex items-center justify-center w-full h-full border rounded-lg border-gray-300 mx-2 my-2"
+            style={{ width: "18rem", height: "27rem" }}
           >
-            <FaPlus className="w-6 h-6" />
-          </button>
+            <button
+              onClick={handleOpenModal}
+              className="inline-flex items-center justify-center w-12 h-12 text-white bg-blue-700 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              <FaPlus className="w-6 h-6" />
+            </button>
+          </div>
         </div>
       )}
       <AddAddressModal

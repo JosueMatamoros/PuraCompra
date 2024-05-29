@@ -3,6 +3,7 @@ import { ProductContext } from '../context/ProductContext';
 import ProductsCarrousel from '../components/carrousel/ProductsCarrousel';
 import Header from '../components/header/Header';
 
+
 const Products = () => {
   const { products } = useContext(ProductContext);
   // Agrupar productos por vendedor

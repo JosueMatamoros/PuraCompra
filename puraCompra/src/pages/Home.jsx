@@ -2,6 +2,7 @@ import React from 'react'
 import Logo from '../assets/JieShopLogoWhite.png'
 import Header from '../components/header/Header'
 import BorderlessCard from '../components/borderlessCard/BorderlessCard'
+import Footer from '../components/footer/Footer';
 
 const cards = [
   {
@@ -44,8 +45,8 @@ export default function Home() {
           <img src={Logo} alt="Imagen decorativa" className="w-full max-w-full h-auto  object-contain md:object-cover" />
         </div>
       </div>
+    <Footer />
     </div>
-
     </>
   )
 }

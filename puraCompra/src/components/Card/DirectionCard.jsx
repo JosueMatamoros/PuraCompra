@@ -43,15 +43,19 @@ export default function DirectionCard({ directionNumber, direction, addressID, o
     };
 
     return (
-        <div className="relative max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-2 my-2">
-            <a href="#">
-                <img className="object-contain" src={photo} alt="" />
-            </a>
-            <div className="p-5">
+        <div className="flex flex-col justify-between relative max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-2 my-2">
+            <div>
                 <a href="#">
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{directionNumber}</h5>
+                    <img className="object-contain" src={photo} alt="" />
                 </a>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{direction}</p>
+                <div className="p-5">
+                    <a href="#">
+                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{directionNumber}</h5>
+                    </a>
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{direction}</p>
+                </div>
+            </div>
+            <div className="p-5">
                 <button onClick={handleOpenModal} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Edit
                     <svg className="w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { Button, TextInput } from "flowbite-react";
+import { Button, TextInput, Toast } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
 import { IoIosMail } from "react-icons/io";
 import { BiLock } from "react-icons/bi"; 
-import { HiEye, HiEyeOff } from "react-icons/hi";
+import { HiEye, HiEyeOff, HiX } from "react-icons/hi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faFacebook, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [showToast, setShowToast] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +23,9 @@ export default function Login() {
     const success = await login(email, password);
     if (success) {
       navigate('/');
+    } else {
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 4000);
     }
   };
 
@@ -41,6 +45,17 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen flex-grow">
+      {showToast && (
+        <div className="fixed top-4 right-4 transform transition-transform duration-300 ease-in-out">
+          <Toast>
+            <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+              <HiX className="h-5 w-5" />
+            </div>
+            <div className="ml-3 text-sm font-normal">The mail or password is incorrect! Please try again.</div>
+            <Toast.Toggle />
+          </Toast>
+        </div>
+      )}
       <form className="flex flex-col gap-4 max-w-md flex-grow" onSubmit={handleSubmit}>
         <div className="flex space-x-4 justify-center items-center">
           <FontAwesomeIcon icon={faGoogle} size='2xl' />

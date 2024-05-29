@@ -4,7 +4,7 @@ import { IoIosMail } from "react-icons/io";
 import { BiSolidLock } from "react-icons/bi";
 import { BsGenderAmbiguous } from "react-icons/bs";
 import { TiWorld } from "react-icons/ti";
-import { HiPhone, HiEye, HiEyeOff,HiCheck } from "react-icons/hi";
+import { HiPhone, HiEye, HiEyeOff, HiCheck, HiX } from "react-icons/hi";
 import { FaCheckCircle } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import { PiUserCircle } from "react-icons/pi";
@@ -33,6 +33,8 @@ export default function SignIn({ setActiveForm }) {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [errorToast, setErrorToast] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -75,11 +77,14 @@ export default function SignIn({ setActiveForm }) {
       return;
     }
     if (formData.termsAgreed && formData.password.length >= 8 && /[A-Z]/.test(formData.password) && /[^A-Za-z0-9]/.test(formData.password) && formData.password === formData.repeatPassword && /^[A-Za-z]+$/.test(formData.name) && /^[A-Za-z]+$/.test(formData.lastname)) {
-      console.log('Form Data', formData);
       const success = await register(formData.name, formData.lastname, formData.phone, formData.email, formData.password, formData.gender, formData.country);
       if (success) {
-        setActiveForm('login');  // Cambiar a login después del registro exitoso
+        setShowToast(true);
+        setTimeout(() => {setShowToast(false); setActiveForm('login');}, 2000);
         console.log('Form Data:', formData);
+      } else {
+        setErrorToast(true);
+        setTimeout(() => {setErrorToast(false);}, 4000);
       }
     } else {
       console.log('Validation failed');
@@ -88,6 +93,28 @@ export default function SignIn({ setActiveForm }) {
 
   return (
     <div className="flex justify-around w-full items-center">
+      {showToast && (
+        <div className="fixed top-4 right-4 transform transition-transform duration-300 ease-in-out">
+        <Toast>
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+            <HiCheck className="h-5 w-5" />
+          </div>
+          <div className="ml-3 text-sm font-normal">Registration success!</div>
+          <Toast.Toggle />
+        </Toast>
+      </div>
+      )}
+      {errorToast && (
+        <div className="fixed top-4 right-4 transform transition-transform duration-300 ease-in-out">
+          <Toast>
+            <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+              <HiX className="h-5 w-5" />
+            </div>
+            <div className="ml-3 text-sm font-normal">The mail is already registered! Please login.</div>
+            <Toast.Toggle />
+          </Toast>
+        </div>
+      )}
       <div className="flex-column items-center">
         <h1 className='text-3xl pb-3'>Password Requirements</h1>
         <div className="flex items-center gap-2">

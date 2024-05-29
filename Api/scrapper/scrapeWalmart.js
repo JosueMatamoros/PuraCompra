@@ -18,10 +18,12 @@ const scrapeWalmart = async (url) => {
         const price = $('span.vtex-store-components-3-x-currencyContainer').first().text().trim();
         const imageUrl = $('img.vtex-store-components-3-x-productImageTag').attr('src');
 
-        // Muestra la información extraída
-        console.log(`Product Name: ${productName}`);
-        console.log(`Price: ${price}`);
-        console.log(`Image URL: ${imageUrl}`);
+        const productData = {
+            name: productName,
+            imageUrl: imageUrl,
+            price: price,
+        };
+        return productData;
     } catch (error) {
         console.error(`Error scraping data: ${error.message}`);
     }

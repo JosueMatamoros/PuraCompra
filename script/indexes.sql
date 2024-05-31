@@ -1,17 +1,17 @@
 -- Creación de algunos índices
 USE PURACOMPRA;
 
--- Los correos electrónicos son únicos y frecuentemente se buscará por esta columna.
+-- The email is a unique value, so it is indexed.
 CREATE INDEX idx_users_mail ON Users(mail);
 
--- Facilita las búsquedas y filtrado por dirección.
+-- the address is indexed to speed up the search for addresses.
 CREATE INDEX idx_addresses_address ON Addresses(address);
 
--- Acelera las consultas que buscan órdenes por usuario y fecha.
+-- the date and user id are indexed to speed up the search for orders.
 CREATE INDEX idx_orders_usersid_date ON Orders(UsersID, date);
 
--- Mejora las consultas que ordenan o filtran productos por precio.
+-- the price is indexed to speed up the search for products by price.
 CREATE INDEX idx_products_price ON Products(price);
 
--- Optimiza las búsquedas y filtrado por tipo de vendedor.
+-- the type is indexed to speed up the search for sellers by type.
 CREATE INDEX idx_sellers_type ON Sellers(type);

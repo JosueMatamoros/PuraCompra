@@ -1,6 +1,6 @@
 USE PURACOMPRA;
 
--- Tabla de historial de direcciones
+-- Table: addresses
 CREATE TABLE address_history (
     history_id INT AUTO_INCREMENT PRIMARY KEY,
     AddressID INT,
@@ -11,8 +11,8 @@ CREATE TABLE address_history (
     action VARCHAR(10)
 );
 
--- Triggers en la tabla addresses
--- Actualizar el historial de direcciones después de una actualización.
+-- Triggers in the addresses table
+-- Trigger to save the old address when a new address is inserted.
 DELIMITER //
 CREATE TRIGGER AfterUpdateAddress
 AFTER UPDATE ON Addresses
@@ -24,7 +24,7 @@ END //
 DELIMITER ;
 
 
--- Prueba
+-- Test
 UPDATE Addresses
 SET address = 'Penjamo, Florencia'
 WHERE AddressID = 3 AND UsersID = 2;
@@ -35,8 +35,8 @@ select * from address_history;
 
 
 
--- Triggers en la tabla orders
--- Asegurarse de que el precio y los impuestos sean positivos.
+-- Triggers in the orders table
+-- Verify that the price and taxes are not negative.
 
 DELIMITER //
 CREATE TRIGGER BeforeInsertOrder
@@ -67,7 +67,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- Triggers de eliminación
+-- Triggers to prevent the deletion of orders associated with shipments in progress or pending.
 DELIMITER //
 CREATE TRIGGER BeforeDeleteOrder
 BEFORE DELETE ON Orders
@@ -77,8 +77,8 @@ BEGIN
     SELECT COUNT(*) INTO shipment_count 
     FROM Shipments 
     WHERE OrdersID = OLD.OrdersID 
-      AND state IN ('IN_PROCESS', 'PENDING');
-      
+    AND state IN ('IN_PROCESS', 'PENDING');
+
     IF shipment_count > 0 THEN
         SIGNAL SQLSTATE '45000' 
         SET MESSAGE_TEXT = 'No se puede eliminar una orden asociada con envíos en proceso o pendientes';
@@ -87,13 +87,12 @@ END //
 DELIMITER ;
 
 
--- INSERT INTO Orders (UsersID, address, price, taxes) VALUES (2, 'Penjamo, Florencia', -895.00, 116.35); Prueba exitosa
--- DELETE FROM Orders WHERE OrdersID = 2; Prueba exitosa
+-- INSERT INTO Orders (UsersID, address, price, taxes) VALUES (2, 'Penjamo, Florencia', -895.00, 116.35); Successful test
+-- DELETE FROM Orders WHERE OrdersID = 2; Successful test
 
 
--- Triggers para la tabla orderdetails
--- Triggers para la tabla products
--- Asegurarse de que el stock no sea negativo y que el precio sea positivo.
+-- Triggers for the products table
+-- Verify that the stock and price are not negative.
 DELIMITER //
 CREATE TRIGGER BeforeInsertProduct
 BEFORE INSERT ON Products
@@ -122,7 +121,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- Trigger de eliminación para evitar que se eliminen productos asociados con órdenes.
+-- Trigger to prevent the deletion of products associated with orders.
 DELIMITER //
 CREATE TRIGGER BeforeDeleteProduct
 BEFORE DELETE ON Products
@@ -146,15 +145,15 @@ select * from orders;
 
 DELETE FROM products WHERE productsId = 1;
 
--- Prueba
+-- Test
 -- INSERT INTO Products (Sellers, name, stock, description, price, imageUrl) VALUES 
--- (1, 'AirPods Max', 10, 'Apple AirPods Max with high-fidelity audio, Active Noise Cancellation, and spatial audio.', -549, '/assets/apple/airPodsMax/airPodsMax.png'); Prueba exitosa
+-- (1, 'AirPods Max', 10, 'Apple AirPods Max with high-fidelity audio, Active Noise Cancellation, and spatial audio.', -549, '/assets/apple/airPodsMax/airPodsMax.png'); Successful test
 
 
 
--- Triggers para las tablas sellers
+-- Triggers for Sellers
 
--- Asegurarse de que el nombre del vendedor no esté vacío y que el tipo sea uno de los valores permitidos.
+-- Verify that the name is not empty and that the type is valid.
 DELIMITER //
 CREATE TRIGGER BeforeInsertSeller
 BEFORE INSERT ON Sellers
@@ -183,7 +182,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- Trigger de eliminación para evitar que se eliminen vendedores asociados con productos.
+-- Trigger to prevent the deletion of sellers associated with products.
 
 DELIMITER //
 CREATE TRIGGER BeforeDeleteSeller
@@ -202,14 +201,14 @@ BEGIN
 END //
 DELIMITER ;
 
--- Prueba
--- INSERT INTO Sellers (SellersID, name, url, type) VALUES (7, '', 'https://www.apple.com/', 'DIGITAL_RESELLERS'); Prueba exitosa
--- DELETE FROM Sellers WHERE SellersID = 7; Prueba exitosa
+-- test
+-- INSERT INTO Sellers (SellersID, name, url, type) VALUES (7, '', 'https://www.apple.com/', 'DIGITAL_RESELLERS'); successful test
+-- DELETE FROM Sellers WHERE SellersID = 7; successful test
 
 
 
--- Triggers para ProductImages
--- Asegurarse de que la URL de la imagen no esté vacía y que el tipo sea válido (0 o 1).
+-- Triggers for ProductImages table
+-- verify that the imageUrl is not empty and that the type is valid.
 DELIMITER //
 CREATE TRIGGER BeforeInsertProductImage
 BEFORE INSERT ON ProductImages
@@ -238,7 +237,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- Trigger de eliminación para evitar que se eliminen imágenes de productos asociadas con productos.
+-- Trigger to prevent the deletion of product images associated with products.
 DELIMITER //
 CREATE TRIGGER BeforeDeleteProductImage
 BEFORE DELETE ON ProductImages
@@ -258,7 +257,7 @@ DELIMITER ;
 
 Drop trigger BeforeDeleteProductImage;
 
--- Prueba
+-- test
 INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES (6, '', false, NULL);
 DELETE FROM ProductImages WHERE ImageID = 7; 
 

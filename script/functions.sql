@@ -1,6 +1,6 @@
--- Apartado de funciones
--- Tabla Users
--- Función para agregar un usuario a la base de datos
+-- Functions for the PuraCompra database
+-- Table: Users
+-- Function to add a new user
 USE PURACOMPRA;
 DELIMITER //
 CREATE FUNCTION AddUser(
@@ -17,13 +17,13 @@ BEGIN
 END //
 DELIMITER ;
 
--- Prueba
+-- test
 
 SELECT AddUser('Juan', 'Perez', 'jperez@gmail.com', '1234', '1234-5678');
 
 select * from Users;
 
--- Modificar usuario
+-- Function to update a user
 DELIMITER //
 CREATE FUNCTION UpdateUser(
     p_UsersID INT,
@@ -36,13 +36,13 @@ CREATE FUNCTION UpdateUser(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si el usuario existe
+    -- Verify if the user exists
     IF (SELECT COUNT(*) FROM Users WHERE UsersID = p_UsersID) = 0 THEN
         SET msg = 'Usuario no encontrado';
         RETURN msg;
     END IF;
     
-    -- Actualizar los datos del usuario
+    -- Update the user
     UPDATE Users
     SET name = p_name, lastname = p_lastname, mail = p_mail, password = p_password, phoneNumber = p_phoneNumber
     WHERE UsersID = p_UsersID;
@@ -54,7 +54,7 @@ DELIMITER ;
 
 SELECT UpdateUser(6, 'Marcos', 'Gomez', 'mgomez@gmail.com', '4321', '123456789');
 
--- Eliminar usuario
+-- Function to delete a user
 DELIMITER //
 CREATE FUNCTION DeleteUser(
     p_UsersID INT
@@ -62,13 +62,13 @@ CREATE FUNCTION DeleteUser(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si el usuario existe
+    -- Verify if the user exists
     IF (SELECT COUNT(*) FROM Users WHERE UsersID = p_UsersID) = 0 THEN
         SET msg = 'Usuario no encontrado';
         RETURN msg;
     END IF;
     
-    -- Eliminar el usuario
+    -- Delete the user
     DELETE FROM Users WHERE UsersID = p_UsersID;
 
     SET msg = 'Usuario eliminado correctamente';
@@ -76,9 +76,9 @@ BEGIN
 END //
 DELIMITER ;
 
--- Tabla Addresses
+-- Table: Addresses
 
--- Añadir direcciones
+-- Function to add a new address
 
 DELIMITER //
 CREATE FUNCTION AddAddress(
@@ -88,13 +88,13 @@ CREATE FUNCTION AddAddress(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si el usuario existe
+    -- Verify if the user exists
     IF (SELECT COUNT(*) FROM Users WHERE UsersID = p_UsersID) = 0 THEN
         SET msg = 'Usuario no encontrado';
         RETURN msg;
     END IF;
     
-    -- Insertar la nueva dirección
+    -- Insert the new address
     INSERT INTO Addresses (UsersID, address)
     VALUES (p_UsersID, p_address);
     
@@ -106,7 +106,7 @@ DELIMITER ;
 SELECT AddAddress(1, '123 Main St, Springfield');
 select * from addresses;
 
--- Modificar direcciones
+-- Function to update an address
 
 DELIMITER //
 CREATE FUNCTION UpdateAddress(
@@ -117,13 +117,13 @@ CREATE FUNCTION UpdateAddress(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si la dirección existe
+    -- Verify if the address exists
     IF (SELECT COUNT(*) FROM Addresses WHERE AddressID = p_AddressID AND UsersID = p_UsersID) = 0 THEN
         SET msg = 'Dirección no encontrada';
         RETURN msg;
     END IF;
     
-    -- Actualizar la dirección
+    -- Update the address
     UPDATE Addresses
     SET address = p_address
     WHERE AddressID = p_AddressID AND UsersID = p_UsersID;
@@ -135,7 +135,7 @@ DELIMITER ;
 
 SELECT UpdateAddress(6, 1, '456 Elm St, Springfield');
 
--- Elimiar direcciones
+-- Function to delete an address
 
 DELIMITER //
 CREATE FUNCTION DeleteAddress(
@@ -145,13 +145,13 @@ CREATE FUNCTION DeleteAddress(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si la dirección existe
+    -- Verify if the address exists
     IF (SELECT COUNT(*) FROM Addresses WHERE AddressID = p_AddressID AND UsersID = p_UsersID) = 0 THEN
         SET msg = 'Dirección no encontrada';
         RETURN msg;
     END IF;
     
-    -- Eliminar la dirección
+    -- Delete the address
     DELETE FROM Addresses WHERE AddressID = p_AddressID AND UsersID = p_UsersID;
 
     SET msg = 'Dirección eliminada correctamente';
@@ -162,7 +162,7 @@ DELIMITER ;
 SELECT DeleteAddress(6, 1);
 
 
--- Funciones para la tabla Orders
+-- Functions for the table orders
 
 DELIMITER //
 CREATE FUNCTION AddOrder(
@@ -174,13 +174,13 @@ CREATE FUNCTION AddOrder(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si el usuario existe
+    -- Verify if the user exists
     IF (SELECT COUNT(*) FROM Users WHERE UsersID = p_UsersID) = 0 THEN
         SET msg = 'Usuario no encontrado';
         RETURN msg;
     END IF;
     
-    -- Insertar la nueva orden
+    -- Insert the new order
     INSERT INTO Orders (UsersID, address, price, taxes)
     VALUES (p_UsersID, p_address, p_price, p_taxes);
     
@@ -191,7 +191,7 @@ DELIMITER ;
 
 -- SELECT AddOrder(2, 'Penamo, Florencia', -100.00, 8.00);
 
-
+-- Function to update an order
 DELIMITER //
 CREATE FUNCTION UpdateOrder(
     p_OrdersID INT,
@@ -203,13 +203,13 @@ CREATE FUNCTION UpdateOrder(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si la orden existe
+    -- Verify if the order exists
     IF (SELECT COUNT(*) FROM Orders WHERE OrdersID = p_OrdersID AND UsersID = p_UsersID) = 0 THEN
         SET msg = 'Orden no encontrada';
         RETURN msg;
     END IF;
     
-    -- Actualizar la orden
+    -- Update the order
     UPDATE Orders
     SET address = p_address, price = p_price, taxes = p_taxes
     WHERE OrdersID = p_OrdersID AND UsersID = p_UsersID;
@@ -223,6 +223,9 @@ select * from orders;
 
 SELECT UpdateOrder(2, 2, 'Penjamo, Florencia, San Carlos', 150.00, 12.00);
 
+
+-- Function to delete an order
+
 DELIMITER //
 CREATE FUNCTION DeleteOrder(
     p_OrdersID INT,
@@ -231,13 +234,13 @@ CREATE FUNCTION DeleteOrder(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si la orden existe
+    -- Verify if the order exists
     IF (SELECT COUNT(*) FROM Orders WHERE OrdersID = p_OrdersID AND UsersID = p_UsersID) = 0 THEN
         SET msg = 'Orden no encontrada';
         RETURN msg;
     END IF;
     
-    -- Eliminar la orden
+    -- Delete the order
     DELETE FROM Orders WHERE OrdersID = p_OrdersID AND UsersID = p_UsersID;
 
     SET msg = 'Orden eliminada correctamente';
@@ -248,7 +251,9 @@ DELIMITER ;
 
 SELECT DeleteOrder(2, 2);
 
--- Funciones para la tabla products
+-- Functions for the table Products
+
+-- Function to add a new product
 
 DELIMITER //
 CREATE FUNCTION AddProduct(
@@ -262,7 +267,7 @@ CREATE FUNCTION AddProduct(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Insertar el nuevo producto
+    -- Insert the new product
     INSERT INTO Products (Sellers, name, stock, description, price, imageUrl)
     VALUES (p_Sellers, p_name, p_stock, p_description, p_price, p_imageUrl);
     
@@ -271,7 +276,7 @@ BEGIN
 END //
 DELIMITER ;
 
-
+-- Function to update a product
 DELIMITER //
 CREATE FUNCTION UpdateProduct(
     p_ProductsID INT,
@@ -285,13 +290,13 @@ CREATE FUNCTION UpdateProduct(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si el producto existe
+    -- Verify if the product exists
     IF (SELECT COUNT(*) FROM Products WHERE ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Producto no encontrado';
         RETURN msg;
     END IF;
     
-    -- Actualizar el producto
+    -- Update the product
     UPDATE Products
     SET Sellers = p_Sellers, name = p_name, stock = p_stock, description = p_description, price = p_price, imageUrl = p_imageUrl
     WHERE ProductsID = p_ProductsID;
@@ -301,6 +306,8 @@ BEGIN
 END //
 DELIMITER ;
 
+
+-- Function to delete a product
 DELIMITER //
 CREATE FUNCTION DeleteProduct(
     p_ProductsID INT
@@ -308,13 +315,13 @@ CREATE FUNCTION DeleteProduct(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si el producto existe
+    -- Verify if the product exists
     IF (SELECT COUNT(*) FROM Products WHERE ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Producto no encontrado';
         RETURN msg;
     END IF;
     
-    -- Eliminar el producto
+    -- Delete the product
     DELETE FROM Products WHERE ProductsID = p_ProductsID;
 
     SET msg = 'Producto eliminado correctamente';
@@ -328,9 +335,9 @@ SELECT UpdateProduct(25, 1, 'Producto A Modificado', 100, 'Descripción modifica
 SELECT DeleteProduct(25);
 select * from products;
 
--- Tabla ProductImages
+-- Table: ProductImages
+-- Function to add an image
 DELIMITER //
--- Agregar imagen
 CREATE FUNCTION AddProductImage(
     p_ProductsID INT,
     p_imageUrl VARCHAR(255),
@@ -340,13 +347,13 @@ CREATE FUNCTION AddProductImage(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si el producto existe
+    -- Verify if the product exists
     IF (SELECT COUNT(*) FROM Products WHERE ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Producto no encontrado';
         RETURN msg;
     END IF;
     
-    -- Insertar la nueva imagen del producto
+    -- Insert the new product image
     INSERT INTO ProductImages (ProductsID, imageUrl, type, color)
     VALUES (p_ProductsID, p_imageUrl, p_type, p_color);
     
@@ -355,7 +362,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- Editar imagen
+-- Function to update an image
 
 DELIMITER //
 CREATE FUNCTION UpdateProductImage(
@@ -368,13 +375,13 @@ CREATE FUNCTION UpdateProductImage(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si la imagen del producto existe
+    -- Verify if the product image exists
     IF (SELECT COUNT(*) FROM ProductImages WHERE ImageID = p_ImageID AND ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Imagen del producto no encontrada';
         RETURN msg;
     END IF;
     
-    -- Actualizar la imagen del producto
+    -- Update the product image
     UPDATE ProductImages
     SET imageUrl = p_imageUrl, type = p_type, color = p_color
     WHERE ImageID = p_ImageID AND ProductsID = p_ProductsID;
@@ -384,7 +391,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- Eliminar imagen 
+-- Function to delete an image 
 
 DELIMITER //
 CREATE FUNCTION DeleteProductImage(
@@ -394,13 +401,13 @@ CREATE FUNCTION DeleteProductImage(
 BEGIN
     DECLARE msg VARCHAR(255);
     
-    -- Verificar si la imagen del producto existe
+    -- Verify if the product image exists
     IF (SELECT COUNT(*) FROM ProductImages WHERE ImageID = p_ImageID AND ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Imagen del producto no encontrada';
         RETURN msg;
     END IF;
     
-    -- Eliminar la imagen del producto
+    -- Delete the product image
     DELETE FROM ProductImages WHERE ImageID = p_ImageID AND ProductsID = p_ProductsID;
 
     SET msg = 'Imagen del producto eliminada correctamente';
@@ -408,10 +415,10 @@ BEGIN
 END //
 DELIMITER ;
 
--- Pruebas
 
+-- Table: Shipments
 
--- Tabla shipments
+-- Function to add a shipment
 
 DELIMITER //
 CREATE FUNCTION AddShipment(
@@ -424,13 +431,13 @@ CREATE FUNCTION AddShipment(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si el pedido existe
+    -- Verify if the order exists
     IF (SELECT COUNT(*) FROM Orders WHERE OrdersID = p_OrdersID) = 0 THEN
         SET msg = 'Pedido no encontrado';
         RETURN msg;
     END IF;
 
-    -- Insertar el nuevo envío
+    -- Insert the new shipment
     INSERT INTO Shipments (OrdersID, tracking, date, price, totalPrice, state)
     VALUES (p_OrdersID, p_tracking, NOW(), p_price, p_totalPrice, p_state);
 
@@ -438,6 +445,8 @@ BEGIN
     RETURN msg;
 END //
 DELIMITER ;
+
+-- Function to update a shipment
 
 DELIMITER //
 CREATE FUNCTION UpdateShipment(
@@ -451,13 +460,13 @@ CREATE FUNCTION UpdateShipment(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si el envío existe
+    -- Verify if the shipment exists
     IF (SELECT COUNT(*) FROM Shipments WHERE ShipmentsID = p_ShipmentsID) = 0 THEN
         SET msg = 'Envío no encontrado';
         RETURN msg;
     END IF;
 
-    -- Actualizar el envío
+    -- Update the shipment
     UPDATE Shipments
     SET OrdersID = p_OrdersID, tracking = p_tracking, price = p_price, totalPrice = p_totalPrice, state = p_state
     WHERE ShipmentsID = p_ShipmentsID;
@@ -467,6 +476,8 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Function to delete a shipment
+
 DELIMITER //
 CREATE FUNCTION DeleteShipment(
     p_ShipmentsID INT
@@ -474,13 +485,13 @@ CREATE FUNCTION DeleteShipment(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si el envío existe
+    -- Verify if the shipment exists
     IF (SELECT COUNT(*) FROM Shipments WHERE ShipmentsID = p_ShipmentsID) = 0 THEN
         SET msg = 'Envío no encontrado';
         RETURN msg;
     END IF;
 
-    -- Eliminar el envío
+    -- Delete the shipment
     DELETE FROM Shipments WHERE ShipmentsID = p_ShipmentsID;
 
     SET msg = 'Envío eliminado correctamente';
@@ -488,7 +499,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- Tabla ProductsPromotions
+-- Table: ProductsPromotions
 
 DELIMITER //
 CREATE FUNCTION AddProductPromotion(
@@ -498,19 +509,19 @@ CREATE FUNCTION AddProductPromotion(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si el producto existe
+    -- Verify if the product exists
     IF (SELECT COUNT(*) FROM Products WHERE ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Producto no encontrado';
         RETURN msg;
     END IF;
     
-    -- Verificar si la promoción existe
+    -- Verify if the promotion exists
     IF (SELECT COUNT(*) FROM Promotions WHERE PromotionsID = p_PromotionsID) = 0 THEN
         SET msg = 'Promoción no encontrada';
         RETURN msg;
     END IF;
 
-    -- Insertar la nueva promoción del producto
+    -- Insert the new product promotion
     INSERT INTO ProductsPromotions (ProductsID, PromotionsID)
     VALUES (p_ProductsID, p_PromotionsID);
 
@@ -518,6 +529,8 @@ BEGIN
     RETURN msg;
 END //
 DELIMITER ;
+
+-- Function to update a product promotion
 
 DELIMITER //
 CREATE FUNCTION UpdateProductPromotion(
@@ -528,19 +541,19 @@ CREATE FUNCTION UpdateProductPromotion(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si la relación de producto y promoción existe
+    -- verify if the relationship between product and promotion exists
     IF (SELECT COUNT(*) FROM ProductsPromotions WHERE ProductsID = p_ProductsID AND PromotionsID = p_PromotionsID) = 0 THEN
         SET msg = 'Relación de producto y promoción no encontrada';
         RETURN msg;
     END IF;
 
-    -- Verificar si la nueva promoción existe
+    -- verify if the new promotion exists
     IF (SELECT COUNT(*) FROM Promotions WHERE PromotionsID = p_newPromotionsID) = 0 THEN
         SET msg = 'Nueva promoción no encontrada';
         RETURN msg;
     END IF;
 
-    -- Actualizar la promoción del producto
+    -- Update the product promotion
     UPDATE ProductsPromotions
     SET PromotionsID = p_newPromotionsID
     WHERE ProductsID = p_ProductsID AND PromotionsID = p_PromotionsID;
@@ -550,6 +563,8 @@ BEGIN
 END //
 DELIMITER ;
 
+
+-- Function to delete a product promotion
 DELIMITER //
 CREATE FUNCTION DeleteProductPromotion(
     p_ProductsID INT,
@@ -558,13 +573,13 @@ CREATE FUNCTION DeleteProductPromotion(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si la relación de producto y promoción existe
+    -- Verify if the relationship between product and promotion exists
     IF (SELECT COUNT(*) FROM ProductsPromotions WHERE ProductsID = p_ProductsID AND PromotionsID = p_PromotionsID) = 0 THEN
         SET msg = 'Relación de producto y promoción no encontrada';
         RETURN msg;
     END IF;
 
-    -- Eliminar la promoción del producto
+    -- Delete the product promotion
     DELETE FROM ProductsPromotions WHERE ProductsID = p_ProductsID AND PromotionsID = p_PromotionsID;
 
     SET msg = 'Promoción del producto eliminada correctamente';
@@ -572,7 +587,9 @@ BEGIN
 END //
 DELIMITER ;
 
--- tabla promotions
+-- Table: Promotions
+
+-- Function to add a promotion
 
 DELIMITER //
 CREATE FUNCTION AddPromotion(
@@ -584,13 +601,13 @@ CREATE FUNCTION AddPromotion(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si la promoción ya existe
+    -- Verify if the promotion exists
     IF (SELECT COUNT(*) FROM Promotions WHERE PromotionsID = p_PromotionsID) > 0 THEN
         SET msg = 'Promoción con ese ID ya existe';
         RETURN msg;
     END IF;
 
-    -- Insertar la nueva promoción
+    -- Insert the new promotion
     INSERT INTO Promotions (PromotionsID, category, discount, description)
     VALUES (p_PromotionsID, p_category, p_discount, p_description);
 
@@ -598,6 +615,8 @@ BEGIN
     RETURN msg;
 END //
 DELIMITER ;
+
+-- Function to update a promotion
 
 DELIMITER //
 CREATE FUNCTION UpdatePromotion(
@@ -609,13 +628,13 @@ CREATE FUNCTION UpdatePromotion(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si la promoción existe
+    -- Verify if the promotion exists
     IF (SELECT COUNT(*) FROM Promotions WHERE PromotionsID = p_PromotionsID) = 0 THEN
         SET msg = 'Promoción no encontrada';
         RETURN msg;
     END IF;
 
-    -- Actualizar la promoción
+    -- Update the promotion
     UPDATE Promotions
     SET category = p_category, discount = p_discount, description = p_description
     WHERE PromotionsID = p_PromotionsID;
@@ -625,7 +644,7 @@ BEGIN
 END //
 DELIMITER ;
 
-
+-- Function to delete a promotion
 DELIMITER //
 CREATE FUNCTION DeletePromotion(
     p_PromotionsID INT
@@ -633,13 +652,13 @@ CREATE FUNCTION DeletePromotion(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si la promoción existe
+    -- Verify if the promotion exists
     IF (SELECT COUNT(*) FROM Promotions WHERE PromotionsID = p_PromotionsID) = 0 THEN
         SET msg = 'Promoción no encontrada';
         RETURN msg;
     END IF;
 
-    -- Eliminar la promoción
+    -- Delete the promotion
     DELETE FROM Promotions WHERE PromotionsID = p_PromotionsID;
 
     SET msg = 'Promoción eliminada correctamente';
@@ -648,10 +667,9 @@ END //
 DELIMITER ;
 
 
--- Pruebas
+-- Table: TransactionLogs
 
-
--- Tabla TransactionsLogs
+-- Function to add a transaction log
 
 DELIMITER //
 CREATE FUNCTION AddTransactionLog(
@@ -663,19 +681,19 @@ CREATE FUNCTION AddTransactionLog(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si el usuario existe
+    -- Verify if the user exists
     IF (SELECT COUNT(*) FROM Users WHERE UsersID = p_UsersID) = 0 THEN
         SET msg = 'Usuario no encontrado';
         RETURN msg;
     END IF;
 
-    -- Verificar si la orden existe
+    -- Verify if the order exists
     IF (SELECT COUNT(*) FROM Orders WHERE OrdersID = p_OrderID) = 0 THEN
         SET msg = 'Orden no encontrada';
         RETURN msg;
     END IF;
 
-    -- Insertar la nueva transacción
+    -- Insert the new transaction log
     INSERT INTO TransactionLogs (UsersID, OrderID, type, quantity, date)
     VALUES (p_UsersID, p_OrderID, p_type, p_quantity, NOW());
 
@@ -683,6 +701,8 @@ BEGIN
     RETURN msg;
 END //
 DELIMITER ;
+
+-- Function to update a transaction log
 
 DELIMITER //
 CREATE FUNCTION UpdateTransactionLog(
@@ -693,13 +713,13 @@ CREATE FUNCTION UpdateTransactionLog(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si la transacción existe
+    -- Verify if the transaction exists
     IF (SELECT COUNT(*) FROM TransactionLogs WHERE TransactionID = p_TransactionID) = 0 THEN
         SET msg = 'Transacción no encontrada';
         RETURN msg;
     END IF;
 
-    -- Actualizar la transacción
+    -- Update the transaction log
     UPDATE TransactionLogs
     SET type = p_type, quantity = p_quantity, date = NOW()
     WHERE TransactionID = p_TransactionID;
@@ -709,6 +729,8 @@ BEGIN
 END //
 DELIMITER ;
 
+
+-- Function to delete a transaction log
 DELIMITER //
 CREATE FUNCTION DeleteTransactionLog(
     p_TransactionID INT
@@ -716,13 +738,13 @@ CREATE FUNCTION DeleteTransactionLog(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si la transacción existe
+    -- Verify if the transaction exists
     IF (SELECT COUNT(*) FROM TransactionLogs WHERE TransactionID = p_TransactionID) = 0 THEN
         SET msg = 'Transacción no encontrada';
         RETURN msg;
     END IF;
 
-    -- Eliminar la transacción
+    -- Delete the transaction log
     DELETE FROM TransactionLogs WHERE TransactionID = p_TransactionID;
 
     SET msg = 'Transacción eliminada correctamente';
@@ -731,7 +753,9 @@ END //
 DELIMITER ;
 
 
--- Tabla PriceHistory
+-- table: PriceHistory
+
+-- Function to add a price history
 
 DELIMITER //
 CREATE FUNCTION AddPriceHistory(
@@ -741,13 +765,13 @@ CREATE FUNCTION AddPriceHistory(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si el producto existe
+    -- Verify if the product exists
     IF (SELECT COUNT(*) FROM Products WHERE ProductsID = p_ProductID) = 0 THEN
         SET msg = 'Producto no encontrado';
         RETURN msg;
     END IF;
 
-    -- Insertar el nuevo historial de precios
+    -- Insert the new price history
     INSERT INTO PriceHistory (ProductID, price, date)
     VALUES (p_ProductID, p_price, NOW());
 
@@ -755,6 +779,8 @@ BEGIN
     RETURN msg;
 END //
 DELIMITER ;
+
+-- Function to update a price history
 
 DELIMITER //
 CREATE FUNCTION UpdatePriceHistory(
@@ -764,13 +790,13 @@ CREATE FUNCTION UpdatePriceHistory(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si el historial de precios existe
+    -- Verify if the price history exists
     IF (SELECT COUNT(*) FROM PriceHistory WHERE PriceID = p_PriceID) = 0 THEN
         SET msg = 'Historial de precios no encontrado';
         RETURN msg;
     END IF;
 
-    -- Actualizar el historial de precios
+    -- Update the price history
     UPDATE PriceHistory
     SET price = p_price, date = NOW()
     WHERE PriceID = p_PriceID;
@@ -780,6 +806,8 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Function to delete a price history
+
 DELIMITER //
 CREATE FUNCTION DeletePriceHistory(
     p_PriceID INT
@@ -787,13 +815,13 @@ CREATE FUNCTION DeletePriceHistory(
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- Verificar si el historial de precios existe
+    -- Verify if the price history exists
     IF (SELECT COUNT(*) FROM PriceHistory WHERE PriceID = p_PriceID) = 0 THEN
         SET msg = 'Historial de precios no encontrado';
         RETURN msg;
     END IF;
 
-    -- Eliminar el historial de precios
+    -- Delete the price history
     DELETE FROM PriceHistory WHERE PriceID = p_PriceID;
 
     SET msg = 'Historial de precios eliminado correctamente';

@@ -1,6 +1,6 @@
--- Creación de vistas 
+-- Creation of Views for the Database
 USE PURACOMPRA;
--- Detalles de Pedidos de Usuarios
+-- Details of Users and Orders
 CREATE VIEW UserOrderDetails AS
 SELECT 
     u.UsersID,
@@ -20,7 +20,7 @@ JOIN
     
 select * from UserOrderDetails;
 
--- Información Completa del Producto
+-- Details of Products and Sellers
 
 CREATE VIEW ProductFullDetails AS
 SELECT 
@@ -41,7 +41,7 @@ LEFT JOIN
     
 select * from ProductFullDetails;
 
--- Pedidos y Detalles del Producto
+-- Details of Orders and Products
 
 CREATE VIEW OrderProductDetails AS
 SELECT 
@@ -66,7 +66,7 @@ JOIN
 
 select * from OrderProductDetails;
 
--- Resumen de Vendedores y Productos
+-- Summary of Sellers and Products
 
 CREATE VIEW SellerProductSummary AS
 SELECT 
@@ -87,7 +87,7 @@ JOIN
 select * from SellerProductSummary;
 
 
--- Resumen de Envíos
+-- Summary of Shipments and Orders
 CREATE VIEW ShipmentSummary AS
 SELECT 
     s.ShipmentsID,

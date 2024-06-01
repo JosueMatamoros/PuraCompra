@@ -225,11 +225,17 @@ INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
 (19, '/assets/yeezy/alien/alienAbove.png', false, NULL),
 (19, '/assets/yeezy/alien/alienFront.png', false, NULL),
 (20, '/assets/yeezy/ararat/ararat.png', false, NULL),
-(20, '/assets/yeezy/ararat/araratCarbon.png', True, 'Carbon'),
-(20, '/assets/yeezy/ararat/araratOchre.png', true, 'Ochre'),
+(20, '/assets/yeezy/ararat/araratSide.png', false, NULL),
+(20, '/assets/yeezy/ararat/araratDiagonal.png', false, NULL),
+(20, '/assets/yeezy/ararat/araratBack.png', false, NULL),
 (21, '/assets/yeezy/bone/bone.png', false, NULL),
 (21, '/assets/yeezy/bone/boneBack.png', false, NULL),
-(21, '/assets/yeezy/bone/boneDiagonal.png', false, NULL);
+(21, '/assets/yeezy/bone/boneDiagonal.png', false, NULL),
+(22, '/assets/yeezy/stone/stone.png', false, NULL),
+(22, '/assets/yeezy/stone/stoneDiagonal.png', false, NULL),
+(22, '/assets/yeezy/stone/stoneFront.png', false, NULL),
+(22, '/assets/yeezy/stone/stoneSide.png', false, NULL);
+
 
 
 

@@ -151,7 +151,24 @@ INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
 (6, '/assets/apple/macM3Pro/macM3ProBack.png', false, NULL ),
 (6, '/assets/apple/macM3Pro/macM3ProModels.png', false, NULL ),
 (6, '/assets/apple/macM3Pro/macM3ProWhite.png', true, 'White'),
-(6, '/assets/apple/macM3Pro/macM3ProBlack.png', true, 'Black');
+(6, '/assets/apple/macM3Pro/macM3ProBlack.png', true, 'Black'),
+(14, '/assets/sonos/era300/era300.png', True, null),
+(14, '/assets/sonos/era300/era300BlackAbove.png', false, null),
+(14, '/assets/sonos/era300/era300Front.png', false, null),
+(14, '/assets/sonos/era300/era300White.png', True, null),
+(14, '/assets/sonos/era300/era300WhiteSpecs.png', false, null);
+
+
+INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
+(5, '/assets/apple/macM3Air/macM3Air.png', false, NULL),
+(5, '/assets/apple/macM3Air/macM3AirAbove.png', false, NULL),
+(5, '/assets/apple/macM3Air/macM3AirModels.png', false, NULL),
+(5, '/assets/apple/macM3Air/macM3AirMidnight.png', false, 'Midnight'),
+(5, '/assets/apple/macM3Air/macM3AirSilver.png', false, 'Silver'),
+(5, '/assets/apple/macM3Air/macM3AirSpaceGray.png', false, 'Space Gray'),
+(5, '/assets/apple/macM3Air/macM3AirStarlight.png', false, 'Starlight');
+
+
 
 -- 9. Orders
 

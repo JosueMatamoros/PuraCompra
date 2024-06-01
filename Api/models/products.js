@@ -2,20 +2,14 @@ import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from './index.js';
 import Sellers from './sellers.js';
 
-const Products = sequelize.define('Products', {
+const Products = sequelize.define('Product', {
   ProductsID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
     autoIncrement: true,
   },
-  Sellers: {  // Cambié de SellersID a Sellers
+  Sellers: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: Sellers,
-      key: 'SellersID',
-    },
   },
   name: {
     type: DataTypes.STRING,
@@ -24,11 +18,9 @@ const Products = sequelize.define('Products', {
   stock: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
-    allowNull: false,
   },
   description: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   price: {
     type: DataTypes.FLOAT,

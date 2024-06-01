@@ -11,6 +11,23 @@ export const createAddress = async (request, response) => {
     }
 };
 
+export const addCartItem = async (request, response) => {
+    const { userId, productId, quantity } = req.body;
+
+    try {
+        const cartItem = await CartItem.findOne({ where: { UsersID: userId, ProductID: productId } });
+        if (cartItem) {
+            cartItem.quantity += quantity;
+            await cartItem.save();
+        } else {
+            await CartItem.create({ UsersID: userId, ProductID: productId, quantity });
+        }
+        res.status(201).json({ message: 'Item added to cart' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al añadir el producto al carrito' });
+    }
+};
+
 
 export const getAddresses = async (request, response) => {
     try {

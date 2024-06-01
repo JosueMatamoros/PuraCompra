@@ -1,47 +1,33 @@
 import { Sequelize, DataTypes } from "sequelize";
 import sequelize from "./index.js"; // Ajusta el path si es necesario
+import User from "./users.js"; // Ajusta el path si es necesario
+import Products from './products.js';
 
-// FOREIGN KEY (UsersID) REFERENCES Users (UsersID),
-// FOREIGN KEY (ProductID) REFERENCES Products (ProductsID)
-
-const CartItems = sequelize.define("cartItems", {
-    CartItemID: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: true,
-    },
-    UsersID: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    ProductID: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    quantity: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
-    },
+const CartItems = sequelize.define('CartItem', {
+  CartItemID: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  UsersID: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  ProductID: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  quantity: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1,
+  },
 }, {
-    tableName: "CartItems",
-    sequelize,
-    timestamps: false,
+  tableName: 'CartItems',
+  sequelize,
 });
-CartItems.associate = (models) => {
-    // Relación con Users
-    CartItems.belongsTo(models.User, {
-        foreignKey: 'UsersID',
-        as: 'user',
-        onDelete: 'CASCADE'
-    });
 
-    // Relación con Products
-    CartItems.belongsTo(models.Product, {
-        foreignKey: 'ProductID',
-        as: 'product',
-        onDelete: 'CASCADE'
-    });
-};
+// Define associations
+CartItems.belongsTo(Products, { foreignKey: 'ProductID', as: 'product' });
 
 export default CartItems;
+

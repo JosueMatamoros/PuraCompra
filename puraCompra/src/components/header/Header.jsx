@@ -48,7 +48,7 @@ export default function Header() {
 
         {user ? (
           <div onClick={toggleMenu}>
-            <Avatar alt="User settings" img={hasbulla} rounded size={"sm"} className="cursor-pointer" />
+            <Avatar alt="User settings" img={`http://localhost:3000${user.profilePicture}`} rounded size={"sm"} className="cursor-pointer" />
           </div>
         ) : (
           <FaRegUserCircle className='text-2xl cursor-pointer' onClick={toggleMenu} />

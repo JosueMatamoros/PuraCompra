@@ -3,19 +3,22 @@ import { Modal, Button, Toast } from 'flowbite-react';
 import { HiCheck } from 'react-icons/hi';
 import hasbulla from '../../assets/profileIcon/Hasbulla.jpg';
 import { AuthContext } from '../../context/AuthContext';
+import IconModal from '../modal/IconModal';
 import axios from 'axios';
 
 export default function UserInformation() {
   const { user, updateUser } = useContext(AuthContext);
   const [error, setError] = useState('');
   const [showToast, setShowToast] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name: '',
     lastname: '',
     phoneNumber: '',
     country: '',
     mail: '',
-    gender: ''
+    gender: '',
+    profilePicture: user.profilePicture || hasbulla
   });
 
   useEffect(() => {
@@ -26,7 +29,8 @@ export default function UserInformation() {
         phoneNumber: user.phoneNumber || '',
         country: user.country || '',
         mail: user.mail || '',
-        gender: user.gender || ''
+        gender: user.gender || '',
+        profilePicture: user.profilePicture || hasbulla
       });
     }
   }, [user]);
@@ -69,6 +73,13 @@ export default function UserInformation() {
       console.error('Error details:', error.response?.data || error.message);
     }
   };
+  const handleUpload = (filePath) => {
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo,
+      profilePicture: filePath
+    }));
+    updateUser({ ...user, profilePicture: filePath });
+  };
 
   return (
     <>
@@ -76,9 +87,10 @@ export default function UserInformation() {
         <div className="w-1/3 p-4 flex flex-col items-center">
           <div className="w-32 h-32 mb-4">
             <img
-              className="w-full h-full rounded-full object-cover"
-              src={hasbulla}
+              className="w-full h-full rounded-full object-cover cursor-pointer"
+              src={`http://localhost:3000${userInfo.profilePicture}`}
               alt="Profile"
+              onClick={() => setIsModalOpen(true)}
             />
           </div>
           <p className="text-sm text-gray-500 mb-2">Allowed *.jpeg, *.jpg, *.png</p>
@@ -132,7 +144,6 @@ export default function UserInformation() {
                   onChange={handleChange}
                 >
                   <option value="Costa Rica">Costa Rica</option>
-                  {/* Add more options here */}
                 </select>
               </div>
               <div>
@@ -174,6 +185,12 @@ export default function UserInformation() {
           </form>
         </div>
       </div>
+      <IconModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onUpload={handleUpload} 
+        userId={user.UsersID} // Pasar el userId como prop
+      />
       {showToast && (
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2">
           <Toast>

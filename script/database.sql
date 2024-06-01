@@ -1,6 +1,5 @@
 
 
-
 -- Users Table
 CREATE TABLE Users (
   `UsersID` int PRIMARY KEY AUTO_INCREMENT,

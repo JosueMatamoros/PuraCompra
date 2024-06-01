@@ -2,6 +2,7 @@ import { Sequelize, DataTypes } from "sequelize";
 import sequelize from "./index.js";
 import Addresses from "./addresses.js";
 import Orders from "./orders.js";
+import CartItems from "./cartItems.js";
 
 const User = sequelize.define("User", {
   UsersID: {
@@ -57,8 +58,18 @@ Addresses.belongsTo(User, {
   targetKey: 'UsersID'
 });
 
+User.hasMany(CartItems, {
+  foreignKey: 'UsersID',
+  sourceKey: 'UsersID',
+  as: 'cartItems'
+});
 
+CartItems.belongsTo(User, {
+  foreignKey: 'UsersID',
+  targetKey: 'UsersID'
+});
 
+await CartItems.sync();
 await User.sync();
 await Addresses.sync();
 

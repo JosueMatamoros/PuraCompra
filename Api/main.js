@@ -18,6 +18,7 @@ import priceHistoryRoutes from "./routes/priceHistoryRoutes.js";
 import orderDetailsRoutes from "./routes/orderDetailsRoutes.js";
 import ProductPromotionsRoutes from "./routes/productPromotionsRoutes.js";
 import ProductImagesRoutes from "./routes/ProductImagesRoutes.js";
+import cartItemsRoutes from "./routes/cartItemsRoutes.js";
 
 // Definir __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -47,7 +48,7 @@ app.use('/priceHistory', priceHistoryRoutes);
 app.use('/orderDetails', orderDetailsRoutes);
 app.use('/productPromotions', ProductPromotionsRoutes);
 app.use('/productImages', ProductImagesRoutes);
-
+app.use('/cart', cartItemsRoutes);
 
 async function main() {
   try {

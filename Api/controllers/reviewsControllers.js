@@ -24,7 +24,7 @@ export const getReviewByProductId = async (request, response) => {
     const { id } = request.params;
     const reviews = await Reviews.findAll({
       where: { ProductsId: id }, 
-      include: { association: 'User', attributes: ['name', 'lastname'] }
+      include: { association: 'User', attributes: ['name', 'lastname', 'profilePicture'] }
      
     });
     response.status(200).json(reviews);

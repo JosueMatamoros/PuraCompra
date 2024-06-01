@@ -5,13 +5,13 @@ import AddAddressModal from "../modal/AddAddressModal";
 import { FaPlus } from "react-icons/fa";
 
 export default function UserAddress() {
-  const { user, updateAddresses } = useContext(AuthContext);
+  const { user, updateAddresses, updateUser } = useContext(AuthContext);
   const [addresses, setAddresses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      setAddresses(user.Addresses || []);
+    if (user && user.Addresses) {
+      setAddresses(user.Addresses);
     }
   }, [user]);
 
@@ -20,19 +20,22 @@ export default function UserAddress() {
       i === index ? { ...address, address: newAddress } : address
     );
     setAddresses(updatedAddresses);
-    updateAddresses(updatedAddresses);
   };
 
   const handleAddAddress = (newAddress) => {
     const updatedAddresses = [...addresses, newAddress];
     setAddresses(updatedAddresses);
-    updateAddresses(updatedAddresses);
+    const updatedUser = { ...user, Addresses: updatedAddresses };
+    updateUser(updatedUser);
+    //updateAddresses(updatedAddresses);
   };
 
   const handleDeleteAddress = (addressID) => {
     const updatedAddresses = addresses.filter(address => address.AddressID !== addressID);
     setAddresses(updatedAddresses);
     updateAddresses(updatedAddresses);
+    const updatedUser = { ...user, Addresses: updatedAddresses };
+    updateUser(updatedUser);
   };
 
   const handleOpenModal = () => {

@@ -1,37 +1,39 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Modal, Button, Toast } from 'flowbite-react';
-import { HiCheck } from 'react-icons/hi';
-import hasbulla from '../../profileIcon/hasbulla.png';
-import { AuthContext } from '../../context/AuthContext';
-import IconModal from '../modal/IconModal';
-import axios from 'axios';
+import React, { useContext, useState, useEffect } from "react";
+import { Modal, Button, Toast } from "flowbite-react";
+import { HiCheck } from "react-icons/hi";
+import hasbulla from "../../profileIcon/hasbulla.png";
+import { AuthContext } from "../../context/AuthContext";
+import IconModal from "../modal/IconModal";
+import axios from "axios";
 
 export default function UserInformation() {
   const { user, updateUser } = useContext(AuthContext);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState({
-    name: '',
-    lastname: '',
-    phoneNumber: '',
-    country: '',
-    mail: '',
-    gender: '',
-    profilePicture: user.profilePicture || hasbulla
+    name: "",
+    lastname: "",
+    phoneNumber: "",
+    country: "",
+    mail: "",
+    gender: "",
+    profilePicture: user.profilePicture || hasbulla,
+    addresses: user.Addresses || []
   });
 
   useEffect(() => {
     if (user) {
-      setUserInfo({
-        name: user.name || '',
-        lastname: user.lastname || '',
-        phoneNumber: user.phoneNumber || '',
-        country: user.country || '',
-        mail: user.mail || '',
-        gender: user.gender || '',
-        profilePicture: user.profilePicture || hasbulla
-      });
+      setUserInfo((prevUserInfo) => ({
+        name: user.name || "",
+        lastname: user.lastname || "",
+        phoneNumber: user.phoneNumber || "",
+        country: user.country || "",
+        mail: user.mail || "",
+        gender: user.gender || "",
+        profilePicture: user.profilePicture || hasbulla,
+        addresses: user.Addresses || prevUserInfo.addresses
+      }));
     }
   }, [user]);
 
@@ -39,49 +41,60 @@ export default function UserInformation() {
     const { name, value } = e.target;
     setUserInfo((prevUserInfo) => ({
       ...prevUserInfo,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar que todos los campos estén completos
-    if (!userInfo.name || !userInfo.lastname || !userInfo.phoneNumber || !userInfo.country || !userInfo.mail || !userInfo.gender) {
-      setError('All fields are required');
+    if (
+      !userInfo.name ||
+      !userInfo.lastname ||
+      !userInfo.phoneNumber ||
+      !userInfo.country ||
+      !userInfo.mail ||
+      !userInfo.gender
+    ) {
+      setError("All fields are required");
       return;
     }
 
     try {
       if (user && user.UsersID) {
-        console.log('Attempting to update user with ID:', user.UsersID);
-        console.log('User data being sent:', userInfo);
+        const response = await axios.put(
+          `http://localhost:3000/users/${user.UsersID}`,
+          userInfo
+        );
 
-        const response = await axios.put(`http://localhost:3000/users/${user.UsersID}`, userInfo);
-        
-        console.log('User updated successfully:', response.data);
-        setError(''); // Limpiar mensaje de error después de un envío exitoso
-        setShowToast(true); // Mostrar el toast de éxito
-        setTimeout(() => setShowToast(false), 3000); // Ocultar el toast después de 3 segundos
+        setError("");
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
 
-        updateUser(response.data); // Actualizar el usuario en el contexto
+        updateUser(response.data);
+        const updatedUser = { ...response.data, Addresses: user.Addresses };
+        console.log("Updated user:", updatedUser);
+        updateUser(updatedUser);
       } else {
-        console.error('User ID is not defined');
+        console.error("User ID is not defined");
       }
     } catch (error) {
-      console.error('Error updating user:', error);
-      console.error('Error details:', error.response?.data || error.message);
+      console.error("Error updating user:", error);
+      console.error("Error details:", error.response?.data || error.message);
     }
   };
+
   const handleUpload = (filePath) => {
     setUserInfo((prevUserInfo) => ({
       ...prevUserInfo,
-      profilePicture: filePath
+      profilePicture: filePath,
     }));
     updateUser({ ...user, profilePicture: filePath });
   };
 
-  const profilePicture = user?.profilePicture ? `http://localhost:3000${user.profilePicture}` : hasbulla;
+  const profilePicture = user?.profilePicture
+    ? `http://localhost:3000${user.profilePicture}`
+    : hasbulla;
 
   return (
     <>
@@ -95,7 +108,9 @@ export default function UserInformation() {
               onClick={() => setIsModalOpen(true)}
             />
           </div>
-          <p className="text-sm text-gray-500 mb-2">Allowed *.jpeg, *.jpg, *.png</p>
+          <p className="text-sm text-gray-500 mb-2">
+            Allowed *.jpeg, *.jpg, *.png
+          </p>
           <p className="text-sm text-gray-500 mb-4">max size of 3 Mb</p>
           <button className="mt-10 px-4 py-2 text-sm text-white bg-red-500 rounded-md shadow-md hover:bg-red-600 focus:outline-none">
             Delete User
@@ -105,7 +120,9 @@ export default function UserInformation() {
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Name
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -116,7 +133,9 @@ export default function UserInformation() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Last Name</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Last Name
+                </label>
                 <input
                   type="text"
                   name="lastname"
@@ -127,7 +146,9 @@ export default function UserInformation() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Phone Number
+                </label>
                 <input
                   type="tel"
                   name="phoneNumber"
@@ -138,7 +159,9 @@ export default function UserInformation() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Country</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Country
+                </label>
                 <select
                   name="country"
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -149,7 +172,9 @@ export default function UserInformation() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Mail</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Mail
+                </label>
                 <input
                   type="text"
                   name="mail"
@@ -160,7 +185,9 @@ export default function UserInformation() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Gender</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Gender
+                </label>
                 <select
                   name="gender"
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -187,11 +214,11 @@ export default function UserInformation() {
           </form>
         </div>
       </div>
-      <IconModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        onUpload={handleUpload} 
-        userId={user.UsersID} // Pasar el userId como prop
+      <IconModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onUpload={handleUpload}
+        userId={user.UsersID}
       />
       {showToast && (
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2">
@@ -199,7 +226,9 @@ export default function UserInformation() {
             <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
               <HiCheck className="h-5 w-5" />
             </div>
-            <div className="ml-3 text-sm font-normal">Success! Address updated.</div>
+            <div className="ml-3 text-sm font-normal">
+              Success! Address updated.
+            </div>
             <Toast.Toggle />
           </Toast>
         </div>

@@ -8,6 +8,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
+
   // Función para iniciar sesión
   const login = async (email, password) => {
     try {
@@ -77,12 +78,13 @@ const AuthProvider = ({ children }) => {
     sessionstorage.removeItem('user'); // Elimina el usuario de sessionStorage
   };
 
-  const updateAddresses = (newAddresses) => {
-    if (user) {
-      const updatedUser = { ...user, Addresses: newAddresses };
-      setUser(updatedUser);
-      sessionstorage.setItem('user', JSON.stringify(updatedUser)); // Actualiza el usuario en sessionStorage
-    }
+  const updateAddresses = (updatedAddresses) => {
+    console.log('Updating addresses:', updatedAddresses);
+    setUser((prevUser) => {
+      const updatedUser = { ...prevUser, Addresses: updatedAddresses };
+      sessionstorage.setItem('user', JSON.stringify(updatedUser));
+      return updatedUser;
+    });
   };
 
   const updateUser = (updatedUser) => {

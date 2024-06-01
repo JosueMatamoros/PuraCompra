@@ -1,5 +1,4 @@
-CREATE database PURACOMPRA;
-USE PURACOMPRA;
+
 
 
 -- Users Table

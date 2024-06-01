@@ -1,4 +1,5 @@
 use puracompra;
+
 -- 1. Insert users
 INSERT INTO Users (name, lastname, mail, password, phoneNumber, gender, country) VALUES
 ('Isaac', 'Ramírez', 'izackk26@icloud.com','1234', '1238-8281', 'male','Costa Rica' ),
@@ -145,6 +146,13 @@ SELECT * FROM Reviews;
 
 -- Insert Product Images
 INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
+(3, '/assets/apple/ipadPro/ipadPro.png', false, NULL),
+(3, '/assets/apple/ipadPro/ipadProAbove.png', false, NULL),
+(3, '/assets/apple/ipadPro/ipadProDiagonal.png', false, NULL),
+(3, '/assets/apple/ipadPro/ipadProSide.png', false, NULL),
+(3, '/assets/apple/ipadPro/ipadProBlack.png', true, 'Black'),
+(3, '/assets/apple/ipadPro/ipadProWhite.png', true, 'White'),
+(6, '/assets/apple/macM3Pro/macM3Pro.png', false, NULL),
 (6, '/assets/apple/macM3Pro/macM3ProAbove.png', false, NULL),
 (6, '/assets/apple/macM3Pro/macM3ProBack.png', false, NULL ),
 (6, '/assets/apple/macM3Pro/macM3ProModels.png', false, NULL ),
@@ -154,19 +162,83 @@ INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
 (14, '/assets/sonos/era300/era300BlackAbove.png', false, null),
 (14, '/assets/sonos/era300/era300Front.png', false, null),
 (14, '/assets/sonos/era300/era300White.png', True, null),
-(14, '/assets/sonos/era300/era300WhiteSpecs.png', false, null);
-
-
-INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
+(14, '/assets/sonos/era300/era300WhiteSpecs.png', false, null),
 (5, '/assets/apple/macM3Air/macM3Air.png', false, NULL),
 (5, '/assets/apple/macM3Air/macM3AirAbove.png', false, NULL),
 (5, '/assets/apple/macM3Air/macM3AirModels.png', false, NULL),
-(5, '/assets/apple/macM3Air/macM3AirMidnight.png', false, 'Midnight'),
-(5, '/assets/apple/macM3Air/macM3AirSilver.png', false, 'Silver'),
-(5, '/assets/apple/macM3Air/macM3AirSpaceGray.png', false, 'Space Gray'),
-(5, '/assets/apple/macM3Air/macM3AirStarlight.png', false, 'Starlight');
+(5, '/assets/apple/macM3Air/macM3AirMidnight.png', true, 'Midnight'),
+(5, '/assets/apple/macM3Air/macM3AirSilver.png', true, 'Silver'),
+(5, '/assets/apple/macM3Air/macM3AirSpaceGray.png', true, 'Space Gray'),
+(5, '/assets/apple/macM3Air/macM3AirStarlight.png', true, 'Starlight'),
+(4, '/assets/apple/iphone15/iphone15.png', false, NULL),
+(4, '/assets/apple/iphone15/iphone15Back.png', false, NULL),
+(4, '/assets/apple/iphone15/iphone15Side.png', false, NULL),
+(4, '/assets/apple/iphone15/iphone15Models.png', false, NULL),
+(4, '/assets/apple/iphone15/iphone15BlueTitanium.png', true, 'Blue Titanium'),
+(4, '/assets/apple/iphone15/iphone15NaturalTitanium.png', true, 'Natural Titanium'),
+(4, '/assets/apple/iphone15/iphone15WhiteTitanium.png', true, 'White Titanium'),
+(1, '/assets/apple/airPodsMax/airPodsMax.png', false, NULL),
+(1, '/assets/apple/airPodsMax/airPodsMaxSide.png', false, NULL),
+(1, '/assets/apple/airPodsMax/airPodsMaxBlack.png', true, 'Black'),
+(1, '/assets/apple/airPodsMax/airPodsMaxSilver.png', true, 'Silver'),
+(1, '/assets/apple/airPodsMax/airPodsMaxPink.png', true, 'Pink'),
+(1, '/assets/apple/airPodsMax/airPodsMaxSkyBlue.png', true, 'Sky Blue'),
+(2, '/assets/apple/appleVision/appleVision.png', false, NULL),
+(2, '/assets/apple/appleVision/appleVisionAbove.png', false, NULL),
+(2, '/assets/apple/appleVision/appleVisionDiagonal.png', false, NULL),
+(2, '/assets/apple/appleVision/appleVisionSide.png', false, NULL),
+(7, '/assets/razer/barracuda/barracuda.png', false, 'White'),
+(7, '/assets/razer/barracuda/barracudaSideBlack.png', true, 'Black'),
+(7, '/assets/razer/barracuda/barracudaSidePink.png', true, 'Pink'),
+(8, '/assets/razer/blade/blade.png', false, NULL),
+(8, '/assets/razer/blade/bladeAbove.png', false, NULL),
+(8, '/assets/razer/blade/bladeFront.png', false, NULL),
+(8, '/assets/razer/blade/bladeSide.png', false, NULL),
+(9, '/assets/razer/huntsmanMini/huntsmanMini.png', false, NULL),
+(9, '/assets/razer/huntsmanMini/huntsmanMiniBlack.png', true, 'Black'),
+(9, '/assets/razer/huntsmanMini/huntsmanMiniFrontWhite.png', true, 'White'),
+(10,'/assets/razer/mercury/mercury.png', true, 'White'),
+(10,'/assets/razer/mercury/mercurySideBlack.png', false, NULL),
+(10,'/assets/razer/mercury/mercuryBackBlack.png', true, 'Black'),
+(10,'/assets/razer/mercury/mercuryDiagonalPink.png', true, 'Pink'),
+(13, '/assets/sonos/arc/arc.png', true, 'Black'),
+(13, '/assets/sonos/arc/arcWhite.png', true, 'White'),
+(13, '/assets/sonos/arc/arcDiagonal.png', false, NULL),
+(13, '/assets/sonos/arc/arcDiagonalWhite.png', false, NULL),
+(16, '/assets/sonos/roam/roam.png', false, NULL),
+(16, '/assets/sonos/roam/roamModels.png', false, NULL),
+(16, '/assets/sonos/roam/roamBlack.png', true, 'Black'),
+(16, '/assets/sonos/roam/roamBlue.png', true, 'Blue'),
+(16, '/assets/sonos/roam/roamGreen.png', true, 'Green'),
+(16, '/assets/sonos/roam/roamRed.png', true, 'Red'),
+(16, '/assets/sonos/roam/roamWhite.png', true, 'White'),
+(17, '/assets/sonos/sub/sub.png', false, Null),
+(17, '/assets/sonos/sub/subWhite.png', true, 'White'),
+(17, '/assets/sonos/sub/subBlack.png', true, 'Black'),
+(17, '/assets/sonos/sub/subBlackFront.png', false , NULL),
+(17, '/assets/sonos/sub/subWhiteAbove.png', false, NULL),
+(18, '/assets/sonos/turntableSet/turntableSet.png', true, 'Black'),
+(18, '/assets/sonos/turntableSet/turntableSetWhite.png', true, 'White'),
+(18, '/assets/sonos/turntableSet/turntableSetTableBlack.png', false, NULL),
+(18, '/assets/sonos/turntableSet/turntableSetTableWhite.png', false, NULL),
+(19, '/assets/yeezy/alien/alien.png', false, NULL),
+(19, '/assets/yeezy/alien/alienAbove.png', false, NULL),
+(19, '/assets/yeezy/alien/alienFront.png', false, NULL),
+(20, '/assets/yeezy/ararat/ararat.png', false, NULL),
+(20, '/assets/yeezy/ararat/araratCarbon.png', True, 'Carbon'),
+(20, '/assets/yeezy/ararat/araratOchre.png', true, 'Ochre'),
+(21, '/assets/yeezy/bone/bone.png', false, NULL),
+(21, '/assets/yeezy/bone/boneBack.png', false, NULL),
+(21, '/assets/yeezy/bone/boneDiagonal.png', false, NULL);
 
 
+
+TRUNCATE TABLE ProductImages;
+
+
+
+
+select * from ProductImages;
 
 -- 9. Orders
 

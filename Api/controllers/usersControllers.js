@@ -1,6 +1,7 @@
 import User from '../models/users.js';
 import Addresses from '../models/addresses.js';
 import jwt from 'jsonwebtoken'; // Importar el módulo de JWT para generar tokens
+import path from 'path';
 import config from '../config.js';
 import { request } from 'express';
 
@@ -138,4 +139,35 @@ export const getUserDetails = async (request, response) => {
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
-}
+};
+
+export const uploadProfilePicture = async (req, res) => {
+  const { id } = req.params;
+  console.log('Uploading profile picture for user ID:', id);
+  console.log('File:', req.file);
+  const filePath = path.join('/profileIcon', req.file.filename);
+
+  try {
+    // Actualizar la base de datos con la nueva ruta de la imagen de perfil
+    const [updated] = await User.update(
+      { profilePicture: filePath },
+      { where: { UsersID: id } }
+    );
+
+    if (updated) {
+      // Buscar el usuario actualizado
+      const updatedUser = await User.findByPk(id);
+      console.log('Profile picture uploaded successfully:', updatedUser);
+      res.status(200).json({
+        message: 'Profile picture uploaded successfully',
+        filePath: filePath,
+        user: updatedUser,
+      });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error updating profile picture:', error);
+    res.status(500).json({ message: error.message });
+  }
+};

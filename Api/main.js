@@ -1,8 +1,10 @@
 import sequelize from "./models/index.js";
 import express from "express";
+import fs from 'fs';
 import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
+import multer from "multer";
 import { fileURLToPath } from "url";
 
 import addressesRoutes from "./routes/addressesRoutes.js";
@@ -20,6 +22,8 @@ import ProductPromotionsRoutes from "./routes/productPromotionsRoutes.js";
 import ProductImagesRoutes from "./routes/ProductImagesRoutes.js";
 import cartItemsRoutes from "./routes/cartItemsRoutes.js";
 
+import { uploadProfilePicture } from "./controllers/usersControllers.js";
+
 // Definir __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,7 +38,44 @@ app.use(bodyParser.json());
 // Servir archivos estáticos desde la carpeta 'products'
 app.use('/assets', express.static(path.join(__dirname, '../puraCompra/src/assets/products')));
 
+app.use('/profileIcon', express.static(path.join(__dirname, '../puraCompra/src/profileIcon')));
+
+// Asegurarse de que el directorio de destino exista
+// const ensureDirectoryExistence = (dir) => {
+//   if (!fs.existsSync(dir)) {
+//     fs.mkdirSync(dir, { recursive: true });
+//   }
+// };
+// const profileIconPath = path.join(__dirname, '../puraCompra/src/assets/profileIcon');
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     const dest = profileIconPath;
+//     ensureDirectoryExistence(dest);
+//     cb(null, dest);
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, `${Date.now()}-${file.originalname}`);
+//   },
+// });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dest = path.join(__dirname, '../puraCompra/src/profileIcon');
+    if (!fs.existsSync(dest)) {
+      fs.mkdirSync(dest, { recursive: true });
+    }
+    cb(null, dest);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+
+const upload = multer({ storage: storage });
 // Rutas de la API
+app.post('/upload/:id', upload.single('profilePicture'), uploadProfilePicture);
+
 app.use('/addresses', addressesRoutes);
 app.use('/users', usersRoutes);
 app.use('/promotions', promotionsRoutes);

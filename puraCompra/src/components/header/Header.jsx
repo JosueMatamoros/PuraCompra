@@ -10,7 +10,7 @@ import logo from '../../assets/JieShopLogo.png';
 import { Avatar, ListGroup } from "flowbite-react";
 import { AuthContext } from '../../context/AuthContext';
 import sessionstorage from 'sessionstorage';
-import hasbulla from '../../assets/profileIcon/Hasbulla.jpg'
+import hasbulla from '../../profileIcon/hasbulla.png'
 
 export default function Header() {
   // cambiar variable por logica para ver si se esta registrado o no
@@ -48,7 +48,7 @@ export default function Header() {
 
         {user ? (
           <div onClick={toggleMenu}>
-            <Avatar alt="User settings" img={hasbulla} rounded size={"sm"} className="cursor-pointer" />
+            <Avatar alt="User settings" img={`http://localhost:3000${user.profilePicture}`} rounded size={"sm"} className="cursor-pointer" />
           </div>
         ) : (
           <FaRegUserCircle className='text-2xl cursor-pointer' onClick={toggleMenu} />

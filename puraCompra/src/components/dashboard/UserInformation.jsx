@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Modal, Button, Toast } from 'flowbite-react';
 import { HiCheck } from 'react-icons/hi';
-import hasbulla from '../../assets/profileIcon/Hasbulla.jpg';
+import hasbulla from '../../profileIcon/hasbulla.png';
 import { AuthContext } from '../../context/AuthContext';
 import IconModal from '../modal/IconModal';
 import axios from 'axios';

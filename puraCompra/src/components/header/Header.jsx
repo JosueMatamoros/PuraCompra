@@ -10,7 +10,7 @@ import logo from '../../assets/JieShopLogo.png';
 import { Avatar, ListGroup } from "flowbite-react";
 import { AuthContext } from '../../context/AuthContext';
 import sessionstorage from 'sessionstorage';
-import hasbulla from '../../assets/profileIcon/Hasbulla.jpg'
+import hasbulla from '../../profileIcon/hasbulla.png'
 
 export default function Header() {
   // cambiar variable por logica para ver si se esta registrado o no

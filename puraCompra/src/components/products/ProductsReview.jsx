@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
-import Hasbulla from "../../assets/profileIcon/Hasbulla.jpg"; // Ajusta la importación de la imagen
+import Hasbulla from "../../profileIcon/hasbulla.png"; // Ajusta la importación de la imagen
 
 const ProductsReview = () => {
   const { id } = useParams();

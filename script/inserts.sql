@@ -7,7 +7,6 @@ INSERT INTO Users (name, lastname, mail, password, phoneNumber, gender, country)
 ('Luis', 'Cubillo', 'luisalonso@gmail.com', '1234', '1234-5678', 'male', 'Costa Rica');
 
 
-
 -- 2. Insert addresses
 INSERT INTO Addresses (UsersID, address) VALUES
 (1, 'San Ramón, Alajuela'),
@@ -15,7 +14,6 @@ INSERT INTO Addresses (UsersID, address) VALUES
 (2, 'Florencia, San Carlos'),
 (3, 'Calle Pechuga, San Ramón'),
 (3, 'Santa Clara, San Carlos (Solo Jueves)');
-
 
 -- insert into Addresses (UsersID , address) values
 -- (5, 'Penas Blancas, Barrio Experiencia');

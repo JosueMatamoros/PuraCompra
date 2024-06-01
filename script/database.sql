@@ -1,6 +1,7 @@
 CREATE database PURACOMPRA;
 USE PURACOMPRA;
 
+
 -- Users Table
 CREATE TABLE Users (
   `UsersID` int PRIMARY KEY AUTO_INCREMENT,
@@ -10,9 +11,13 @@ CREATE TABLE Users (
   `password` varchar(255) NOT NULL,
   `phoneNumber` varchar(15) NOT NULL,
   `gender` ENUM ('male', 'female', 'other'),
-  `country` varchar(255) NOT NULL
+  `country` varchar(255) NOT NULL,
+  `profilePicture` varchar(255)
 );
 
+UPDATE Users
+SET profilePicture = NULL
+WHERE UsersID = 1;
 
 -- Addresses Table
 CREATE TABLE Addresses (
@@ -123,6 +128,16 @@ CREATE TABLE PriceHistory (
   `price` float,
   `date` datetime DEFAULT (now())
 );
+
+CREATE TABLE CartItems (
+  CartItemID int PRIMARY KEY AUTO_INCREMENT,
+  UsersID int NOT NULL,
+  ProductID int NOT NULL,
+  quantity int DEFAULT 1,
+  FOREIGN KEY (UsersID) REFERENCES Users (UsersID),
+  FOREIGN KEY (ProductID) REFERENCES Products (ProductsID)
+);
+
 
 -- Relationships
 

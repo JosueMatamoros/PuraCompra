@@ -4,7 +4,7 @@ import Logo from '../../assets/JieShopLogoWhite.png';
 
 const Footer = () => {
     return (
-        <div className="px-4 md:px-8"> {/* Contenedor con márgenes horizontales */}
+        <div className="px-4 md:px-8 bg-black"> {/* Contenedor con márgenes horizontales */}
             <footer className="flex justify-between items-center bg-black text-white p-4">
                 <div className="flex items-center">
                     <img src={Logo} alt="Logo" className="logo-small w-16" />

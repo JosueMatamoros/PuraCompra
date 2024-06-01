@@ -44,7 +44,7 @@ export default function Header() {
       <Navbar />
       <div className='flex gap-4 pt-2 items-center relative'>
         <IoMdHeart className='text-2xl' />
-        <TiShoppingCart className='text-2xl' />
+        <TiShoppingCart onClick={() => handleNavigate('/cart')} className='text-2xl' />
 
         {user ? (
           <div onClick={toggleMenu}>

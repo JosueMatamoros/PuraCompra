@@ -120,7 +120,7 @@ export default function InternalView() {
             <p className="text-lg mb-2">{product.description}</p>
             {promotion ? (
               <div className='flex justify-between w-full'>
-                <div className='flex  '> 
+                <div className='flex'> 
                   <p className="text-xl font-bold text-stone-800 mb-2 line-through">${product.price?.toFixed(2)}</p>
                   <p className="text-lg font-bold text-red-500 mb-2 ml-2">{(promotion.discount * 100).toFixed(0)}%</p>
                 </div>
@@ -145,12 +145,14 @@ export default function InternalView() {
                 <div
                   key={index}
                   className={`w-8 h-8 rounded-full cursor-pointer border ${color === hoveredColor ? 'border-gray-800' : 'border-black'}`}
-                  style={{ backgroundColor: color.toLowerCase() }}
+                  //style={{ backgroundColor: color.toLowerCase() }}
                   onClick={() => handleColorClick(color)}
                 ></div>
               ))}
             </div>
-            <AddToCartButton />
+            <AddToCartButton
+              id={id}
+            />
           </div>
         </div>
       </div>

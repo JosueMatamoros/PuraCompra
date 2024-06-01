@@ -1,15 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Modal, Button, Toast } from 'flowbite-react';
 import axios from 'axios';
 import { HiCheck } from 'react-icons/hi';
 import photo from '../../assets/address/addressBackground.png';
 import { AuthContext } from '../../context/AuthContext';
 
-export default function DirectionCard({ directionNumber, direction, addressID, onUpdate }) {
+export default function DirectionCard({ directionNumber, direction, addressID, onUpdate, onDelete }) {
     const { user } = useContext(AuthContext);
     const [newAddress, setNewAddress] = useState(direction);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showToast, setShowToast] = useState(false);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -17,6 +18,14 @@ export default function DirectionCard({ directionNumber, direction, addressID, o
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+    };
+
+    const handleOpenConfirmModal = () => {
+        setIsConfirmModalOpen(true);
+    };
+
+    const handleCloseConfirmModal = () => {
+        setIsConfirmModalOpen(false);
     };
 
     const handleSave = async () => {
@@ -42,6 +51,20 @@ export default function DirectionCard({ directionNumber, direction, addressID, o
         }
     };
 
+    const handleDelete = async () => {
+        try {
+            const response = await axios.delete(`http://localhost:3000/addresses/${addressID}`);
+            if (response.status === 200) {
+                onDelete(addressID);
+                handleCloseConfirmModal();
+            } else {
+                console.error('Failed to delete address');
+            }
+        } catch (error) {
+            console.error('Error deleting address:', error);
+        }
+    };
+
     return (
         <div className="flex flex-col justify-between relative max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-2 my-2">
             <div>
@@ -58,9 +81,9 @@ export default function DirectionCard({ directionNumber, direction, addressID, o
             <div className="p-5">
                 <button onClick={handleOpenModal} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Edit
-                    <svg className="w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-4.036a1.5 1.5 0 112.121 2.121L6.5 18.5H3v-3.5L16.732 3.732z" />
-                    </svg>
+                </button>
+                <button onClick={handleOpenConfirmModal} className="inline-flex items-center px-3 py-2 ml-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                    Delete
                 </button>
             </div>
             <Modal show={isModalOpen} onClose={handleCloseModal}>
@@ -85,6 +108,20 @@ export default function DirectionCard({ directionNumber, direction, addressID, o
                 <Modal.Footer>
                     <Button onClick={handleCloseModal}>Cancel</Button>
                     <Button variant="primary" onClick={handleSave}>Save</Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={isConfirmModalOpen} onClose={handleCloseConfirmModal}>
+                <Modal.Header>
+                    Confirm Deletion
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="space-y-6">
+                        <p>Are you sure you want to delete this address?</p>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button onClick={handleCloseConfirmModal} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-black rounded-lg border border-gray-400 hover:border-blue-300">Cancel</button>
+                    <button onClick={handleDelete} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete</button>
                 </Modal.Footer>
             </Modal>
             {showToast && (

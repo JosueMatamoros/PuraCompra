@@ -81,6 +81,8 @@ export default function UserInformation() {
     updateUser({ ...user, profilePicture: filePath });
   };
 
+  const profilePicture = user?.profilePicture ? `http://localhost:3000${user.profilePicture}` : hasbulla;
+
   return (
     <>
       <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-md flex">
@@ -88,7 +90,7 @@ export default function UserInformation() {
           <div className="w-32 h-32 mb-4">
             <img
               className="w-full h-full rounded-full object-cover cursor-pointer"
-              src={`http://localhost:3000${userInfo.profilePicture}`}
+              src={profilePicture}
               alt="Profile"
               onClick={() => setIsModalOpen(true)}
             />

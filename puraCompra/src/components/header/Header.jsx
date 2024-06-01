@@ -34,6 +34,8 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const profilePicture = user?.profilePicture ? `http://localhost:3000${user.profilePicture}` : hasbulla;
+
   return (
     <header className='flex justify-between items-center mx-4 py-2 md:mx-8 lg:mx-16'> 
       <div className='flex items-center gap-2'>
@@ -48,7 +50,7 @@ export default function Header() {
 
         {user ? (
           <div onClick={toggleMenu}>
-            <Avatar alt="User settings" img={`http://localhost:3000${user.profilePicture}`} rounded size={"sm"} className="cursor-pointer" />
+            <Avatar alt="User settings" img={profilePicture} rounded size={"sm"} className="cursor-pointer" />
           </div>
         ) : (
           <FaRegUserCircle className='text-2xl cursor-pointer' onClick={toggleMenu} />

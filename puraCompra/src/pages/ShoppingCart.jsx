@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CartContext } from "../context/CartContext"; 
+import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import QuantityModal from "../components/modal/QuantityModal"; 
+import QuantityModal from "../components/modal/QuantityModal";
 import { Drawer } from "flowbite-react";
+import { TiShoppingCart } from "react-icons/ti";
 
 export default function ShoppingCart({ isCartOpen, setIsCartOpen }) {
   const { cartItems, fetchCartItems, updateCartItemQuantity, removeCartItem } =
@@ -46,70 +47,77 @@ export default function ShoppingCart({ isCartOpen, setIsCartOpen }) {
   const handleClose = () => setIsCartOpen(false);
 
   return (
-    <Drawer bodyScrolling={false} open={isCartOpen} onClose={handleClose} position="right">
-      <div className="min-h-screen flex flex-col p-4">
-        <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
-        {cartItems.length === 0 ? (
-          <p>Your cart is empty</p>
-        ) : (
-          <>
-            <ul>
-              {cartItems.map((item) => (
-                <li key={item.CartItemID} className="mb-4">
-                  <div className="flex items-center">
-                    <img
-                      src={`http://localhost:3000${item.product.imageUrl}`}
-                      alt={item.product.name}
-                      className="w-20 h-20 object-cover mr-4"
-                    />
-                    <div>
-                      <h2 className="text-xl font-semibold">
-                        {item.product.name}
-                      </h2>
-                      <p className="text-gray-700">
-                        {item.product.description}
-                      </p>
-                      <p className="text-gray-900 font-bold">
-                        ${item.product.price}
-                      </p>
+    <Drawer open={isCartOpen} onClose={handleClose} position="right" className="max-h-screen">
+      <Drawer.Header title="Shopping Cart" titleIcon={TiShoppingCart}/>
+      
+      <Drawer.Items>
+        <div className="flex flex-col h-full">
+          <div className="flex-grow overflow-y-auto p-4">
+            {cartItems.length === 0 ? (
+              <p>Your cart is empty</p>
+            ) : (
+              <>
+                <ul>
+                  {cartItems.map((item) => (
+                    <li key={item.CartItemID} className="mb-4">
                       <div className="flex items-center">
-                        <p>Quantity: {item.quantity}</p>
-                        <button
-                          className="ml-2 text-blue-500"
-                          onClick={() => handleOpenModal(item)}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          className="ml-2 text-red-500"
-                          onClick={() => {
-                            setSelectedItem(item);
-                            handleDeleteItem();
-                          }}
-                        >
-                          <FaTrash />
-                        </button>
+                        <img
+                          src={`http://localhost:3000${item.product.imageUrl}`}
+                          alt={item.product.name}
+                          className="w-20 h-20 object-cover mr-4"
+                        />
+                        <div>
+                          <h2 className="text-xl font-semibold">
+                            {item.product.name}
+                          </h2>
+                          <p className="text-gray-700">
+                            {item.product.description}
+                          </p>
+                          <p className="text-gray-900 font-bold">
+                            ${item.product.price}
+                          </p>
+                          <div className="flex items-center">
+                            <p>Quantity: {item.quantity}</p>
+                            <button
+                              className="ml-2 text-blue-500"
+                              onClick={() => handleOpenModal(item)}
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              className="ml-2 text-red-500"
+                              onClick={() => {
+                                setSelectedItem(item);
+                                handleDeleteItem();
+                              }}
+                            >
+                              <FaTrash />
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <Link to="/payment" className="mt-4">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded">
-                Pagar
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+          <div className="p-4 border-t">
+            <Link to="/payment">
+              <button className="w-full bg-blue-500 text-white px-4 py-2 rounded">
+              Complete Purchase
               </button>
             </Link>
-          </>
+          </div>
+        </div>
+        {isModalOpen && selectedItem && (
+          <QuantityModal
+            item={selectedItem}
+            onClose={handleCloseModal}
+            onUpdateQuantity={handleUpdateQuantity}
+          />
         )}
-      </div>
-      {isModalOpen && selectedItem && (
-        <QuantityModal
-          item={selectedItem}
-          onClose={handleCloseModal}
-          onUpdateQuantity={handleUpdateQuantity}
-        />
-      )}
+      </Drawer.Items>
     </Drawer>
   );
 }

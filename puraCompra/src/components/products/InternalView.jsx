@@ -79,7 +79,7 @@ export default function InternalView() {
               slidesPerView={3}
               mousewheel={true}
               className="h-full vertical-swiper"
-              spaceBetween={10}
+              spaceBetween={10} // Espacio mínimo entre slides
             >
               {additionalImages.map((image, index) => (
                 <SwiperSlide key={index}>
@@ -90,11 +90,11 @@ export default function InternalView() {
                       setHoveredColor(image.color);
                     }}
                   >
-                    <div className="w-full h-full overflow-hidden flex justify-center items-center">
+                    <div className="w-full h-48 flex justify-center items-center" style={{ height: '200px', margin: '5px' }}>
                       <img
                         src={`http://localhost:3000${image.imageUrl}`}
                         alt={`Product ${index + 1}`}
-                        className="object-contain max-h-full max-w-full"
+                        className="object-contain w-full h-full"
                       />
                     </div>
                   </div>
@@ -145,7 +145,7 @@ export default function InternalView() {
                 <div
                   key={index}
                   className={`w-8 h-8 rounded-full cursor-pointer border ${color === hoveredColor ? 'border-gray-800' : 'border-black'}`}
-                  //style={{ backgroundColor: color.toLowerCase() }}
+                  style={{ backgroundColor: color.toLowerCase() }}
                   onClick={() => handleColorClick(color)}
                 ></div>
               ))}

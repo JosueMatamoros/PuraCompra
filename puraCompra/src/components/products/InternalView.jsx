@@ -145,7 +145,7 @@ export default function InternalView() {
                 <div
                   key={index}
                   className={`w-8 h-8 rounded-full cursor-pointer border ${color === hoveredColor ? 'border-gray-800' : 'border-black'}`}
-                  style={{ backgroundColor: color.toLowerCase() }}
+                  style={{ backgroundColor: color.toLowerCase() }} 
                   onClick={() => handleColorClick(color)}
                 ></div>
               ))}

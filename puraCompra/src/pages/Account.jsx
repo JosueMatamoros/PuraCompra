@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import Header from '../components/header/Header';
 import UserAddress from '../components/dashboard/UserAddress';
 import UserInformation from '../components/dashboard/UserInformation';
+import Orders from '../components/dashboard/Orders';
 
 export default function Account() {
   const { user, logout } = useContext(AuthContext);
@@ -30,7 +31,7 @@ export default function Account() {
           return null;
       }
     } else if (selectedView === 'Orders') {
-      return <p>This is your orders view.</p>;
+      return <Orders />;
     }
   };
 

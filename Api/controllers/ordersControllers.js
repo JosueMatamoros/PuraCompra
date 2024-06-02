@@ -45,13 +45,16 @@ export const getOrders = async (request, response) => {
 };
 
 
-export const getOrderById = async (request, response) => {
+export const getOrdersByUserId = async (request, response) => {
+    const { userId } = request.params;
+    console.log('User ID:', userId);
     try {
-        const order = await Orders.findByPk(request.params.id);
-        if (order) {
-            response.json(order);
+        const orders = await Orders.findAll({ where: { UsersID: userId } });
+        if (orders.length > 0) {
+            console.log('Orders:', orders);
+            response.json(orders);
         } else {
-            response.status(404).json({ message: 'Order not found' });
+            response.status(404).json({ message: 'No orders found for this user' });
         }
     } catch (error) {
         response.status(500).json({ message: error.message });

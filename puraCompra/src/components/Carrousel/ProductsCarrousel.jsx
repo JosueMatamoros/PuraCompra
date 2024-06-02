@@ -12,6 +12,12 @@ const ProductsCarrousel = ({ products, carrouselId }) => {
     navigate(`/product/${productId}`);
   };
 
+  const productUrls = {
+    1: 'https://www.bestbuy.com',
+    2: '/product/2',
+    3: '/product/3',
+  };
+  
   return (
     <div className="relative horizontal-swiper">
       <Swiper

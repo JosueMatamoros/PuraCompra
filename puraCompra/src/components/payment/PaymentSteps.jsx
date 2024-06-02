@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Button, Toast } from "flowbite-react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { HiCheck, HiFire, HiExclamation } from "react-icons/hi";
 import axios from "axios"; // Asegúrate de importar axios
 import ShippingAddresses from "./ShippingAddresses";
@@ -22,11 +22,13 @@ const steps = [
 ];
 
 export default function PaymentSteps() {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, clearCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
   const [currentStep, setCurrentStep] = useState(0);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
+
+  const navigate = useNavigate();
 
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
@@ -106,6 +108,7 @@ export default function PaymentSteps() {
       setShowSuccessToast(true);
       setTimeout(() => {
         setShowSuccessToast(false);
+        clearCart(user.UsersID);
         navigate('/account');
       }, 3000);
     } catch (error) {

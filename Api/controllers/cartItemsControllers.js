@@ -38,6 +38,16 @@ export const getCartItems = async (req, res) => {
   }
 };
 
+export const clearCart = async (request, response) => {
+  const { userId } = request.body;
+  try {
+    await CartItems.destroy({ where: { UsersID: userId } });
+    response.status(200).json({ message: 'Todos los productos han sido eliminados del carrito' });
+  } catch (error) {
+    response.status(500).json({ error: 'Error al eliminar los productos del carrito' });
+  }
+};
+
 export const removeCartItem = async (request, response) => {
   const { userId, productId } = request.body;
   try {

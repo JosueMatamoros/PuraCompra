@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { MdModeEditOutline, MdOutlineDelete } from "react-icons/md";
 import QuantityModal from "../components/modal/QuantityModal";
 import { Drawer } from "flowbite-react";
 import { TiShoppingCart } from "react-icons/ti";
@@ -79,19 +79,19 @@ export default function ShoppingCart({ isCartOpen, setIsCartOpen }) {
                           <div className="flex items-center">
                             <p>Quantity: {item.quantity}</p>
                             <button
-                              className="ml-2 text-blue-500"
+                              className="ml-2"
                               onClick={() => handleOpenModal(item)}
                             >
-                              <FaEdit />
+                              <MdModeEditOutline />
                             </button>
                             <button
-                              className="ml-2 text-red-500"
+                              className="ml-2"
                               onClick={() => {
                                 setSelectedItem(item);
                                 handleDeleteItem();
                               }}
                             >
-                              <FaTrash />
+                              <MdOutlineDelete />
                             </button>
                           </div>
                         </div>
@@ -104,7 +104,7 @@ export default function ShoppingCart({ isCartOpen, setIsCartOpen }) {
           </div>
           <div className="p-4 border-t">
             <Link to="/payment">
-              <button className="w-full bg-blue-500 text-white px-4 py-2 rounded">
+              <button className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg">
               Complete Purchase
               </button>
             </Link>

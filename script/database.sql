@@ -11,12 +11,14 @@ CREATE TABLE Users (
   `phoneNumber` varchar(15) NOT NULL,
   `gender` ENUM ('male', 'female', 'other'),
   `country` varchar(255) NOT NULL,
-  `profilePicture` varchar(255)
+  `profilePicture` varchar(255),
+  `role` ENUM ('admin', 'user') DEFAULT 'user'
 );
 
-UPDATE Users
-SET profilePicture = NULL
-WHERE UsersID = 1;
+
+# UPDATE Users
+# SET profilePicture = NULL
+# WHERE UsersID = 1;
 
 -- Addresses Table
 CREATE TABLE Addresses (

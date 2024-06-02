@@ -34,6 +34,15 @@ export const CartProvider = ({ children }) => {
       console.error('Error removing cart item:', error);
     }
   };
+
+  const clearCart = async (userId) => {
+    try {
+      await axios.post('http://localhost:3000/cart/clear', { userId });
+      setCartItems([]);
+    } catch (error) {
+      console.error('Error clearing cart:', error);
+    }
+  };
   
 
   const updateCartItemQuantity = async (userId, productId, quantity) => {
@@ -50,7 +59,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, fetchCartItems, updateCartItemQuantity, removeCartItem, addToCart }}>
+    <CartContext.Provider value={{ cartItems, fetchCartItems, updateCartItemQuantity, removeCartItem, addToCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

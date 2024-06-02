@@ -9,6 +9,8 @@ export default function ShippingAddresses( { shippingInfo, setShippingInfo } ) {
     if (user && user.Addresses && user.Addresses.length > 0 && !shippingInfo.address) {
       setShippingInfo((prevInfo) => ({
         ...prevInfo,
+        name: user.name || "",
+        lastName: user.lastname || "",
         address: user.Addresses[0].address,
       }));
     }
@@ -39,7 +41,7 @@ export default function ShippingAddresses( { shippingInfo, setShippingInfo } ) {
           <Label>LastName</Label>
           <TextInput
             type='text'
-            placeholder='Last Name'
+            placeholder='LastName'
             name='lastName'
             value={shippingInfo.lastName}
             onChange={handleChange}

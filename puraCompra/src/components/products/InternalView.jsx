@@ -120,36 +120,40 @@ export default function InternalView() {
             <p className="text-lg mb-2">{product.description}</p>
             {promotion ? (
               <div className='flex justify-between w-full'>
-                <div className='flex'> 
+                <div className='flex'>
                   <p className="text-xl font-bold text-stone-800 mb-2 line-through">${product.price?.toFixed(2)}</p>
                   <p className="text-lg font-bold text-red-500 mb-2 ml-2">{(promotion.discount * 100).toFixed(0)}%</p>
                 </div>
                 <p className="text-xl font-bold text-green-600 mb-2">
-                    ${calculateDiscountedPrice(product.price, promotion.discount).toFixed(2)}
+                  ${calculateDiscountedPrice(product.price, promotion.discount).toFixed(2)}
                 </p>
               </div>
             ) : (
               <p className="text-xl font-bold text-stone-800 mb-2">${product.price?.toFixed(2)}</p>
             )}
             <div className="flex justify-between w-full">
-              <p className="text-lg mb-2">
-                <span className="text-stone-800 font-bold">Color:</span> {hoveredColor || colors[0]}
-              </p>
+              {colors.length > 0 && (
+                <p className="text-lg mb-2">
+                  <span className="text-stone-800 font-bold">Color:</span> {hoveredColor || colors[0]}
+                </p>
+              )}
               <p className="text-lg mb-2">
                 <span className="text-stone-800 font-bold">Stock:</span> {product.stock}
               </p>
             </div>
 
-            <div className="flex space-x-4 mt-2">
-              {colors.map((color, index) => (
-                <div
-                  key={index}
-                  className={`w-8 h-8 rounded-full cursor-pointer border ${color === hoveredColor ? 'border-gray-800' : 'border-black'}`}
-                  style={{ backgroundColor: color.toLowerCase() }} 
-                  onClick={() => handleColorClick(color)}
-                ></div>
-              ))}
-            </div>
+            {colors.length > 0 && (
+              <div className="flex space-x-4 mt-2">
+                {colors.map((color, index) => (
+                  <div
+                    key={index}
+                    className={`w-8 h-8 rounded-full cursor-pointer border ${color === hoveredColor ? 'border-gray-800' : 'border-black'}`}
+                    style={{ backgroundColor: color}}
+                    onClick={() => handleColorClick(color)}
+                  ></div>
+                ))}
+              </div>
+            )}
             <AddToCartButton
               id={id}
             />

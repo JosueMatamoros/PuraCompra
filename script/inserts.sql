@@ -205,10 +205,10 @@ INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
 (16, '/assets/sonos/roam/roam.png', false, NULL),
 (16, '/assets/sonos/roam/roamModels.png', false, NULL),
 (16, '/assets/sonos/roam/roamBlack.png', true, 'Black'),
-(16, '/assets/sonos/roam/roamBlue.png', true, 'Blue'),
-(16, '/assets/sonos/roam/roamGreen.png', true, 'Green'),
-(16, '/assets/sonos/roam/roamRed.png', true, 'Red'),
-(16, '/assets/sonos/roam/roamWhite.png', true, 'White'),
+(16, '/assets/sonos/roam/roamBlue.png', true, '#8393a2'),
+(16, '/assets/sonos/roam/roamGreen.png', true, '#74796a'),
+(16, '/assets/sonos/roam/roamRed.png', true, '#f17f68'),
+(16, '/assets/sonos/roam/roamWhite.png', true, '#b4b4b4'),
 (17, '/assets/sonos/sub/sub.png', false, Null),
 (17, '/assets/sonos/sub/subWhite.png', true, 'White'),
 (17, '/assets/sonos/sub/subBlack.png', true, 'Black'),
@@ -232,14 +232,6 @@ INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
 (22, '/assets/yeezy/stone/stoneDiagonal.png', false, NULL),
 (22, '/assets/yeezy/stone/stoneFront.png', false, NULL),
 (22, '/assets/yeezy/stone/stoneSide.png', false, NULL);
-
-
-
-
-TRUNCATE TABLE ProductImages;
-
-
-
 
 select * from ProductImages;
 

@@ -204,5 +204,3 @@ DELETE FROM Orders;
 
 -- (Opcional) Borrar los envíos restantes, en caso de que haya envíos no relacionados con órdenes
 DELETE FROM Shipments;
-
-

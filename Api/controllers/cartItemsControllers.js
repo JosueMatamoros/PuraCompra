@@ -51,6 +51,7 @@ export const removeCartItem = async (request, response) => {
 export const updateCartItemQuantity = async (request, response) => {
   const { userId, productId, quantity } = request.body;
   try {
+    console.log('userId:', userId, 'productId:', productId, 'quantity:', quantity)
     const cartItem = await CartItems.findOne({ where: { UsersID: userId, ProductID: productId } });
     if (cartItem) {
       cartItem.quantity = quantity;

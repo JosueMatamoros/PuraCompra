@@ -26,17 +26,31 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const removeFromCart = async (userId, productId) => {
+  const removeCartItem = async (userId, productId) => {
     try {
       await axios.delete('http://localhost:3000/cart/remove', { data: { userId, productId } });
-      fetchCartItems(userId);
+      setCartItems((prevItems) => prevItems.filter((item) => item.ProductID !== productId));
     } catch (error) {
-      console.error('Error removing from cart:', error);
+      console.error('Error removing cart item:', error);
+    }
+  };
+  
+
+  const updateCartItemQuantity = async (userId, productId, quantity) => {
+    try {
+      await axios.put('http://localhost:3000/cart/update', { userId, productId, quantity });
+      setCartItems((prevItems) =>
+        prevItems.map((item) =>
+          item.ProductID === productId ? { ...item, quantity } : item
+        )
+      );
+    } catch (error) {
+      console.error('Error updating cart item quantity:', error);
     }
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, fetchCartItems }}>
+    <CartContext.Provider value={{ cartItems, fetchCartItems, updateCartItemQuantity, removeCartItem, addToCart }}>
       {children}
     </CartContext.Provider>
   );

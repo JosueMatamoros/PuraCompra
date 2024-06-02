@@ -7,11 +7,11 @@ export default function QuantityModal({ item, onClose, onUpdateQuantity, onDelet
     setQuantity(e.target.value);
   };
 
-  const handleUpdate = () => {
-    onUpdateQuantity(quantity);
+  const handleUpdateClick = () => {
+    onUpdateQuantity(Number(quantity));
   };
 
-  const handleDelete = () => {
+  const handleDeleteClick = () => {
     onDeleteItem();
   };
 
@@ -30,13 +30,13 @@ export default function QuantityModal({ item, onClose, onUpdateQuantity, onDelet
         </div>
         <div className="flex justify-between">
           <button
-            onClick={handleUpdate}
+            onClick={handleUpdateClick}
             className="bg-blue-500 text-white px-4 py-2 rounded"
           >
             Update
           </button>
           <button
-            onClick={handleDelete}
+            onClick={handleDeleteClick}
             className="bg-red-500 text-white px-4 py-2 rounded"
           >
             Delete

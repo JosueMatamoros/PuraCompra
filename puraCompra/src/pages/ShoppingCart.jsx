@@ -3,8 +3,8 @@ import { CartContext } from "../context/CartContext"; // Ajusta el path si es ne
 import { AuthContext } from "../context/AuthContext";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import { FaEdit } from "react-icons/fa";
-import QuantityModal from "../components/modal/QuantityModal"; // AsegÃºrate de ajustar el path
+import { FaEdit, FaTrash } from "react-icons/fa";
+import QuantityModal from "../components/modal/QuantityModal"; // Asegúrate de ajustar el path
 
 export default function ShoppingCart() {
   const { cartItems, fetchCartItems, updateCartItemQuantity, removeCartItem } = useContext(CartContext);
@@ -14,8 +14,7 @@ export default function ShoppingCart() {
 
   useEffect(() => {
     if (user && user.UsersID) {
-      const userId = user.UsersID;
-      fetchCartItems(userId);
+      fetchCartItems(user.UsersID);
     }
   }, [fetchCartItems, user]);
 
@@ -30,13 +29,18 @@ export default function ShoppingCart() {
   };
 
   const handleUpdateQuantity = (quantity) => {
-    updateCartItemQuantity(selectedItem.CartItemID, quantity);
-    handleCloseModal();
+    if (user && user.UsersID && selectedItem) {
+      console.log('Updating quantity:', quantity, selectedItem.ProductID, user.UsersID);
+      updateCartItemQuantity(user.UsersID, selectedItem.ProductID, quantity); // Aquí cambiamos CartItemID a ProductID
+      handleCloseModal();
+    }
   };
 
   const handleDeleteItem = () => {
-    removeCartItem(selectedItem.CartItemID);
-    handleCloseModal();
+    if (selectedItem && selectedItem.ProductID) {
+      removeCartItem(user.UsersID, selectedItem.ProductID); // Aquí pasamos userID y ProductID
+      handleCloseModal();
+    }
   };
 
   return (
@@ -57,9 +61,13 @@ export default function ShoppingCart() {
                     className="w-20 h-20 object-cover mr-4"
                   />
                   <div>
-                    <h2 className="text-xl font-semibold">{item.product.name}</h2>
+                    <h2 className="text-xl font-semibold">
+                      {item.product.name}
+                    </h2>
                     <p className="text-gray-700">{item.product.description}</p>
-                    <p className="text-gray-900 font-bold">${item.product.price}</p>
+                    <p className="text-gray-900 font-bold">
+                      ${item.product.price}
+                    </p>
                     <div className="flex items-center">
                       <p>Quantity: {item.quantity}</p>
                       <button
@@ -67,6 +75,15 @@ export default function ShoppingCart() {
                         onClick={() => handleOpenModal(item)}
                       >
                         <FaEdit />
+                      </button>
+                      <button
+                        className="ml-2 text-red-500"
+                        onClick={() => {
+                          setSelectedItem(item);
+                          handleDeleteItem();
+                        }}
+                      >
+                        <FaTrash />
                       </button>
                     </div>
                   </div>
@@ -82,7 +99,6 @@ export default function ShoppingCart() {
           item={selectedItem}
           onClose={handleCloseModal}
           onUpdateQuantity={handleUpdateQuantity}
-          onDeleteItem={handleDeleteItem}
         />
       )}
     </>

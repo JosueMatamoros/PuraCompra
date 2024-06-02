@@ -53,7 +53,7 @@ export default function ShopCarrousel() {
       >
         {products.map((product) => (
           <SwiperSlide key={product.id}>
-            <div className="carousel-item border p-4 rounded shadow cursor-pointer">
+            <div className="carousel-item border p-4 rounded cursor-pointer border-none shadow-inner">
               <div className="w-full h-48 mb-4 overflow-hidden flex justify-center items-center">
                 <img
                   src={product.imageUrl}

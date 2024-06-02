@@ -6,6 +6,7 @@ import { Spinner } from "flowbite-react";
 import ScraperCard from "../components/shop/ScraperCard";
 import SkeletonCard from "../components/shop/SkeletonCard";
 import ShopCarrousel from "../components/shop/ShopCarrousel";
+import Footer from "../components/footer/Footer";
 
 export default function Shop() {
   const [url, setUrl] = useState("");
@@ -69,6 +70,7 @@ export default function Shop() {
           <ShopCarrousel />
         </div>
       </div>
+      <Footer />
     </>
   );
 }

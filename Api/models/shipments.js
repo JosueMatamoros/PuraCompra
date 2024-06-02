@@ -5,19 +5,24 @@ const Shipments = sequelize.define("Shipments", {
   ShipmentsID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    allowNull: true,
     autoIncrement: true,
   },
   OrdersID: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'Orders',
+      key: 'OrdersID'
+    }
   },
   tracking: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   date: {
     type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
     allowNull: false,
   },
   price: {

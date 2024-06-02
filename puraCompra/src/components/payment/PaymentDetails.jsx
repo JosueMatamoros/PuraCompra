@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "flowbite-react";
 import { IoCard } from "react-icons/io5";
 import { RiBankFill } from "react-icons/ri";
 import CreditCardForm from "./CreditCardForm";
 import BankAccount from "./BankAccount";
 
-export default function PaymentDetails() {
+export default function PaymentDetails( { paymentInfo, setPaymentInfo } ) {
   const [selectedMethod, setSelectedMethod] = useState("card"); // Estado para manejar la selección
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPaymentInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    console.log('Payment Info:', paymentInfo);
+  }, [paymentInfo]);
 
   return (
     <div className="flex flex-col items-center w-full">
@@ -33,8 +45,8 @@ export default function PaymentDetails() {
         </Button>
       </Button.Group>
       <div className="max-w-1/2 h-96"> {/* Contenedor con altura fija */}
-        {selectedMethod === "card" && <CreditCardForm />}
-        {selectedMethod === "bank" && <BankAccount />}
+        {selectedMethod === "card" && <CreditCardForm paymentInfo={paymentInfo} handleChange={handleChange} />}
+        {selectedMethod === "bank" && <BankAccount paymentInfo={paymentInfo} handleChange={handleChange} />}
       </div>
     </div>
   );

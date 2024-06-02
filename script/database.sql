@@ -1,4 +1,5 @@
-
+create database if not exists puracompra;
+use puracompra;
 
 -- Users Table
 CREATE TABLE Users (
@@ -33,7 +34,8 @@ CREATE TABLE Orders (
   `date` datetime DEFAULT (now()),
   `address` varchar(255),
   `price` float,
-  `taxes` float
+  `taxes` float,
+  `card` int
 );
 
 -- OrderDetails Table
@@ -193,5 +195,14 @@ ALTER TABLE PriceHistory ADD FOREIGN KEY (ProductID) REFERENCES Products (Produc
 
 
 
+-- Borrar registros dependientes en OrderDetails y Shipments
+DELETE FROM OrderDetails WHERE OrdersID IN (SELECT OrdersID FROM Orders);
+DELETE FROM Shipments WHERE OrdersID IN (SELECT OrdersID FROM Orders);
+
+-- Borrar las órdenes
+DELETE FROM Orders;
+
+-- (Opcional) Borrar los envíos restantes, en caso de que haya envíos no relacionados con órdenes
+DELETE FROM Shipments;
 
 

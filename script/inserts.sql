@@ -144,7 +144,6 @@ INSERT INTO Reviews (UsersID, ProductsID, body, star) VALUES
 -- Check the reviews
 SELECT * FROM Reviews;
 
--- Insert Product Images
 INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
 (3, '/assets/apple/ipadPro/ipadPro.png', false, NULL),
 (3, '/assets/apple/ipadPro/ipadProAbove.png', false, NULL),
@@ -159,10 +158,10 @@ INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
 (6, '/assets/apple/macM3Pro/macM3ProWhite.png', true, 'White'),
 (6, '/assets/apple/macM3Pro/macM3ProBlack.png', true, 'Black'),
 (14, '/assets/sonos/era300/era300.png', True, null),
-(14, '/assets/sonos/era300/era300BlackAbove.png', false, null),
-(14, '/assets/sonos/era300/era300Front.png', false, null),
-(14, '/assets/sonos/era300/era300White.png', True, null),
-(14, '/assets/sonos/era300/era300WhiteSpecs.png', false, null),
+(14, '/assets/sonos/era300/era300BlackAbove.png', false, 'Black'),
+(14, '/assets/sonos/era300/era300Front.png', false, 'Black'),
+(14, '/assets/sonos/era300/era300White.png', True, 'White'),
+(14, '/assets/sonos/era300/era300WhiteSpecs.png', false,NULL),
 (5, '/assets/apple/macM3Air/macM3Air.png', false, NULL),
 (5, '/assets/apple/macM3Air/macM3AirAbove.png', false, NULL),
 (5, '/assets/apple/macM3Air/macM3AirModels.png', false, NULL),
@@ -171,7 +170,6 @@ INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
 (5, '/assets/apple/macM3Air/macM3AirSpaceGray.png', true, 'Space Gray'),
 (5, '/assets/apple/macM3Air/macM3AirStarlight.png', true, 'Starlight'),
 (4, '/assets/apple/iphone15/iphone15.png', false, NULL),
-(4, '/assets/apple/iphone15/iphone15Back.png', false, NULL),
 (4, '/assets/apple/iphone15/iphone15Side.png', false, NULL),
 (4, '/assets/apple/iphone15/iphone15Models.png', false, NULL),
 (4, '/assets/apple/iphone15/iphone15BlueTitanium.png', true, 'Blue Titanium'),
@@ -198,7 +196,6 @@ INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES
 (9, '/assets/razer/huntsmanMini/huntsmanMiniBlack.png', true, 'Black'),
 (9, '/assets/razer/huntsmanMini/huntsmanMiniFrontWhite.png', true, 'White'),
 (10,'/assets/razer/mercury/mercury.png', true, 'White'),
-(10,'/assets/razer/mercury/mercurySideBlack.png', false, NULL),
 (10,'/assets/razer/mercury/mercuryBackBlack.png', true, 'Black'),
 (10,'/assets/razer/mercury/mercuryDiagonalPink.png', true, 'Pink'),
 (13, '/assets/sonos/arc/arc.png', true, 'Black'),
@@ -248,30 +245,30 @@ select * from ProductImages;
 
 -- 9. Orders
 
-INSERT INTO Orders (UsersID, address, price, taxes) VALUES
-(1, 'San Ramón, Alajuela', 1214.50, 157.89),
-(2, 'Florencia, San Carlos', 2340.00, 304.20),
-(3, 'Calle Pechuga, San Ramón', 895.00, 116.35);
+# INSERT INTO Orders (UsersID, address, price, taxes) VALUES
+# (1, 'San Ramón, Alajuela', 1214.50, 157.89),
+# (2, 'Florencia, San Carlos', 2340.00, 304.20),
+# (3, 'Calle Pechuga, San Ramón', 895.00, 116.35);
 
 
 -- Order Details
-INSERT INTO OrderDetails (OrdersID, ProductID) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(1,3),
-(2,4),
-(3,5);
+# INSERT INTO OrderDetails (OrdersID, ProductID) VALUES
+# (1, 1),
+# (2, 2),
+# (3, 3),
+# (1,3),
+# (2,4),
+# (3,5);
 
 -- Check the orders
 SELECT * FROM Orders;
 
 -- 10. Shipments
 
-INSERT INTO Shipments (OrdersID, tracking, price, totalPrice, state) VALUES
-(1, 123456789, 100.00, 1314.50, 'DELIVED'),
-(2, 987654321, 120.00, 2460.00, 'PENDING'),
-(3, 123456789, 75.00, 970.00, 'DELIVED');
+# INSERT INTO Shipments (OrdersID, tracking, price, totalPrice, state) VALUES
+# (1, 123456789, 100.00, 1314.50, 'DELIVED'),
+# (2, 987654321, 120.00, 2460.00, 'PENDING'),
+# (3, 123456789, 75.00, 970.00, 'DELIVED');
 
 
 -- Check the shipments
@@ -279,10 +276,10 @@ SELECT * FROM Shipments;
 
 -- 11. Transaction Logs
 
-INSERT INTO TransactionLogs ( UsersID, OrderID, type, quantity) VALUES
-(1, 1, 'purchase', 1214.50),
-(2, 2, 'purchase', 2340.00),
-(3, 3, 'purchase', 895.00);
+# INSERT INTO TransactionLogs ( UsersID, OrderID, type, quantity) VALUES
+# (1, 1, 'purchase', 1214.50),
+# (2, 2, 'purchase', 2340.00),
+# (3, 3, 'purchase', 895.00);
 
 -- Check the transaction logs
 SELECT * FROM TransactionLogs;

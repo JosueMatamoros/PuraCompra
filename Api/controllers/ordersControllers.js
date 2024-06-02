@@ -1,15 +1,39 @@
 import Orders from '../models/orders.js';
+import OrderDetails from '../models/orderDetails.js';
+import Shipments from '../models/shipments.js';
 
 export const createOrder = async (request, response) => {
     try {
-        const { OrdersID, UsersID, date, address, price, taxes } = request.body;
+        const { UsersID, date, address, price, taxes, cartItems } = request.body;
+        console.log('Order Date:', date);
         const newOrder = await Orders.create({ UsersID, date, address, price, taxes });
-        response.status(201).json(newOrder);
+        const orderId = newOrder.OrdersID;
+        console.log('Order Response:', newOrder);
+
+        const orderDetails = cartItems.map(item => ({
+            OrdersID: orderId,
+            ProductID: item.productID
+        }));
+
+        await OrderDetails.bulkCreate(orderDetails);
+        const shipmentPrice = 9.99; // Pasar luego como parametro para obtener el precio de envio
+        const totalPrice = price + taxes + shipmentPrice;
+
+        const newShipment = await Shipments.create({
+            OrdersID: orderId,
+            date: new Date().toISOString(),
+            price: shipmentPrice,
+            totalPrice: totalPrice,
+            state: 'PENDING'
+          });
+        console.log('Shipment Response:', newShipment);
+      
+        response.status(201).json({ order: newOrder, shipment: newShipment });
     }
     catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+}
 
 export const getOrders = async (request, response) => {
     try {
@@ -18,7 +42,7 @@ export const getOrders = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    };
+};
 
 
 export const getOrderById = async (request, response) => {
@@ -32,7 +56,7 @@ export const getOrderById = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+}
 
 export const updateOrder = async (request, response) => {
     try {
@@ -50,7 +74,7 @@ export const updateOrder = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+}
 
 export const deleteOrder = async (request, response) => {
     try {
@@ -66,4 +90,4 @@ export const deleteOrder = async (request, response) => {
     } catch (error) {
         response.status(500).json({ message: error.message });
     }
-    }
+}

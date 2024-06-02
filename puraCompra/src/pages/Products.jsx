@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import ProductsCarrousel from '../components/carrousel/ProductsCarrousel';
 import Header from '../components/header/Header';
+import Footer from '../components/footer/Footer';
 
 
 const Products = () => {
@@ -27,6 +28,7 @@ const Products = () => {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };

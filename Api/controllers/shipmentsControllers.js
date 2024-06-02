@@ -2,8 +2,8 @@ import Shipments from '../models/shipments.js';
 
 export const createShipment = async (request, response) => {
   try {
-    const { ShipmentsID, OrdersID, tracking, date, price, totalPrice, state } = request.body;
-    const newShipment = await Shipments.create({ ShipmentsID, OrdersID, tracking, date: date || new Date(), price, totalPrice, state });
+    const { OrdersID, date, price, totalPrice, state } = request.body;
+    const newShipment = await Shipments.create({ OrdersID, date: date || new Date(), price, totalPrice, state });
     response.status(201).json(newShipment);
   } catch (error) {
     response.status(500).json({ message: error.message });

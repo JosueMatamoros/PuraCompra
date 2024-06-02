@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CartContext } from "../context/CartContext"; // Ajusta el path si es necesario
+import { CartContext } from "../context/CartContext"; 
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-import Header from "../components/header/Header";
-import Footer from "../components/footer/Footer";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import QuantityModal from "../components/modal/QuantityModal"; // Asegúrate de ajustar el path
+import QuantityModal from "../components/modal/QuantityModal"; 
+import { Drawer } from "flowbite-react";
 
-export default function ShoppingCart() {
+export default function ShoppingCart({ isCartOpen, setIsCartOpen }) {
   const { cartItems, fetchCartItems, updateCartItemQuantity, removeCartItem } =
     useContext(CartContext);
   const { user } = useContext(AuthContext);
@@ -32,27 +31,22 @@ export default function ShoppingCart() {
 
   const handleUpdateQuantity = (quantity) => {
     if (user && user.UsersID && selectedItem) {
-      console.log(
-        "Updating quantity:",
-        quantity,
-        selectedItem.ProductID,
-        user.UsersID
-      );
-      updateCartItemQuantity(user.UsersID, selectedItem.ProductID, quantity); // Aquí cambiamos CartItemID a ProductID
+      updateCartItemQuantity(user.UsersID, selectedItem.ProductID, quantity);
       handleCloseModal();
     }
   };
 
   const handleDeleteItem = () => {
     if (selectedItem && selectedItem.ProductID) {
-      removeCartItem(user.UsersID, selectedItem.ProductID); // Aquí pasamos userID y ProductID
+      removeCartItem(user.UsersID, selectedItem.ProductID);
       handleCloseModal();
     }
   };
 
+  const handleClose = () => setIsCartOpen(false);
+
   return (
-    <>
-      <Header />
+    <Drawer bodyScrolling={false} open={isCartOpen} onClose={handleClose} position="right">
       <div className="min-h-screen flex flex-col p-4">
         <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
         {cartItems.length === 0 ? (
@@ -109,7 +103,6 @@ export default function ShoppingCart() {
           </>
         )}
       </div>
-      <Footer />
       {isModalOpen && selectedItem && (
         <QuantityModal
           item={selectedItem}
@@ -117,6 +110,6 @@ export default function ShoppingCart() {
           onUpdateQuantity={handleUpdateQuantity}
         />
       )}
-    </>
+    </Drawer>
   );
 }

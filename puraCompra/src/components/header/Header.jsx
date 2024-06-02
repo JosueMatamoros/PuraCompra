@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { TiShoppingCart } from "react-icons/ti";
 import { FaRegUserCircle } from "react-icons/fa";
-import { HiUserCircle, HiOutlineAdjustments } from "react-icons/hi";
+import { HiUserCircle } from "react-icons/hi";
 import { IoIosLogOut } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
 import Navbar from './Navbar';
@@ -10,12 +10,13 @@ import logo from '../../assets/JieShopLogo.png';
 import { Avatar, ListGroup } from "flowbite-react";
 import { AuthContext } from '../../context/AuthContext';
 import sessionstorage from 'sessionstorage';
-import hasbulla from '../../profileIcon/hasbulla.png'
+import hasbulla from '../../profileIcon/hasbulla.png';
+import ShoppingCart from '../../pages/ShoppingCart';
 
 export default function Header() {
-  // cambiar variable por logica para ver si se esta registrado o no
   const { user, logout } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -46,7 +47,7 @@ export default function Header() {
       <Navbar />
       <div className='flex gap-4 pt-2 items-center relative'>
         <IoMdHeart className='text-2xl' />
-        <TiShoppingCart onClick={() => handleNavigate('/cart')} className='text-2xl' />
+        <TiShoppingCart className='text-2xl cursor-pointer' onClick={() => setIsCartOpen(true)} />
 
         {user ? (
           <div onClick={toggleMenu}>
@@ -77,6 +78,7 @@ export default function Header() {
           </div>
         )}
       </div>
+      <ShoppingCart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
     </header>
   );
 }

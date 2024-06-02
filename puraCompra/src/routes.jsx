@@ -8,7 +8,7 @@ import Account from "./pages/Account";
 import Shop from "./pages/Shop";
 import InternalView from "./components/products/InternalView"; 
 import Payment from "./pages/Payment";
-import ShoppingCart from "./pages/ShoppingCart";
+
 
 const Ruting = () => (
     <Router>
@@ -21,7 +21,7 @@ const Ruting = () => (
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<InternalView />} /> 
             <Route path="/payment" element={<Payment />} />
-            <Route path="/cart" element={<ShoppingCart />} />
+            
         </Routes>
     </Router>
 );

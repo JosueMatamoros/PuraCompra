@@ -8,6 +8,8 @@ import Account from "./pages/Account";
 import Shop from "./pages/Shop";
 import InternalView from "./components/products/InternalView"; 
 import Payment from "./pages/Payment";
+import AdminUsers from "./components/adminDashboard/AdminUsers";
+import AdminContent from "./components/adminDashboard/AdminContent";
 
 
 const Ruting = () => (
@@ -21,7 +23,8 @@ const Ruting = () => (
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<InternalView />} /> 
             <Route path="/payment" element={<Payment />} />
-            
+            <Route path="/adminUsers" element={<AdminUsers />} />
+            <Route path="/adminContent" element={<AdminContent />} />
         </Routes>
     </Router>
 );

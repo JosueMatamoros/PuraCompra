@@ -4,6 +4,7 @@ import Header from '../components/header/Header';
 import UserAddress from '../components/dashboard/UserAddress';
 import UserInformation from '../components/dashboard/UserInformation';
 import Orders from '../components/dashboard/Orders';
+import AdminDashboard from './AdminDashboard';
 
 export default function Account() {
   const { user, logout } = useContext(AuthContext);
@@ -12,6 +13,10 @@ export default function Account() {
 
   if (!user) {
     return <p>Loading...</p>;
+  }
+
+  if (user.role === 'admin') {
+    return <AdminDashboard />; // Renderiza el dashboard del administrador si el rol es 'admin'
   }
 
   const renderContent = () => {

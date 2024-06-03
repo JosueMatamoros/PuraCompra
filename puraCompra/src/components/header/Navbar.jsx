@@ -14,8 +14,6 @@ export default function Navbar() {
             <li className='mx-2'>
                 <Link to="/shop" className='hover:text-blue-300 md:text-2xl font-medium'>Shop</Link>
             </li>
-            
-            
         </ul>
     </nav>
 

@@ -4,7 +4,6 @@ import { TiShoppingCart } from "react-icons/ti";
 import { FaRegUserCircle } from "react-icons/fa";
 import { HiUserCircle } from "react-icons/hi";
 import { IoIosLogOut } from "react-icons/io";
-import { IoMdHeart } from "react-icons/io";
 import Navbar from './Navbar';
 import logo from '../../assets/JieShopLogo.png'; 
 import { Avatar, ListGroup } from "flowbite-react";
@@ -46,7 +45,6 @@ export default function Header() {
       </div>
       <Navbar />
       <div className='flex gap-4 pt-2 items-center relative'>
-        <IoMdHeart className='text-2xl' />
         <TiShoppingCart className='text-2xl cursor-pointer' onClick={() => setIsCartOpen(true)} />
 
         {user ? (

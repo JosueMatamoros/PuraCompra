@@ -13,6 +13,7 @@ export default function ShoppingCart({ isCartOpen, setIsCartOpen }) {
   const { user } = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isDelete, setIsDelete] = useState(false);
 
   useEffect(() => {
     if (user && user.UsersID) {
@@ -20,14 +21,16 @@ export default function ShoppingCart({ isCartOpen, setIsCartOpen }) {
     }
   }, [fetchCartItems, user]);
 
-  const handleOpenModal = (item) => {
+  const handleOpenModal = (item, deleteMode = false) => {
     setSelectedItem(item);
+    setIsDelete(deleteMode);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setSelectedItem(null);
     setIsModalOpen(false);
+    setIsDelete(false);
   };
 
   const handleUpdateQuantity = (quantity) => {
@@ -86,10 +89,7 @@ export default function ShoppingCart({ isCartOpen, setIsCartOpen }) {
                             </button>
                             <button
                               className="ml-2 text-red-500"
-                              onClick={() => {
-                                setSelectedItem(item);
-                                handleDeleteItem();
-                              }}
+                              onClick={() => handleOpenModal(item, true)}
                             >
                               <FaTrash />
                             </button>
@@ -115,6 +115,8 @@ export default function ShoppingCart({ isCartOpen, setIsCartOpen }) {
             item={selectedItem}
             onClose={handleCloseModal}
             onUpdateQuantity={handleUpdateQuantity}
+            onDeleteItem={handleDeleteItem}
+            isDelete={isDelete}
           />
         )}
       </Drawer.Items>

@@ -10,6 +10,7 @@ import InternalView from "./components/products/InternalView";
 import Payment from "./pages/Payment";
 import AdminUsers from "./components/adminDashboard/AdminUsers";
 import AdminContent from "./components/adminDashboard/AdminContent";
+import AdminShipments from "./components/adminDashboard/AdminShipments";
 
 
 const Ruting = () => (
@@ -25,6 +26,8 @@ const Ruting = () => (
             <Route path="/payment" element={<Payment />} />
             <Route path="/adminUsers" element={<AdminUsers />} />
             <Route path="/adminContent" element={<AdminContent />} />
+            <Route path="/adminShipments" element={<AdminShipments />} />
+
         </Routes>
     </Router>
 );

@@ -112,6 +112,8 @@ CREATE FUNCTION AddAddress(
     p_UsersID INT,
     p_address VARCHAR(255)
 ) RETURNS VARCHAR(255)
+    DETERMINISTIC
+    MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
     
@@ -141,6 +143,8 @@ CREATE FUNCTION UpdateAddress(
     p_UsersID INT,
     p_address VARCHAR(255)
 ) RETURNS VARCHAR(255)
+    DETERMINISTIC
+    MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
     
@@ -169,6 +173,8 @@ CREATE FUNCTION DeleteAddress(
     p_AddressID INT,
     p_UsersID INT
 ) RETURNS VARCHAR(255)
+    DETERMINISTIC
+    MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
     
@@ -190,7 +196,6 @@ SELECT DeleteAddress(6, 1);
 
 
 -- Functions for the table orders
-
 DELIMITER //
 CREATE FUNCTION AddOrder(
     p_UsersID INT,
@@ -198,6 +203,8 @@ CREATE FUNCTION AddOrder(
     p_price FLOAT,
     p_taxes FLOAT
 ) RETURNS VARCHAR(255)
+    DETERMINISTIC
+    MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
     
@@ -216,7 +223,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- SELECT AddOrder(2, 'Penamo, Florencia', -100.00, 8.00);
+SELECT AddOrder(2, 'Penamo, Florencia', -100.00, 8.00);
 
 -- Function to update an order
 DELIMITER //
@@ -227,6 +234,8 @@ CREATE FUNCTION UpdateOrder(
     p_price FLOAT,
     p_taxes FLOAT
 ) RETURNS VARCHAR(255)
+    DETERMINISTIC
+    MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
     
@@ -258,6 +267,8 @@ CREATE FUNCTION DeleteOrder(
     p_OrdersID INT,
     p_UsersID INT
 ) RETURNS VARCHAR(255)
+    DETERMINISTIC
+    MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
     
@@ -281,7 +292,7 @@ SELECT DeleteOrder(2, 2);
 -- Functions for the table Products
 
 -- Function to add a new product
-
+-- Function to add a product
 DELIMITER //
 CREATE FUNCTION AddProduct(
     p_Sellers INT,
@@ -291,13 +302,15 @@ CREATE FUNCTION AddProduct(
     p_price FLOAT,
     p_imageUrl VARCHAR(255)
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
-    
+
     -- Insert the new product
     INSERT INTO Products (Sellers, name, stock, description, price, imageUrl)
     VALUES (p_Sellers, p_name, p_stock, p_description, p_price, p_imageUrl);
-    
+
     SET msg = 'Producto añadido correctamente';
     RETURN msg;
 END //
@@ -314,15 +327,17 @@ CREATE FUNCTION UpdateProduct(
     p_price FLOAT,
     p_imageUrl VARCHAR(255)
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
-    
+
     -- Verify if the product exists
     IF (SELECT COUNT(*) FROM Products WHERE ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Producto no encontrado';
         RETURN msg;
     END IF;
-    
+
     -- Update the product
     UPDATE Products
     SET Sellers = p_Sellers, name = p_name, stock = p_stock, description = p_description, price = p_price, imageUrl = p_imageUrl
@@ -333,21 +348,22 @@ BEGIN
 END //
 DELIMITER ;
 
-
 -- Function to delete a product
 DELIMITER //
 CREATE FUNCTION DeleteProduct(
     p_ProductsID INT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
-    
+
     -- Verify if the product exists
     IF (SELECT COUNT(*) FROM Products WHERE ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Producto no encontrado';
         RETURN msg;
     END IF;
-    
+
     -- Delete the product
     DELETE FROM Products WHERE ProductsID = p_ProductsID;
 
@@ -355,12 +371,6 @@ BEGIN
     RETURN msg;
 END //
 DELIMITER ;
-
--- Pruebas
-SELECT AddProduct(1, 'Producto A', 50, 'Descripción del Producto A', 19.99, 'http://example.com/producto-a.jpg');
-SELECT UpdateProduct(25, 1, 'Producto A Modificado', 100, 'Descripción modificada del Producto A', 29.99, 'http://example.com/producto-a-modificado.jpg');
-SELECT DeleteProduct(25);
-select * from products;
 
 -- Table: ProductImages
 -- Function to add an image
@@ -371,26 +381,27 @@ CREATE FUNCTION AddProductImage(
     p_type BOOLEAN,
     p_color VARCHAR(50)
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
-    
+
     -- Verify if the product exists
     IF (SELECT COUNT(*) FROM Products WHERE ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Producto no encontrado';
         RETURN msg;
     END IF;
-    
+
     -- Insert the new product image
     INSERT INTO ProductImages (ProductsID, imageUrl, type, color)
     VALUES (p_ProductsID, p_imageUrl, p_type, p_color);
-    
+
     SET msg = 'Imagen del producto añadida correctamente';
     RETURN msg;
 END //
 DELIMITER ;
 
 -- Function to update an image
-
 DELIMITER //
 CREATE FUNCTION UpdateProductImage(
     p_ImageID INT,
@@ -399,15 +410,17 @@ CREATE FUNCTION UpdateProductImage(
     p_type BOOLEAN,
     p_color VARCHAR(50)
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
-    
+
     -- Verify if the product image exists
     IF (SELECT COUNT(*) FROM ProductImages WHERE ImageID = p_ImageID AND ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Imagen del producto no encontrada';
         RETURN msg;
     END IF;
-    
+
     -- Update the product image
     UPDATE ProductImages
     SET imageUrl = p_imageUrl, type = p_type, color = p_color
@@ -418,22 +431,23 @@ BEGIN
 END //
 DELIMITER ;
 
--- Function to delete an image 
-
+-- Function to delete an image
 DELIMITER //
 CREATE FUNCTION DeleteProductImage(
     p_ImageID INT,
     p_ProductsID INT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
-    
+
     -- Verify if the product image exists
     IF (SELECT COUNT(*) FROM ProductImages WHERE ImageID = p_ImageID AND ProductsID = p_ProductsID) = 0 THEN
         SET msg = 'Imagen del producto no encontrada';
         RETURN msg;
     END IF;
-    
+
     -- Delete the product image
     DELETE FROM ProductImages WHERE ImageID = p_ImageID AND ProductsID = p_ProductsID;
 
@@ -442,19 +456,18 @@ BEGIN
 END //
 DELIMITER ;
 
-
 -- Table: Shipments
-
 -- Function to add a shipment
-
 DELIMITER //
 CREATE FUNCTION AddShipment(
     p_OrdersID INT,
     p_tracking INT,
     p_price FLOAT,
     p_totalPrice FLOAT,
-    p_state ENUM('DELIVED', 'IN_PROCESS', 'PENDING')
+    p_state ENUM('DELIVERED', 'IN_PROCESS', 'PENDING')
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -474,7 +487,6 @@ END //
 DELIMITER ;
 
 -- Function to update a shipment
-
 DELIMITER //
 CREATE FUNCTION UpdateShipment(
     p_ShipmentsID INT,
@@ -482,8 +494,10 @@ CREATE FUNCTION UpdateShipment(
     p_tracking INT,
     p_price FLOAT,
     p_totalPrice FLOAT,
-    p_state ENUM('DELIVED', 'IN_PROCESS', 'PENDING')
+    p_state ENUM('DELIVERED', 'IN_PROCESS', 'PENDING')
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -504,11 +518,12 @@ END //
 DELIMITER ;
 
 -- Function to delete a shipment
-
 DELIMITER //
 CREATE FUNCTION DeleteShipment(
     p_ShipmentsID INT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -527,12 +542,14 @@ END //
 DELIMITER ;
 
 -- Table: ProductsPromotions
-
+-- Function to add a product promotion
 DELIMITER //
 CREATE FUNCTION AddProductPromotion(
     p_ProductsID INT,
     p_PromotionsID INT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -541,7 +558,7 @@ BEGIN
         SET msg = 'Producto no encontrado';
         RETURN msg;
     END IF;
-    
+
     -- Verify if the promotion exists
     IF (SELECT COUNT(*) FROM Promotions WHERE PromotionsID = p_PromotionsID) = 0 THEN
         SET msg = 'Promoción no encontrada';
@@ -558,23 +575,24 @@ END //
 DELIMITER ;
 
 -- Function to update a product promotion
-
 DELIMITER //
 CREATE FUNCTION UpdateProductPromotion(
     p_ProductsID INT,
     p_PromotionsID INT,
     p_newPromotionsID INT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
-    -- verify if the relationship between product and promotion exists
+    -- Verify if the relationship between product and promotion exists
     IF (SELECT COUNT(*) FROM ProductsPromotions WHERE ProductsID = p_ProductsID AND PromotionsID = p_PromotionsID) = 0 THEN
         SET msg = 'Relación de producto y promoción no encontrada';
         RETURN msg;
     END IF;
 
-    -- verify if the new promotion exists
+    -- Verify if the new promotion exists
     IF (SELECT COUNT(*) FROM Promotions WHERE PromotionsID = p_newPromotionsID) = 0 THEN
         SET msg = 'Nueva promoción no encontrada';
         RETURN msg;
@@ -590,13 +608,14 @@ BEGIN
 END //
 DELIMITER ;
 
-
 -- Function to delete a product promotion
 DELIMITER //
 CREATE FUNCTION DeleteProductPromotion(
     p_ProductsID INT,
     p_PromotionsID INT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -615,16 +634,16 @@ END //
 DELIMITER ;
 
 -- Table: Promotions
-
 -- Function to add a promotion
-
 DELIMITER //
 CREATE FUNCTION AddPromotion(
     p_PromotionsID INT,
-    p_category ENUM('HOLIDAYS', 'FREE_SHIPING', 'MEMBERS'),
+    p_category ENUM('HOLIDAYS', 'FREE_SHIPPING', 'MEMBERS'),
     p_discount FLOAT,
     p_description VARCHAR(255)
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -644,14 +663,15 @@ END //
 DELIMITER ;
 
 -- Function to update a promotion
-
 DELIMITER //
 CREATE FUNCTION UpdatePromotion(
     p_PromotionsID INT,
-    p_category ENUM('HOLIDAYS', 'FREE_SHIPING', 'MEMBERS'),
+    p_category ENUM('HOLIDAYS', 'FREE_SHIPPING', 'MEMBERS'),
     p_discount FLOAT,
     p_description VARCHAR(255)
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -676,6 +696,8 @@ DELIMITER //
 CREATE FUNCTION DeletePromotion(
     p_PromotionsID INT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -693,11 +715,8 @@ BEGIN
 END //
 DELIMITER ;
 
-
 -- Table: TransactionLogs
-
 -- Function to add a transaction log
-
 DELIMITER //
 CREATE FUNCTION AddTransactionLog(
     p_UsersID INT,
@@ -705,6 +724,8 @@ CREATE FUNCTION AddTransactionLog(
     p_type ENUM('Refund', 'purchase'),
     p_quantity FLOAT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -730,13 +751,14 @@ END //
 DELIMITER ;
 
 -- Function to update a transaction log
-
 DELIMITER //
 CREATE FUNCTION UpdateTransactionLog(
     p_TransactionID INT,
     p_type ENUM('Refund', 'purchase'),
     p_quantity FLOAT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -756,12 +778,13 @@ BEGIN
 END //
 DELIMITER ;
 
-
 -- Function to delete a transaction log
 DELIMITER //
 CREATE FUNCTION DeleteTransactionLog(
     p_TransactionID INT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -779,16 +802,15 @@ BEGIN
 END //
 DELIMITER ;
 
-
--- table: PriceHistory
-
+-- Table: PriceHistory
 -- Function to add a price history
-
 DELIMITER //
 CREATE FUNCTION AddPriceHistory(
     p_ProductID INT,
     p_price FLOAT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -808,12 +830,13 @@ END //
 DELIMITER ;
 
 -- Function to update a price history
-
 DELIMITER //
 CREATE FUNCTION UpdatePriceHistory(
     p_PriceID INT,
     p_price FLOAT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 
@@ -834,11 +857,12 @@ END //
 DELIMITER ;
 
 -- Function to delete a price history
-
 DELIMITER //
 CREATE FUNCTION DeletePriceHistory(
     p_PriceID INT
 ) RETURNS VARCHAR(255)
+DETERMINISTIC
+MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
 

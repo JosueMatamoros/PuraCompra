@@ -36,9 +36,19 @@ export const getShipmentById = async (request, response) => {
 export const updateShipment = async (request, response) => {
   try {
     const { id } = request.params;
-    const { OrdersID, tracking, date, price, totalPrice, state } = request.body;
+    const { tracking, state } = request.body;
 
-    const [updated] = await Shipments.update({ OrdersID, tracking, date: date || new Date(), price, totalPrice, state }, {
+    let updateData = {};
+    if (tracking !== undefined) {
+      updateData.tracking = tracking;
+      updateData.state = 'IN_PROCESS';
+    } else if (state === 'DELIVED') {
+      updateData.state = 'DELIVED';
+    } else {
+      return response.status(400).json({ message: "Invalid update request" });
+    }
+
+    const [updated] = await Shipments.update(updateData, {
       where: { ShipmentsID: id }
     });
 

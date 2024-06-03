@@ -94,3 +94,17 @@ export const deleteOrder = async (request, response) => {
         response.status(500).json({ message: error.message });
     }
 }
+
+export const getOrderById = async (request, response) => {
+    try {
+        const { id } = request.params;
+        const order = await Orders.findByPk(id);
+        if (order) {
+            response.json(order);
+        } else {
+            response.status(404).json({ message: `Order with id ${id} not found` });
+        }
+    } catch (error) {
+        response.status(500).json({ message: error.message });
+    }
+}

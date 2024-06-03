@@ -90,7 +90,6 @@ CALL process_users();
 
 
 DELIMITER //
-
 CREATE PROCEDURE process_shipments()
 BEGIN
     DECLARE done INT DEFAULT 0;
@@ -100,35 +99,35 @@ BEGIN
     DECLARE s_date DATETIME;
     DECLARE s_price FLOAT;
     DECLARE s_totalPrice FLOAT;
-    DECLARE s_state ENUM('DELIVED', 'IN_PROCESS', 'PENDING');
-    
+    DECLARE s_state ENUM('DELIVERED', 'IN_PROCESS', 'PENDING');
+
     -- Declare the cursor to select shipments
-    DECLARE shipment_cursor CURSOR FOR 
-    SELECT ShipmentsID, OrdersID, tracking, date, price, totalPrice, state FROM Shipments;
-    
+    DECLARE shipment_cursor CURSOR FOR
+    SELECT ShipmentsID, OrdersID, IFNULL(tracking, 0), date, price, totalPrice, state FROM Shipments;
+
     -- Declare the continue handler for the cursor
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
-    
+
     -- Open the cursor
     OPEN shipment_cursor;
-    
+
     -- Loop to iterate over the rows
     read_loop: LOOP
         FETCH shipment_cursor INTO s_id, o_id, s_tracking, s_date, s_price, s_totalPrice, s_state;
         IF done THEN
             LEAVE read_loop;
         END IF;
-        
+
         -- Process each row
         -- For example, print the shipment information
         SELECT CONCAT('Shipment ID: ', s_id, ', Order ID: ', o_id, ', Tracking: ', s_tracking, ', Date: ', s_date, ', Price: ', s_price, ', Total Price: ', s_totalPrice, ', State: ', s_state);
     END LOOP;
-    
+
     -- Close the cursor
     CLOSE shipment_cursor;
 END //
-
 DELIMITER ;
+
 
 CALL process_shipments();
 

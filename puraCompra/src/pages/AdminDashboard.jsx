@@ -70,7 +70,7 @@ export default function AdminDashboard() {
               </li>
               <li className="mx-2">
                 <Link
-                  to="/"
+                  to="/adminShipments"
                   className="hover:text-blue-300 md:text-2xl font-medium"
                 >
                   Shipments

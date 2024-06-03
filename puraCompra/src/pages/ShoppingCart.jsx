@@ -67,7 +67,7 @@ export default function ShoppingCart({ isCartOpen, setIsCartOpen }) {
                         <img
                           src={`http://localhost:3000${item.product.imageUrl}`}
                           alt={item.product.name}
-                          className="w-20 h-20 object-cover mr-4"
+                          className="w-20 h-20 object-contain mr-4"
                         />
                         <div>
                           <h2 className="text-xl font-semibold">

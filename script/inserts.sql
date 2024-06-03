@@ -7,6 +7,9 @@ INSERT INTO Users (name, lastname, mail, password, phoneNumber, gender, country)
 ('Josué', 'Matamoros', 'jmatamoros@kahoot.com','1234', '8745-1708', 'male', 'Costa Rica'),
 ('Luis', 'Cubillo', 'luisalonso@gmail.com', '1234', '1234-5678', 'male', 'Costa Rica');
 
+INSERT INTO Users (name, lastname, mail, password, phoneNumber, gender, country, role) VALUES
+('Admin', 'Admin', 'admin@admin.com','root', '911', 'male','Costa Rica', 'admin' );
+
 
 -- 2. Insert addresses
 INSERT INTO Addresses (UsersID, address) VALUES

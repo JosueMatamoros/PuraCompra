@@ -25,9 +25,9 @@ DELIMITER ;
 
 
 -- Test
-UPDATE Addresses
-SET address = 'Penjamo, Florencia'
-WHERE AddressID = 3 AND UsersID = 2;
+# UPDATE Addresses
+# SET address = 'Penjamo, Florencia'
+# WHERE AddressID = 3 AND UsersID = 2;
 
 select * from addresses;
 
@@ -87,7 +87,7 @@ END //
 DELIMITER ;
 
 
--- INSERT INTO Orders (UsersID, address, price, taxes) VALUES (2, 'Penjamo, Florencia', -895.00, 116.35); Successful test
+-- INSERT INTO Orders (UsersID, address, price, taxes) VALUES (2, 'Penjamo, Florencia', -895.00, 116.35); #Successful test
 -- DELETE FROM Orders WHERE OrdersID = 2; Successful test
 
 
@@ -143,11 +143,11 @@ DELIMITER ;
 select * from orders;
 
 
-DELETE FROM products WHERE productsId = 1;
+-- DELETE FROM products WHERE productsId = 3;
 
 -- Test
--- INSERT INTO Products (Sellers, name, stock, description, price, imageUrl) VALUES 
--- (1, 'AirPods Max', 10, 'Apple AirPods Max with high-fidelity audio, Active Noise Cancellation, and spatial audio.', -549, '/assets/apple/airPodsMax/airPodsMax.png'); Successful test
+-- INSERT INTO Products (Sellers, name, stock, description, price, imageUrl) VALUES
+-- (1, 'AirPods Max', 10, 'Apple AirPods Max with high-fidelity audio, Active Noise Cancellation, and spatial audio.', -549, '/assets/apple/airPodsMax/airPodsMax.png'); ##Successful test
 
 
 
@@ -202,8 +202,8 @@ END //
 DELIMITER ;
 
 -- test
--- INSERT INTO Sellers (SellersID, name, url, type) VALUES (7, '', 'https://www.apple.com/', 'DIGITAL_RESELLERS'); successful test
--- DELETE FROM Sellers WHERE SellersID = 7; successful test
+-- INSERT INTO Sellers (SellersID, name, url, type) VALUES (7, '', 'https://www.apple.com/', 'DIGITAL_RESELLERS'); ##successful test
+-- DELETE FROM Sellers WHERE SellersID = 1; ##successful test
 
 
 
@@ -258,7 +258,25 @@ DELIMITER ;
 Drop trigger BeforeDeleteProductImage;
 
 -- test
-INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES (6, '', false, NULL);
-DELETE FROM ProductImages WHERE ImageID = 7; 
+-- INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES (6, '', false, NULL);
+-- DELETE FROM ProductImages WHERE ImageID = 7;
 
 -- INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES (6, '', false, NULL);
+
+-- Trigger para reducir el stock de un producto basado en la cantidad de productos de una orden
+DELIMITER //
+
+CREATE TRIGGER update_stock_after_order
+AFTER INSERT ON OrderDetails
+FOR EACH ROW
+BEGIN
+  DECLARE qty INT;
+  SET qty = (SELECT quantity FROM CartItems WHERE UsersID = (SELECT UsersID FROM Orders WHERE OrdersID = NEW.OrdersID) AND ProductID = NEW.ProductID);
+  UPDATE Products
+  SET stock = stock - qty
+  WHERE ProductsID = NEW.ProductID AND stock >= qty;
+END;
+
+//
+
+DELIMITER ;

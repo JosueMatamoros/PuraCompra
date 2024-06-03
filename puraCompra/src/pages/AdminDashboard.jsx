@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 
 export default function AdminDashboard() {
   const [userCount, setUserCount] = useState(0);
   const [adminCount, setAdminCount] = useState(0);
+
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => {
+    navigate(path);
+    setIsMenuOpen(false); // Cerrar el menú después de la navegación
+  };
 
   const fetchAdminCount = async () => {
     try {
@@ -60,6 +68,14 @@ export default function AdminDashboard() {
                   Products
                 </Link>
               </li>
+              <li className="mx-2">
+                <Link
+                  to="/"
+                  className="hover:text-blue-300 md:text-2xl font-medium"
+                >
+                  Shipments
+                </Link>
+              </li>
             </ul>
           </nav>
           <div className="grid gap-6">
@@ -87,7 +103,7 @@ export default function AdminDashboard() {
                 </div>
               </CardContent>
               <CardFooter className="border-t p-6">
-                <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                <button className="bg-blue-500 text-white py-2 px-4 rounded" onClick={() => handleNavigate('/adminUsers')}>
                   Manage Users
                 </button>
               </CardFooter>
@@ -114,16 +130,16 @@ export default function AdminDashboard() {
                 </div>
               </CardContent>
               <CardFooter className="border-t p-6">
-                <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                <button className="bg-blue-500 text-white py-2 px-4 rounded" onClick={() => handleNavigate('/adminContent')}>
                   Manage Content
                 </button>
               </CardFooter>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Analytics</CardTitle>
+                <CardTitle>Shipments</CardTitle>
                 <CardDescription>
-                  View key metrics and insights for your application.
+                  Manage your website's shipments and logistics.
                 </CardDescription>
               </CardHeader>
               <CardContent>

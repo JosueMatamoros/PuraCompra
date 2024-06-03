@@ -10,6 +10,7 @@ import { Avatar, ListGroup } from "flowbite-react";
 import { AuthContext } from '../../context/AuthContext';
 import sessionstorage from 'sessionstorage';
 import hasbulla from '../../profileIcon/hasbulla.png';
+import hasbullaAdmin from '../../profileIcon/hasbullaAdmin.jpg'
 import ShoppingCart from '../../pages/ShoppingCart';
 
 export default function Header() {
@@ -34,7 +35,10 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const profilePicture = user?.profilePicture ? `http://localhost:3000${user.profilePicture}` : hasbulla;
+  const profilePicture = user?.profilePicture 
+    ? `http://localhost:3000${user.profilePicture}` 
+    : (user?.role === 'admin' ? hasbullaAdmin : hasbulla);
+
 
   return (
     <header className='flex justify-between items-center mx-4 py-2 md:mx-8 lg:mx-16'> 

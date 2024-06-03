@@ -7,9 +7,9 @@ import { request } from 'express';
 
 export const createUser = async (request, response) => {
   try {
-    const {name, lastname, mail, phoneNumber } = request.body;
-    const newUser = await User.create({name, lastname, mail, phoneNumber});
-    if(name === undefined || lastname === undefined || mail === undefined || phoneNumber === undefined) {
+    const { name, lastname, mail, phoneNumber } = request.body;
+    const newUser = await User.create({ name, lastname, mail, phoneNumber });
+    if (name === undefined || lastname === undefined || mail === undefined || phoneNumber === undefined) {
       response.status(400).json({ message: 'Please provide all the information' });
     }
     response.status(201).json(newUser);
@@ -49,7 +49,7 @@ export const updateUser = async (request, response) => {
     const { id } = request.params;
     const { name, lastname, mail, phoneNumber, gender, country } = request.body; // Desestructurar los campos específicos
 
-    const [updated] = await User.update({ name, lastname, mail, phoneNumber, gender, country}, {
+    const [updated] = await User.update({ name, lastname, mail, phoneNumber, gender, country }, {
       where: { UsersID: id }
     });
 
@@ -85,9 +85,9 @@ export const loginUsers = async (request, response) => {
   console.log(`Login attempt with email: ${mail}`);
   try {
     const user = await User.findOne({
-       where: {mail: mail },
-        include: [Addresses],
-      });
+      where: { mail: mail },
+      include: [Addresses],
+    });
     if (!user) {
       return response.status(400).json({ message: 'User not found' });
     }
@@ -95,11 +95,11 @@ export const loginUsers = async (request, response) => {
     if (password !== user.password) {
       return response.status(400).json({ message: 'Invalid credentials' });
     }
-    
+
 
     const token = jwt.sign({ id: user.UsersID }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log('Login successful', user, token);
-    response.json({ user, token});
+    response.json({ user, token });
   } catch (error) {
     response.status(500).json({ message: error.message });
   };
@@ -110,7 +110,7 @@ export const registerUsers = async (request, response) => {
   console.log(name, lastname, mail, phoneNumber, password, gender, country);
   console.log(`Register attempt with email: ${mail}`);
   try {
-    const existingUser = await User.findOne({ where: {mail: mail } });
+    const existingUser = await User.findOne({ where: { mail: mail } });
     if (existingUser) {
       return response.status(400).json({ message: 'User already exists' });
     }
@@ -169,5 +169,38 @@ export const uploadProfilePicture = async (req, res) => {
   } catch (error) {
     console.error('Error updating profile picture:', error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const countUsersByRole = async (req, res) => {
+  const { role } = req.params;
+  try {
+    const count = await User.count({
+      where: {
+        role: role
+      }
+    });
+
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error', error });
+  }
+};
+
+export const updateUserRole = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  try {
+    const user = await User.findByPk(id);
+    if (user) {
+      user.role = role;
+      await user.save();
+      res.status(200).json({ message: 'User role updated successfully' });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error', error });
   }
 };

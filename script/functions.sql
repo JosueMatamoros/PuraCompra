@@ -2,24 +2,43 @@
 -- Table: Users
 -- Function to add a new user
 USE PURACOMPRA;
+
 DELIMITER //
 CREATE FUNCTION AddUser(
     p_name VARCHAR(255),
     p_lastname VARCHAR(255),
     p_mail VARCHAR(255),
     p_password VARCHAR(255),
-    p_phoneNumber VARCHAR(15)
+    p_phoneNumber VARCHAR(15),
+    p_gender ENUM('male', 'female', 'other'),
+    p_country VARCHAR(255),
+    p_role ENUM('admin', 'user')
 ) RETURNS INT
+    DETERMINISTIC
+    MODIFIES SQL DATA
 BEGIN
-    INSERT INTO Users (name, lastname, mail, password, phoneNumber)
-    VALUES (p_name, p_lastname, p_mail, p_password, p_phoneNumber);
+    INSERT INTO Users (
+        name, lastname, mail, password, phoneNumber, gender, country, role
+    ) VALUES (
+        p_name, p_lastname, p_mail, p_password, p_phoneNumber, p_gender, p_country,COALESCE(p_role, 'user')
+    );
     RETURN LAST_INSERT_ID();
 END //
+
 DELIMITER ;
 
 -- test
 
-SELECT AddUser('Juan', 'Perez', 'jperez@gmail.com', '1234', '1234-5678');
+SELECT AddUser(
+    'John',
+    'Doe',
+    'john.doe@example.com',
+    'securepassword123',
+    '1234567890',
+    'male',
+    'USA',
+    'admin'
+);
 
 select * from Users;
 
@@ -31,8 +50,12 @@ CREATE FUNCTION UpdateUser(
     p_lastname VARCHAR(255),
     p_mail VARCHAR(255),
     p_password VARCHAR(255),
-    p_phoneNumber VARCHAR(15)
+    p_phoneNumber VARCHAR(15),
+    p_gender ENUM('male', 'female', 'other'),
+    p_country VARCHAR(255)
 ) RETURNS VARCHAR(255)
+    DETERMINISTIC
+    MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
     
@@ -44,7 +67,7 @@ BEGIN
     
     -- Update the user
     UPDATE Users
-    SET name = p_name, lastname = p_lastname, mail = p_mail, password = p_password, phoneNumber = p_phoneNumber
+    SET name = p_name, lastname = p_lastname, mail = p_mail, password = p_password, phoneNumber = p_phoneNumber, gender = p_gender, country = p_country
     WHERE UsersID = p_UsersID;
 
     SET msg = 'Usuario actualizado correctamente';
@@ -52,13 +75,15 @@ BEGIN
 END //
 DELIMITER ;
 
-SELECT UpdateUser(6, 'Marcos', 'Gomez', 'mgomez@gmail.com', '4321', '123456789');
+SELECT UpdateUser(6, 'Marcos', 'Gomez', 'mgomez@gmail.com', '4321', '123456789', 'male', 'Costa Rica');
 
 -- Function to delete a user
 DELIMITER //
 CREATE FUNCTION DeleteUser(
     p_UsersID INT
 ) RETURNS VARCHAR(255)
+    DETERMINISTIC
+    MODIFIES SQL DATA
 BEGIN
     DECLARE msg VARCHAR(255);
     
@@ -75,6 +100,8 @@ BEGIN
     RETURN msg;
 END //
 DELIMITER ;
+
+SELECT DeleteUser(2);
 
 -- Table: Addresses
 

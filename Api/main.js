@@ -21,6 +21,7 @@ import orderDetailsRoutes from "./routes/orderDetailsRoutes.js";
 import ProductPromotionsRoutes from "./routes/productPromotionsRoutes.js";
 import ProductImagesRoutes from "./routes/ProductImagesRoutes.js";
 import cartItemsRoutes from "./routes/cartItemsRoutes.js";
+import middlewareRoutes from "./routes/middlewareRoutes.js";
 
 import { uploadProfilePicture } from "./controllers/usersControllers.js";
 
@@ -90,6 +91,7 @@ app.use('/orderDetails', orderDetailsRoutes);
 app.use('/productPromotions', ProductPromotionsRoutes);
 app.use('/productImages', ProductImagesRoutes);
 app.use('/cart', cartItemsRoutes);
+app.use('/middleware', middlewareRoutes);
 
 async function main() {
   try {

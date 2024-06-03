@@ -1,52 +1,72 @@
-import React, {useEffect, useState} from 'react'
-import Header from '../header/Header';
+import React, { useEffect, useState } from "react";
+import Header from "../header/Header";
 
 export default function AdminUsers() {
-    const [users, setUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [showRoleDropdown, setShowRoleDropdown] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showRoleDropdown, setShowRoleDropdown] = useState(false);
 
-    // Función para obtener los usuarios desde el backend
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/users');
-        const data = await response.json();
-        setUsers(data);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
+  // Función para obtener los usuarios desde el backend
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/users");
+      const data = await response.json();
+      setUsers(data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
-    const updateUserRole = async (userId, newRole) => {
-      try {
-        const response = await fetch(`http://localhost:3000/users/${userId}/role`, {
-          method: 'PUT',
+  const updateUserRole = async (userId, newRole) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/users/${userId}/role`,
+        {
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ role: newRole }),
-        });
-        if (response.ok) {
-          fetchUsers(); // Refresh the users list
-        } else {
-          console.error('Failed to update user role');
         }
-      } catch (error) {
-        console.error('Error updating user role:', error);
+      );
+      if (response.ok) {
+        fetchUsers(); // Refresh the users list
+      } else {
+        console.error("Failed to update user role");
       }
-    };
-  
-    useEffect(() => {
-      fetchUsers();
-    }, []);
-  
-    return (
-      <>
+    } catch (error) {
+      console.error("Error updating user role:", error);
+    }
+  };
+
+  const deleteUser = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        fetchUsers(); // Refresh the users list
+      } else {
+        console.error("Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  return (
+    <>
       <Header />
       <div className="p-6 bg-white shadow rounded-lg">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold">User List</h3>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded">Add User</button>
+          <button className="bg-blue-500 text-white py-2 px-4 rounded">
+            Add User
+          </button>
         </div>
         <table className="min-w-full bg-white">
           <thead>
@@ -73,8 +93,18 @@ export default function AdminUsers() {
                           setShowRoleDropdown(!showRoleDropdown);
                         }}
                       >
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-7 7-7-7" />
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M19 7l-7 7-7-7"
+                          />
                         </svg>
                       </button>
                       {showRoleDropdown && selectedUser === user.UsersID && (
@@ -82,13 +112,17 @@ export default function AdminUsers() {
                           <ul>
                             <li
                               className="cursor-pointer px-4 py-2 hover:bg-gray-200"
-                              onClick={() => updateUserRole(user.UsersID, 'admin')}
+                              onClick={() =>
+                                updateUserRole(user.UsersID, "admin")
+                              }
                             >
                               Admin
                             </li>
                             <li
                               className="cursor-pointer px-4 py-2 hover:bg-gray-200"
-                              onClick={() => updateUserRole(user.UsersID, 'user')}
+                              onClick={() =>
+                                updateUserRole(user.UsersID, "user")
+                              }
                             >
                               User
                             </li>
@@ -96,9 +130,22 @@ export default function AdminUsers() {
                         </div>
                       )}
                     </div>
-                    <button className="bg-transparent border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white rounded-full p-2">
-                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    <button
+                      className="bg-transparent border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white rounded-full p-2"
+                      onClick={() => deleteUser(user.UsersID)}
+                    >
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -115,6 +162,6 @@ export default function AdminUsers() {
           </div>
         </div>
       </div>
-      </>
-    );
+    </>
+  );
 }

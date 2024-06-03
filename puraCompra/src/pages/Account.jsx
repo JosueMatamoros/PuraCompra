@@ -68,7 +68,7 @@ export default function Account() {
             <div className="w-1/4 mx-4">
               <ul className="space-y-3">
                 <li 
-                  className={`border p-2 rounded-lg p-2 hover:underline cursor-pointer ${selectedOption === 'Personal Information' ? 'font-bold' : ''} space-x-3`}
+                  className={`border p-2 rounded-lg hover:underline cursor-pointer ${selectedOption === 'Personal Information' ? 'font-bold' : ''} space-x-3`}
                   onClick={() => setSelectedOption('Personal Information')}
                 >
                   Personal Information

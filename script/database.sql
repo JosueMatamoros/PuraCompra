@@ -1,6 +1,7 @@
 create database if not exists puracompra;
 use puracompra;
 
+
 -- Users Table
 CREATE TABLE Users (
   `UsersID` int PRIMARY KEY AUTO_INCREMENT,
@@ -15,18 +16,13 @@ CREATE TABLE Users (
   `role` ENUM ('admin', 'user') DEFAULT 'user'
 );
 
-
-# UPDATE Users
-# SET profilePicture = NULL
-# WHERE UsersID = 1;
-
 -- Addresses Table
 CREATE TABLE Addresses (
   `AddressID` int NOT NULL AUTO_INCREMENT,
   `UsersID` int NOT NULL,
   `address` varchar(255) NOT NULL,
   PRIMARY KEY (`AddressID`, `UsersID`),
-  CONSTRAINT `UserID` FOREIGN KEY (`UsersID`) REFERENCES Users(`UsersID`)
+  CONSTRAINT `UserID` FOREIGN KEY (`UsersID`) REFERENCES Users(`UsersID`) ON DELETE CASCADE
 );
 
 -- Orders Table
@@ -37,14 +33,18 @@ CREATE TABLE Orders (
   `address` varchar(255),
   `price` float,
   `taxes` float,
-  `card` int
+  `card` int,
+  FOREIGN KEY (`UsersID`) REFERENCES Users(`UsersID`) ON DELETE CASCADE
 );
 
--- OrderDetails Table
-CREATE TABLE OrderDetails (
-  `OrdersID` int,
-  `ProductID` int
+-- Sellers Table
+CREATE TABLE Sellers (
+  `SellersID` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(255),
+  `url` varchar(255),
+  `type` ENUM ('RETAIL_DISTRIBUTORS', 'PLATFORM_PARTNERS', 'DIGITAL_RESELLERS')
 );
+
 
 -- Products Table
 CREATE TABLE Products (
@@ -54,8 +54,16 @@ CREATE TABLE Products (
   `stock` int DEFAULT 0,
   `description` varchar(255),
   `price` float NOT NULL,
-  `imageUrl` varchar(255) NOT NULL
+  `imageUrl` varchar(255) NOT NULL,
+  FOREIGN KEY (`Sellers`) REFERENCES Sellers(`SellersID`)
+);
 
+-- OrderDetails Table
+CREATE TABLE OrderDetails (
+  `OrdersID` int,
+  `ProductID` int,
+  FOREIGN KEY (`OrdersID`) REFERENCES Orders(`OrdersID`) ON DELETE CASCADE,
+  FOREIGN KEY (`ProductID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
 
 -- ProductImages Table
@@ -68,13 +76,6 @@ CREATE TABLE ProductImages (
   FOREIGN KEY (`ProductsID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
 
--- Sellers Table
-CREATE TABLE Sellers (
-  `SellersID` int PRIMARY KEY AUTO_INCREMENT,
-  `name` varchar(255),
-  `url` varchar(255),
-  `type` ENUM ('RETAIL_DISTRIBUTORS', 'PLATFORM_PARTNERS', 'DIGITAL_RESELLERS')
-);
 
 -- Shipments Table
 CREATE TABLE Shipments (
@@ -84,13 +85,8 @@ CREATE TABLE Shipments (
   `date` datetime DEFAULT (now()),
   `price` float,
   `totalPrice` float,
-  `state` ENUM ('DELIVED', 'IN_PROCESS', 'PENDING') DEFAULT 'PENDING'
-);
-
--- ProductsPromotions Table
-CREATE TABLE ProductsPromotions (
-  `ProductsID` int,
-  `PromotionsID` int
+  `state` ENUM ('DELIVED', 'IN_PROCESS', 'PENDING') DEFAULT 'PENDING',
+  FOREIGN KEY (`OrdersID`) REFERENCES Orders(`OrdersID`) ON DELETE CASCADE
 );
 
 -- Promotions Table
@@ -99,6 +95,14 @@ CREATE TABLE Promotions (
   `category` ENUM ('HOLIDAYS', 'FREE_SHIPING', 'MEMBERS'),
   `discount` float,
   `description` varchar(255)
+);
+
+-- ProductsPromotions Table
+CREATE TABLE ProductsPromotions (
+  `ProductsID` int,
+  `PromotionsID` int,
+  FOREIGN KEY (`ProductsID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE,
+  FOREIGN KEY (`PromotionsID`) REFERENCES Promotions(`PromotionsID`) ON DELETE CASCADE
 );
 
 
@@ -110,7 +114,9 @@ CREATE TABLE Reviews (
   `title` varchar(50),
   `body` varchar(255),
   `star` ENUM ('ONE_STAR', 'TWO_STAR', 'TREE_STAR', 'FOURTH_STAR', 'FIVE_STAR'),
-  `date` datetime DEFAULT (now())
+  `date` datetime DEFAULT (now()),
+  FOREIGN KEY (`UsersID`) REFERENCES Users(`UsersID`) ON DELETE CASCADE,
+  FOREIGN KEY (`ProductsID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
 
 -- TransactionLogs
@@ -120,7 +126,9 @@ CREATE TABLE TransactionLogs (
   `OrderID` int,
   `type` ENUM ('Refund', 'purchase'),
   `quantity` float,
-  `date` datetime DEFAULT (now())
+  `date` datetime DEFAULT (now()),
+  FOREIGN KEY (`UsersID`) REFERENCES Users(`UsersID`) ON DELETE CASCADE,
+  FOREIGN KEY (`OrderID`) REFERENCES Orders(`OrdersID`) ON DELETE CASCADE
 );
 
 -- PriceHistory Table
@@ -128,7 +136,8 @@ CREATE TABLE PriceHistory (
   `PriceID` int PRIMARY KEY AUTO_INCREMENT,
   `ProductID` int,
   `price` float,
-  `date` datetime DEFAULT (now())
+  `date` datetime DEFAULT (now()),
+  FOREIGN KEY (`ProductID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
 
 CREATE TABLE CartItems (
@@ -136,73 +145,7 @@ CREATE TABLE CartItems (
   UsersID int NOT NULL,
   ProductID int NOT NULL,
   quantity int DEFAULT 1,
-  FOREIGN KEY (UsersID) REFERENCES Users (UsersID),
-  FOREIGN KEY (ProductID) REFERENCES Products (ProductsID)
+  FOREIGN KEY (`UsersID`) REFERENCES Users(`UsersID`) ON DELETE CASCADE,
+  FOREIGN KEY (`ProductID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
 
-
--- Relationships
-
--- Creates a relation between the Addresses table with the UserID, because a user may have different addresses
--- Adresses -> Users (1:1)
-ALTER TABLE Addresses ADD FOREIGN KEY (UsersID) REFERENCES Users (UsersID);
-
--- Creates a relation between the Orders table with the UsersID, because a user may have different orders
--- Orders -> Users (1:N)
-ALTER TABLE Orders ADD FOREIGN KEY (UsersID) REFERENCES Users (UsersID);
-
--- Creates a relation between the OrderDetails table with the OrdersID, because an order may have different products
--- OrderDetails -> Orders (1:N)
-ALTER TABLE OrderDetails ADD FOREIGN KEY (OrdersID) REFERENCES Orders (OrdersID);
-
--- Creates a relation between the OrderDetails table with the ProductID, because a product may be in different orders
--- OrderDetails -> Products (1:N)
-ALTER TABLE OrderDetails ADD FOREIGN KEY (ProductID) REFERENCES Products (ProductsID);
-
--- Creates a relation between the Shipments table with the OrdersID, because an order may have different shipments
--- Shipments -> Orders (1:N)
-ALTER TABLE Shipments ADD FOREIGN KEY (OrdersID) REFERENCES Orders (OrdersID);
-
--- Creates a relation between the TransactionLogs table with the UsersID, because a user may have different transactions
--- TransactionLogs -> Users (1:N)
-ALTER TABLE TransactionLogs ADD FOREIGN KEY (UsersID) REFERENCES Users (UsersID);
-
--- Creates a relation between the TransactionLogs table with the OrderID, because an order may have different transactions
--- TransactionLogs -> Orders (1:N)
-ALTER TABLE TransactionLogs ADD FOREIGN KEY (OrderID) REFERENCES Orders (OrdersID);
-
--- Creates a relation between the Products table with the Sellers, because a product may have different sellers
--- Products -> Sellers (1:N)
-ALTER TABLE Reviews ADD FOREIGN KEY (UsersID) REFERENCES Users (UsersID);
-
--- Creates a relation between the Reviews table with the UsersID, because a user may have different reviews
--- Reviews -> Users (1:N)
-ALTER TABLE Reviews ADD FOREIGN KEY (ProductsID) REFERENCES Products (ProductsID);
-
--- Creates a relation between the Products table with the Sellers, because a product may have different sellers
--- Products -> Sellers (1:N)
-ALTER TABLE Products ADD FOREIGN KEY (Sellers) REFERENCES Sellers (SellersID);
-
--- Creates a relation between the ProductsPromotions table with the ProductsID, because a product may have different promotions
--- ProductsPromotions -> Products (1:N)
-ALTER TABLE ProductsPromotions ADD FOREIGN KEY (ProductsID) REFERENCES Products (ProductsID);
-
--- Creates a relation between the ProductsPromotions table with the PromotionsID, because a promotion may have different products
--- ProductsPromotions -> Promotions (1:N)
-ALTER TABLE ProductsPromotions ADD FOREIGN KEY (PromotionsID) REFERENCES Promotions (PromotionsID);
-
--- Creates a relation between the PriceHistory table with the ProductID, because a product may have different prices
--- PriceHistory -> Products (1:N)
-ALTER TABLE PriceHistory ADD FOREIGN KEY (ProductID) REFERENCES Products (ProductsID);
-
-
-
--- Borrar registros dependientes en OrderDetails y Shipments
-DELETE FROM OrderDetails WHERE OrdersID IN (SELECT OrdersID FROM Orders);
-DELETE FROM Shipments WHERE OrdersID IN (SELECT OrdersID FROM Orders);
-
--- Borrar las órdenes
-DELETE FROM Orders;
-
--- (Opcional) Borrar los envíos restantes, en caso de que haya envíos no relacionados con órdenes
-DELETE FROM Shipments;

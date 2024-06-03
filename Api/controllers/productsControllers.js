@@ -88,3 +88,20 @@ export const deleteProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const updateProductStock = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { stock } = req.body;
+        const [updated] = await Products.update({ stock }, {
+            where: { ProductsID: id }
+        });
+        if (updated) {
+            res.status(204).end();
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}

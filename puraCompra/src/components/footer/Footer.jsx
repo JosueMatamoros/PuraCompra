@@ -15,15 +15,15 @@ const Footer = () => {
                         <div className="bottom-label">
                             <div className="label font-bold mb-2">Resources</div>
                         </div>
-                        <a href="/privacy-policy" className="footer-link block mb-1">Products</a>
-                        <a href="/terms-of-service" className="footer-link block mb-1">Shop</a>
+                        <a href="/products" className="footer-link block mb-1">Products</a>
+                        <a href="/shop" className="footer-link block mb-1">Shop</a>
                     </div>
                     <div className="bottom-block">
                         <div className="bottom-label">
                             <div className="label font-bold mb-2">Social</div>
                         </div>
-                        <a href="https://twitter.com/strut_ai" target="_blank" className="footer-link block mb-1">X/Twitter</a>
-                        <a href="https://discord.com/invite/cnQYcr5dzE" target="_blank" className="footer-link block">Discord</a>
+                        <a href="https://twitter.com/Hasbulla_NFT" target="_blank" className="footer-link block mb-1">X/Twitter</a>
+                        <a href="https://discord.com/invite/hasbullanft" target="_blank" className="footer-link block">Discord</a>
                     </div>
                 </div>
             </footer>

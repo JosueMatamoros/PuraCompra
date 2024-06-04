@@ -5,12 +5,15 @@ import hasbulla from "../../profileIcon/hasbulla.png";
 import { AuthContext } from "../../context/AuthContext";
 import IconModal from "../modal/IconModal";
 import axios from "axios";
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function UserInformation() {
-  const { user, updateUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { user, updateUser, logout } = useContext(AuthContext);
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name: "",
     lastname: "",
@@ -92,6 +95,19 @@ export default function UserInformation() {
     updateUser({ ...user, profilePicture: filePath });
   };
 
+  const handleDeleteUser = async () => {
+    try {
+      if (user && user.UsersID) {
+        await axios.delete(`http://localhost:3000/users/${user.UsersID}`);
+        logout();
+        navigate('/');
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      console.error("Error details:", error.response?.data || error.message);
+    }
+  };
+
   const profilePicture = user?.profilePicture
     ? `http://localhost:3000${user.profilePicture}`
     : hasbulla;
@@ -112,7 +128,10 @@ export default function UserInformation() {
             Allowed *.jpeg, *.jpg, *.png
           </p>
           <p className="text-sm text-gray-500 mb-4">max size of 3 Mb</p>
-          <button className="mt-10 px-4 py-2 text-sm text-white bg-red-500 rounded-md shadow-md hover:bg-red-600 focus:outline-none">
+          <button
+            className="mt-10 px-4 py-2 text-sm text-white bg-red-500 rounded-md shadow-md hover:bg-red-600 focus:outline-none"
+            onClick={() => setIsDeleteModalOpen(true)}
+          >
             Delete User
           </button>
         </div>
@@ -220,6 +239,31 @@ export default function UserInformation() {
         onUpload={handleUpload}
         userId={user.UsersID}
       />
+      {isDeleteModalOpen && (
+        <Modal
+          show={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+        >
+          <Modal.Header>Confirm Delete</Modal.Header>
+          <Modal.Body>
+            <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              color="red"
+              onClick={handleDeleteUser}
+            >
+              Delete
+            </Button>
+            <Button
+              color="gray"
+              onClick={() => setIsDeleteModalOpen(false)}
+            >
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
       {showToast && (
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2">
           <Toast>

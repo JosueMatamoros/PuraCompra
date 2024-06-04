@@ -5,7 +5,7 @@ export const getProductImagesByProductId = async (req, res) => {
         const { id } = req.params;
         const images = await ProductImages.findAll({
             where: { ProductsID: id },
-            attributes: ['imageUrl', 'type', 'color'] 
+            attributes: ['imageUrl', 'type', 'color', 'colorName'] 
         });
         if (images.length > 0) {
             res.json(images);

@@ -1,6 +1,5 @@
-create database if not exists puracompra;
-use puracompra;
-
+CREATE DATABASE IF NOT EXISTS puracompra;
+USE puracompra;
 
 -- Users Table
 CREATE TABLE Users (
@@ -45,7 +44,6 @@ CREATE TABLE Sellers (
   `type` ENUM ('RETAIL_DISTRIBUTORS', 'PLATFORM_PARTNERS', 'DIGITAL_RESELLERS')
 );
 
-
 -- Products Table
 CREATE TABLE Products (
   `ProductsID` int PRIMARY KEY AUTO_INCREMENT,
@@ -73,9 +71,9 @@ CREATE TABLE ProductImages (
   `imageUrl` varchar(255) NOT NULL,
   `type` boolean NOT NULL,
   `color` varchar(50),
+  `colorName` varchar(50),
   FOREIGN KEY (`ProductsID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
-
 
 -- Shipments Table
 CREATE TABLE Shipments (
@@ -105,7 +103,6 @@ CREATE TABLE ProductsPromotions (
   FOREIGN KEY (`PromotionsID`) REFERENCES Promotions(`PromotionsID`) ON DELETE CASCADE
 );
 
-
 -- Reviews Table
 CREATE TABLE Reviews (
   `ReviewsID` int PRIMARY KEY AUTO_INCREMENT,
@@ -113,8 +110,8 @@ CREATE TABLE Reviews (
   `ProductsID` int,
   `title` varchar(50),
   `body` varchar(255),
-  `star` ENUM ('ONE_STAR', 'TWO_STAR', 'TREE_STAR', 'FOURTH_STAR', 'FIVE_STAR'),
-  `date` datetime DEFAULT (now()),
+  `star` ENUM ('ONE_STAR', 'TWO_STAR', 'TREE_STAR', 'FOUR_STAR', 'FIVE_STAR'),
+  `date` datetime DEFAULT now(),
   FOREIGN KEY (`UsersID`) REFERENCES Users(`UsersID`) ON DELETE CASCADE,
   FOREIGN KEY (`ProductsID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
@@ -148,4 +145,3 @@ CREATE TABLE CartItems (
   FOREIGN KEY (`UsersID`) REFERENCES Users(`UsersID`) ON DELETE CASCADE,
   FOREIGN KEY (`ProductID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
-

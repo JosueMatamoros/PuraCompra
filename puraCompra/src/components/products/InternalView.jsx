@@ -29,8 +29,11 @@ export default function InternalView() {
             const images = response.data;
             if (images.length > 0) {
               setHoveredImage(`http://localhost:3000${productData.imageUrl}`);
-              setHoveredColor(images[0].color);
-              const availableColors = images.filter(img => img.type).map(img => img.color);
+              setHoveredColor(images[0].colorName);
+              const availableColors = images.filter(img => img.type).map(img => ({
+                hex: img.color,
+                name: img.colorName
+              }));
               setColors(availableColors);
             }
             setAdditionalImages(images);
@@ -57,10 +60,10 @@ export default function InternalView() {
   }, [id]);
 
   const handleColorClick = (color) => {
-    const selectedImage = additionalImages.find(img => img.color === color);
+    const selectedImage = additionalImages.find(img => img.color === color.hex);
     if (selectedImage) {
       setHoveredImage(`http://localhost:3000${selectedImage.imageUrl}`);
-      setHoveredColor(color);
+      setHoveredColor(selectedImage.colorName);
     }
   };
 
@@ -87,7 +90,7 @@ export default function InternalView() {
                     className="carousel-item p-2"
                     onMouseEnter={() => {
                       setHoveredImage(`http://localhost:3000${image.imageUrl}`);
-                      setHoveredColor(image.color);
+                      setHoveredColor(image.colorName);
                     }}
                   >
                     <div className="w-full h-48 flex justify-center items-center" style={{ height: '200px', margin: '5px' }}>
@@ -134,7 +137,7 @@ export default function InternalView() {
             <div className="flex justify-between w-full">
               {colors.length > 0 && (
                 <p className="text-lg mb-2">
-                  <span className="text-stone-800 font-bold">Color:</span> {hoveredColor || colors[0]}
+                  <span className="text-stone-800 font-bold">Color:</span> {hoveredColor || colors[0].name}
                 </p>
               )}
               <p className="text-lg mb-2">
@@ -147,8 +150,8 @@ export default function InternalView() {
                 {colors.map((color, index) => (
                   <div
                     key={index}
-                    className={`w-8 h-8 rounded-full cursor-pointer border ${color === hoveredColor ? 'border-gray-800' : 'border-black'}`}
-                    style={{ backgroundColor: color}}
+                    className={`w-8 h-8 rounded-full cursor-pointer border ${color.name === hoveredColor ? 'border-gray-800' : 'border-black'}`}
+                    style={{ backgroundColor: color.hex}}
                     onClick={() => handleColorClick(color)}
                   ></div>
                 ))}

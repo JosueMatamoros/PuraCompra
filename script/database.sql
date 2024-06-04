@@ -1,6 +1,5 @@
-create database if not exists puracompra;
-use puracompra;
-
+CREATE DATABASE IF NOT EXISTS puracompra;
+USE puracompra;
 
 -- Users Table
 CREATE TABLE Users (
@@ -45,7 +44,6 @@ CREATE TABLE Sellers (
   `type` ENUM ('RETAIL_DISTRIBUTORS', 'PLATFORM_PARTNERS', 'DIGITAL_RESELLERS')
 );
 
-
 -- Products Table
 CREATE TABLE Products (
   `ProductsID` int PRIMARY KEY AUTO_INCREMENT,
@@ -73,13 +71,9 @@ CREATE TABLE ProductImages (
   `imageUrl` varchar(255) NOT NULL,
   `type` boolean NOT NULL,
   `color` varchar(50),
+  `colorName` varchar(50),
   FOREIGN KEY (`ProductsID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
-
--- Add new colorName column to Products Table 
-ALTER TABLE ProductImages ADD COLUMN colorName varchar(50);
-
-select * from ProductImages;
 
 -- Shipments Table
 CREATE TABLE Shipments (
@@ -109,7 +103,6 @@ CREATE TABLE ProductsPromotions (
   FOREIGN KEY (`PromotionsID`) REFERENCES Promotions(`PromotionsID`) ON DELETE CASCADE
 );
 
-
 -- Reviews Table
 CREATE TABLE Reviews (
   `ReviewsID` int PRIMARY KEY AUTO_INCREMENT,
@@ -122,8 +115,6 @@ CREATE TABLE Reviews (
   FOREIGN KEY (`UsersID`) REFERENCES Users(`UsersID`) ON DELETE CASCADE,
   FOREIGN KEY (`ProductsID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
-
-DROP TABLE reviews;
 
 -- TransactionLogs
 CREATE TABLE TransactionLogs (

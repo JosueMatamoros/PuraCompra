@@ -30,8 +30,6 @@ export default function Account() {
           return <p>These are your payment methods.</p>;
         case 'Order History':
           return <p>This is your order history.</p>;
-        case 'Wishlist':
-          return <p>This is your wishlist.</p>;
         default:
           return null;
       }
@@ -90,12 +88,6 @@ export default function Account() {
                   onClick={() => setSelectedOption('Order History')}
                 >
                   Order History
-                </li>
-                <li 
-                  className={`border p-2 rounded-lg hover:underline cursor-pointer ${selectedOption === 'Wishlist' ? 'font-bold' : ''} space-x-3`} 
-                  onClick={() => setSelectedOption('Wishlist')}
-                >
-                  Wishlist
                 </li>
               </ul>
             </div>

@@ -76,6 +76,10 @@ CREATE TABLE ProductImages (
   FOREIGN KEY (`ProductsID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
 
+-- Add new colorName column to Products Table 
+ALTER TABLE ProductImages ADD COLUMN colorName varchar(50);
+
+select * from ProductImages;
 
 -- Shipments Table
 CREATE TABLE Shipments (
@@ -113,11 +117,13 @@ CREATE TABLE Reviews (
   `ProductsID` int,
   `title` varchar(50),
   `body` varchar(255),
-  `star` ENUM ('ONE_STAR', 'TWO_STAR', 'TREE_STAR', 'FOURTH_STAR', 'FIVE_STAR'),
-  `date` datetime DEFAULT (now()),
+  `star` ENUM ('ONE_STAR', 'TWO_STAR', 'TREE_STAR', 'FOUR_STAR', 'FIVE_STAR'),
+  `date` datetime DEFAULT now(),
   FOREIGN KEY (`UsersID`) REFERENCES Users(`UsersID`) ON DELETE CASCADE,
   FOREIGN KEY (`ProductsID`) REFERENCES Products(`ProductsID`) ON DELETE CASCADE
 );
+
+DROP TABLE reviews;
 
 -- TransactionLogs
 CREATE TABLE TransactionLogs (

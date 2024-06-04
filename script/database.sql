@@ -83,7 +83,7 @@ CREATE TABLE Shipments (
   `date` datetime DEFAULT (now()),
   `price` float,
   `totalPrice` float,
-  `state` ENUM ('DELIVED', 'IN_PROCESS', 'PENDING') DEFAULT 'PENDING',
+  `state` ENUM ('DELIVERED', 'IN_PROCESS', 'PENDING') DEFAULT 'PENDING',
   FOREIGN KEY (`OrdersID`) REFERENCES Orders(`OrdersID`) ON DELETE CASCADE
 );
 

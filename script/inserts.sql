@@ -5,7 +5,7 @@ INSERT INTO Users (name, lastname, mail, password, phoneNumber, gender, country,
 ('Admin', 'Admin', 'admin@admin.com','root', '911', 'male','Costa Rica', 'admin' ),
 ('Isaac', 'Ramírez', 'izackk26@icloud.com','1234', '1238-8281', 'male','Costa Rica', 'user' ),
 ('Roosevelt', 'Pérez', 'roperez@yahoo-questions.com','1234', '1234-9785', 'male', 'Costa Rica', 'user'),
-('Josué', 'Matamoros', 'jmatamoros@kahoot.com','1234', '8745-1708', 'male', 'Costa Rica', 'user'),
+('Josué', 'Matamoros', 'jmatamoros@gmail.com','1234', '8745-1708', 'male', 'Costa Rica', 'user'),
 ('Luis', 'Cubillo', 'luisalonso2005@gmail.com', '1234', '1234-5678', 'male', 'Costa Rica', 'user');
 
 -- 2. Insert Addresses
@@ -290,9 +290,9 @@ INSERT INTO OrderDetails (OrdersID, ProductID) VALUES
 
 -- 12. Insert Shipments
 INSERT INTO Shipments (OrdersID, tracking, price, totalPrice, state) VALUES
-(1, 123456789, 100.00, 1314.50, 'DELIVED'),
-(2, 987654321, 120.00, 2460.00, 'PENDING'),
-(3, 123456789, 75.00, 970.00, 'DELIVED');
+(1, 123456789, 100.00, 1314.50, 'IN_PROCESS'),
+(2, NULL, 120.00, 2460.00, 'PENDING'),
+(3, 123456789, 75.00, 970.00, 'DELIVERED');
 
 -- 13. Insert TransactionLogs
 INSERT INTO TransactionLogs ( UsersID, OrderID, type, quantity) VALUES

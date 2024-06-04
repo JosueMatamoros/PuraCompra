@@ -66,7 +66,7 @@ export default function AdminShipments() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ state: 'DELIVED' }),
+        body: JSON.stringify({ state: 'DELIVERED' }),
       });
       if (response.ok) {
         await fetchShipments(); // Refresh the shipments list
@@ -95,7 +95,7 @@ export default function AdminShipments() {
 
   const pendingShipments = shipments.filter(shipment => shipment.state === 'PENDING');
   const inProcessShipments = shipments.filter(shipment => shipment.state === 'IN_PROCESS');
-  const deliveredShipments = shipments.filter(shipment => shipment.state === 'DELIVED');
+  const deliveredShipments = shipments.filter(shipment => shipment.state === 'DELIVERED');
 
   const renderTable = (title, shipments, isPending) => (
     <div className="mb-8">

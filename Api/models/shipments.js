@@ -34,7 +34,7 @@ const Shipments = sequelize.define("Shipments", {
     allowNull: false,
   },
   state: {
-    type: DataTypes.ENUM('DELIVED', 'IN_PROCESS', 'PENDING'),
+    type: DataTypes.ENUM('DELIVERED', 'IN_PROCESS', 'PENDING'),
     defaultValue: 'PENDING',
     allowNull: false,
   },

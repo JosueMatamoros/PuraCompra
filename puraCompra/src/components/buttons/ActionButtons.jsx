@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import StockModal from '../modal/StockModal';
 
-const ActionButtons = ({ productId, onStockChange }) => {
+const ActionButtons = ({ productId, onStockChange, deleteProduct }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleEditClick = () => {
@@ -9,7 +9,7 @@ const ActionButtons = ({ productId, onStockChange }) => {
   };
 
   const handleDeleteClick = () => {
-    // Lógica para eliminar el producto
+    deleteProduct(productId);
   };
 
   return (

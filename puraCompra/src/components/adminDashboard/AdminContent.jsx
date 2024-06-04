@@ -20,6 +20,21 @@ export default function AdminContent() {
     }
   };
 
+  const deleteProduct = async (productId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/products/${productId}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        fetchProducts(); // Refresh the products list
+      } else {
+        console.error('Failed to delete product');
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+  }
+
   useEffect(() => {
     fetchProducts();
   }, [updateTrigger]); // Ejecutar el useEffect cuando updateTrigger cambie
@@ -118,7 +133,7 @@ export default function AdminContent() {
                   <td className="py-2">{product.ProductsID}</td>
                   <td className="py-2">{product.stock}</td>
                   <td className="py-2">
-                    <ActionButtons productId={product.ProductsID} onStockChange={handleStockChange} />
+                    <ActionButtons productId={product.ProductsID} onStockChange={handleStockChange} deleteProduct={deleteProduct} />
                   </td>
                 </tr>
               ))}

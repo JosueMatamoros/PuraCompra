@@ -32,34 +32,22 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 
-app.use(cors());
+// Configurar CORS para permitir todas las solicitudes necesarias
+app.use(cors({
+  origin: '*', // Permitir todos los orígenes
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+}));
+
 app.use(express.json());
 app.use(bodyParser.json());
 
 // Servir archivos estáticos desde la carpeta 'products'
-app.use('/assets', express.static(path.join(__dirname, '../puraCompra/src/assets/products')));
-
+app.use('/assets/products', express.static(path.join(__dirname, '../puraCompra/src/assets/products')));
 app.use('/profileIcon', express.static(path.join(__dirname, '../puraCompra/src/profileIcon')));
 
-// Asegurarse de que el directorio de destino exista
-// const ensureDirectoryExistence = (dir) => {
-//   if (!fs.existsSync(dir)) {
-//     fs.mkdirSync(dir, { recursive: true });
-//   }
-// };
-// const profileIconPath = path.join(__dirname, '../puraCompra/src/assets/profileIcon');
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     const dest = profileIconPath;
-//     ensureDirectoryExistence(dest);
-//     cb(null, dest);
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, `${Date.now()}-${file.originalname}`);
-//   },
-// });
-
-const storage = multer.diskStorage({
+// Configuración de multer para subir imágenes de perfil
+const profileIconStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     const dest = path.join(__dirname, '../puraCompra/src/profileIcon');
     if (!fs.existsSync(dest)) {
@@ -72,10 +60,26 @@ const storage = multer.diskStorage({
   },
 });
 
+const profileIconUpload = multer({ storage: profileIconStorage });
 
-const upload = multer({ storage: storage });
+// Configuración de multer para subir imágenes de productos
+const productImageStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dest = path.join(__dirname, '../puraCompra/src/assets/products');
+    if (!fs.existsSync(dest)) {
+      fs.mkdirSync(dest, { recursive: true });
+    }
+    cb(null, dest);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const productImageUpload = multer({ storage: productImageStorage });
+
 // Rutas de la API
-app.post('/upload/:id', upload.single('profilePicture'), uploadProfilePicture);
+app.post('/upload/:id', profileIconUpload.single('profilePicture'), uploadProfilePicture);
 
 app.use('/addresses', addressesRoutes);
 app.use('/users', usersRoutes);
@@ -85,7 +89,7 @@ app.use('/sellers', sellersRoutes);
 app.use('/shipments', shipmentsRoutes);
 app.use('/transactionLogs', transactionLogsRoutes);
 app.use('/orders', ordersRoutes);
-app.use('/products', productsRoutes);
+app.use('/products', productImageUpload.single('mainImage'), productsRoutes); // Middleware para subir imagen de producto
 app.use('/priceHistory', priceHistoryRoutes);
 app.use('/orderDetails', orderDetailsRoutes);
 app.use('/productPromotions', ProductPromotionsRoutes);

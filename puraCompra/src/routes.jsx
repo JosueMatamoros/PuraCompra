@@ -11,7 +11,7 @@ import Payment from "./pages/Payment";
 import AdminUsers from "./components/adminDashboard/AdminUsers";
 import AdminContent from "./components/adminDashboard/AdminContent";
 import AdminShipments from "./components/adminDashboard/AdminShipments";
-
+import AdminCreateProduct from "./components/adminDashboard/AdminCreateProduct";
 
 const Ruting = () => (
     <Router>
@@ -27,7 +27,7 @@ const Ruting = () => (
             <Route path="/adminUsers" element={<AdminUsers />} />
             <Route path="/adminContent" element={<AdminContent />} />
             <Route path="/adminShipments" element={<AdminShipments />} />
-
+            <Route path="/adminCreateProduct" element={<AdminCreateProduct />} />
         </Routes>
     </Router>
 );

@@ -20,14 +20,24 @@ export const getProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const { Sellers, name, stock, description, price, imageUrl } = req.body;
-        const newProduct = await Products.create({ Sellers, name, stock, description, price, imageUrl });
-        res.status(201).json(newProduct);
+      const { seller, name, stock, description, price } = req.body;
+      const mainImage = req.file ? `/assets/products/${req.file.filename}` : '';
+  
+      const newProduct = await Products.create({
+        Sellers: seller,
+        name,
+        stock,
+        description,
+        price,
+        imageUrl: mainImage,
+      });
+      res.status(201).json(newProduct);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+      console.error('Error creating product:', error);
+      res.status(500).json({ message: error.message });
     }
-};
-
+  };
+  
 export const getProductById = async (req, res) => {
     try {
         const product = await Products.findByPk(req.params.id, {

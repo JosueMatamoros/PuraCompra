@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ListGroup, ListGroupItem } from 'flowbite-react';
 import Header from '../header/Header';
 import ActionButtons from '../buttons/ActionButtons';
+// importar para navergar entre paginas
+import { useNavigate } from 'react-router-dom';
+
 
 export default function AdminContent() {
   const [products, setProducts] = useState([]);
@@ -9,6 +12,13 @@ export default function AdminContent() {
   const [selectedStock, setSelectedStock] = useState('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [updateTrigger, setUpdateTrigger] = useState(false); // Estado para forzar la actualización
+
+  const navigate = useNavigate();
+
+  const handleAddProduct = () => {
+    navigate('/adminCreateProduct');
+  };
+
 
   const fetchProducts = async () => {
     try {
@@ -34,6 +44,7 @@ export default function AdminContent() {
       console.error('Error deleting product:', error);
     }
   }
+
 
   useEffect(() => {
     fetchProducts();
@@ -64,7 +75,8 @@ export default function AdminContent() {
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-2xl">Products</h2>
           <div className="flex items-center gap-4">
-            <button className="bg-blue-500 text-white py-2 px-4 rounded">Add Product</button>
+          <button className="bg-blue-500 text-white py-2 px-4 rounded" onClick={handleAddProduct}>Add Product</button>
+
             <div className="relative">
               <button 
                 className="bg-transparent border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white py-2 px-4 rounded flex items-center gap-2"

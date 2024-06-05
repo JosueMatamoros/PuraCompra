@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import Header from '../components/header/Header';
 import UserAddress from '../components/dashboard/UserAddress';
 import UserInformation from '../components/dashboard/UserInformation';
+import OrdersHistory from '../components/dashboard/OrdersHistory';
 import Orders from '../components/dashboard/Orders';
 import AdminDashboard from './AdminDashboard';
 
@@ -16,7 +17,7 @@ export default function Account() {
   }
 
   if (user.role === 'admin') {
-    return <AdminDashboard />; // Renderiza el dashboard del administrador si el rol es 'admin'
+    return <AdminDashboard />; // Render the AdminDashboard component if the user is an admin
   }
 
   const renderContent = () => {
@@ -27,7 +28,7 @@ export default function Account() {
         case 'Address Book':
           return <UserAddress />;
         case 'Order History':
-          return <p>This is your order history.</p>;
+          return <OrdersHistory />;
         default:
           return null;
       }

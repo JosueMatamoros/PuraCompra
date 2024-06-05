@@ -93,7 +93,7 @@ app.use('/products', productImageUpload.single('mainImage'), productsRoutes); //
 app.use('/priceHistory', priceHistoryRoutes);
 app.use('/orderDetails', orderDetailsRoutes);
 app.use('/productPromotions', ProductPromotionsRoutes);
-app.use('/productImages', ProductImagesRoutes);
+app.use('/productImages', productImageUpload.single('imageUrl'), ProductImagesRoutes); // Middleware para subir imágenes adicionales
 app.use('/cart', cartItemsRoutes);
 app.use('/middleware', middlewareRoutes);
 

@@ -68,3 +68,13 @@ export const deleteSeller = async (request, response) => {
     response.status(500).json({ message: error.message });
   }
 };
+
+export const countSellers = async (req, res) => {
+  try {
+    const count = await Sellers.count();
+
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error', error });
+  }
+};

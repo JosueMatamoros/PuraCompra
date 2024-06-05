@@ -115,3 +115,13 @@ export const updateProductStock = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+export const countProducts = async (req, res) => {
+    try {
+      const count = await Products.count();
+  
+      res.status(200).json({ count });
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error', error });
+    }
+  };

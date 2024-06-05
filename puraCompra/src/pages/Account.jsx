@@ -26,8 +26,6 @@ export default function Account() {
           return <UserInformation />;
         case 'Address Book':
           return <UserAddress />;
-        case 'Payment Methods':
-          return <p>These are your payment methods.</p>;
         case 'Order History':
           return <p>This is your order history.</p>;
         default:
@@ -76,12 +74,6 @@ export default function Account() {
                   onClick={() => setSelectedOption('Address Book')}
                 >
                   Address Book
-                </li>
-                <li 
-                  className={`border p-2 rounded-lg hover:underline cursor-pointer ${selectedOption === 'Payment Methods' ? 'font-bold' : ''} space-x-3`} 
-                  onClick={() => setSelectedOption('Payment Methods')}
-                >
-                  Payment Methods
                 </li>
                 <li 
                   className={`border p-2 rounded-lg hover:underline cursor-pointer ${selectedOption === 'Order History' ? 'font-bold' : ''} space-x-3`} 

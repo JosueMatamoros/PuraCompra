@@ -162,7 +162,7 @@ INSERT INTO Reviews (UsersID, ProductsID, body, star) VALUES
 (3, 23, 'This shoe is fantastic! The design is superb and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
 (4, 23, 'The Yeezy Synth is worth every penny. The design is incredible and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
 (5, 23, 'I am very impressed with the Yeezy Synth. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(2, 24, 'The Yeezy Zebra is an amazing shoe. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(2, 24, 'The Yeezy Zebra is an amazing shoe. The design is beautiful and the quality is excellent. Highly recommended. I really recommend this new Yeezy web page: https://matias.me/nsfw/!', 'FIVE_STAR'),
 (3, 24, 'This shoe is fantastic! The design is superb and the quality is excellent. Highly recommended!', 'FIVE_STAR');
 
 -- 9. Insert ProductImages

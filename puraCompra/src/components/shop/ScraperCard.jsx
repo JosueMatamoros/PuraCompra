@@ -5,6 +5,10 @@ export default function ScraperCard({ name, imageUrl, price, rating }) {
   const roundedRating = Math.round(rating);
   const emptyStars = 5 - roundedRating;
 
+  // Asegúrate de que el precio sea un número
+  const numericPrice = Number(price);
+  const formattedPrice = isNaN(numericPrice) ? 'N/A' : numericPrice.toFixed(2);
+
   return (
     <div className="flex w-6/12 items-start justify-center ">
       <div className="w-1/3">
@@ -21,8 +25,7 @@ export default function ScraperCard({ name, imageUrl, price, rating }) {
           ))}
         </Rating>
 
-         <p className="text-xl font-bold text-stone-800 mb-2">${price?.toFixed(2)}</p>
-        
+        <p className="text-xl font-bold text-stone-800 mb-2">${formattedPrice}</p>
       </div>
     </div>
   );

@@ -7,6 +7,11 @@ import Footer from "../components/footer/Footer";
 export default function AdminDashboard() {
   const [userCount, setUserCount] = useState(0);
   const [adminCount, setAdminCount] = useState(0);
+  const [sellersCount, setSellersCount] = useState(0);
+  const [productsCount, setProductsCount] = useState(0);
+  const [pendingShipments, setPendingShipments] = useState(0);
+  const [inProcessShipments, setInProcessShipments] = useState(0);
+  const [completedShipments, setCompletedShipments] = useState(0);
 
   const navigate = useNavigate();
 
@@ -35,9 +40,50 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchSellersCount = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/sellers/count/sellers");
+      const data = await response.json();
+      setSellersCount(data.count);
+    } catch (error) {
+      console.error("Error fetching sellers count:", error);
+    }
+  };
+
+  const fetchProductsCount = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/products/count/products");
+      const data = await response.json();
+      setProductsCount(data.count);
+    } catch (error) {
+      console.error("Error fetching products count:", error);
+    }
+  };
+
+  const fetchShipmentsCounts = async () => {
+    try {
+      const pendingResponse = await fetch("http://localhost:3000/shipments/count/PENDING");
+      const inProcessResponse = await fetch("http://localhost:3000/shipments/count/IN_PROCESS");
+      const completedResponse = await fetch("http://localhost:3000/shipments/count/DELIVERED");
+
+      const pendingData = await pendingResponse.json();
+      const inProcessData = await inProcessResponse.json();
+      const completedData = await completedResponse.json();
+
+      setPendingShipments(pendingData.count);
+      setInProcessShipments(inProcessData.count);
+      setCompletedShipments(completedData.count);
+    } catch (error) {
+      console.error("Error fetching shipments counts:", error);
+    }
+  };
+
   useEffect(() => {
     fetchAdminCount();
     fetchUserCount();
+    fetchSellersCount();
+    fetchProductsCount();
+    fetchShipmentsCounts();
   }, []);
 
   return (
@@ -50,29 +96,19 @@ export default function AdminDashboard() {
         <div className="grid md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr] items-start gap-6 max-w-6xl w-full mx-auto">
           <nav className="text-sm text-gray-500 grid gap-4 dark:text-gray-400">
             <ul className="flex flex-col gap-4">
+              <li className="mx-2"></li>
               <li className="mx-2">
-              </li>
-              <li className="mx-2">
-                <Link
-                  to="/adminUsers"
-                  className="hover:text-blue-300 md:text-2xl font-medium"
-                >
+                <Link to="/adminUsers" className="hover:text-blue-300 md:text-2xl font-medium">
                   Users
                 </Link>
               </li>
               <li className="mx-2">
-                <Link
-                  to="/adminContent"
-                  className="hover:text-blue-300 md:text-2xl font-medium"
-                >
+                <Link to="/adminContent" className="hover:text-blue-300 md:text-2xl font-medium">
                   Products
                 </Link>
               </li>
               <li className="mx-2">
-                <Link
-                  to="/adminShipments"
-                  className="hover:text-blue-300 md:text-2xl font-medium"
-                >
+                <Link to="/adminShipments" className="hover:text-blue-300 md:text-2xl font-medium">
                   Shipments
                 </Link>
               </li>
@@ -82,23 +118,17 @@ export default function AdminDashboard() {
             <Card>
               <CardHeader>
                 <CardTitle>User Management</CardTitle>
-                <CardDescription>
-                  Manage user accounts and permissions.
-                </CardDescription>
+                <CardDescription>Manage user accounts and permissions.</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4">
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold">Registered Users</h3>
-                    <span className="text-gray-500 dark:text-gray-400">
-                      {userCount}
-                    </span>
+                    <span className="text-gray-500 dark:text-gray-400">{userCount}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold">Administrators</h3>
-                    <span className="text-gray-500 dark:text-gray-400">
-                      {adminCount}
-                    </span>
+                    <span className="text-gray-500 dark:text-gray-400">{adminCount}</span>
                   </div>
                 </div>
               </CardContent>
@@ -111,21 +141,17 @@ export default function AdminDashboard() {
             <Card>
               <CardHeader>
                 <CardTitle>Content Management</CardTitle>
-                <CardDescription>
-                  Manage your website's content and media.
-                </CardDescription>
+                <CardDescription>Manage your website's content and media.</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-semibold">
-                      Current Registered Sellers
-                    </h3>
-                    <span className="text-gray-500 dark:text-gray-400">87</span>
+                    <h3 className="font-semibold">Current Registered Sellers</h3>
+                    <span className="text-gray-500 dark:text-gray-400">{sellersCount}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold">Products</h3>
-                    <span className="text-gray-500 dark:text-gray-400">24</span>
+                    <span className="text-gray-500 dark:text-gray-400">{productsCount}</span>
                   </div>
                 </div>
               </CardContent>
@@ -137,34 +163,28 @@ export default function AdminDashboard() {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Shipments</CardTitle>
-                <CardDescription>
-                  Manage your website's shipments and logistics.
-                </CardDescription>
+                <CardTitle>Shipments Management</CardTitle>
+                <CardDescription>Manage your website's shipments and logistics.</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-semibold">Total Visitors</h3>
-                    <span className="text-gray-500 dark:text-gray-400">
-                      12,345
-                    </span>
+                    <h3 className="font-semibold">Pending Shipments</h3>
+                    <span className="text-gray-500 dark:text-gray-400">{pendingShipments}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <h3 className="font-semibold">Bounce Rate</h3>
-                    <span className="text-gray-500 dark:text-gray-400">
-                      32%
-                    </span>
+                    <h3 className="font-semibold">Shipments In Process</h3>
+                    <span className="text-gray-500 dark:text-gray-400">{inProcessShipments}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <h3 className="font-semibold">Conversion Rate</h3>
-                    <span className="text-gray-500 dark:text-gray-400">8%</span>
+                    <h3 className="font-semibold">Completed Shipments</h3>
+                    <span className="text-gray-500 dark:text-gray-400">{completedShipments}</span>
                   </div>
                 </div>
               </CardContent>
               <CardFooter className="border-t p-6">
-                <button className="bg-blue-500 text-white py-2 px-4 rounded">
-                  View Analytics
+                <button className="bg-blue-500 text-white py-2 px-4 rounded" onClick={() => handleNavigate('/adminShipments')}>
+                  Manage Shipments
                 </button>
               </CardFooter>
             </Card>

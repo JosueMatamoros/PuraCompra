@@ -78,3 +78,18 @@ export const deleteShipment = async (request, response) => {
     response.status(500).json({ message: error.message });
   }
 };
+
+export const countShipmentsByState = async (req, res) => {
+  const { state } = req.params;
+  try {
+    const count = await Shipments.count({
+      where: {
+        state: state,
+      },
+    });
+
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error', error });
+  }
+};

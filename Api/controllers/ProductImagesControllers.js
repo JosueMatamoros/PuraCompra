@@ -17,3 +17,28 @@ export const getProductImagesByProductId = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const createProductImage = async (req, res) => {
+    try {
+      const { productId, type, color, colorName } = req.body;
+  
+      if (!req.file) {
+        return res.status(400).json({ message: 'Image file is required' });
+      }
+  
+      const newImageUrl = `/assets/products/${req.file.filename}`;
+  
+      const productImage = await ProductImages.create({
+        ProductsID: productId,
+        imageUrl: newImageUrl,
+        type: type || 0,
+        color: color || null,
+        colorName: colorName || null,
+      });
+  
+      res.status(201).json(productImage);
+    } catch (error) {
+      console.error('Error creating product image:', error);
+      res.status(500).json({ message: error.message });
+    }
+  };

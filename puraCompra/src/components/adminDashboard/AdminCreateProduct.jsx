@@ -26,7 +26,6 @@ export default function AdminCreateProduct() {
     try {
       const response = await fetch('http://localhost:3000/sellers');
       const data = await response.json();
-      console.log('Sellers fetched:', data);
       const sellersDict = data.reduce((acc, seller) => {
         if (seller.name !== 'Amazon') {
           acc[seller.SellersID] = seller.name;
@@ -61,7 +60,7 @@ export default function AdminCreateProduct() {
         return {
           ...prevData,
           images: newImages,
-          mainImage: prevData.images.length === 0 ? file : prevData.mainImage,
+          mainImage: prevData.mainImage === ImagenNoDisponible ? file : prevData.mainImage,
         };
       });
     }
@@ -95,13 +94,47 @@ export default function AdminCreateProduct() {
           'Accept': 'application/json'
         }
       });
+
       if (response.ok) {
+        const product = await response.json();
         console.log('Product created successfully');
+        await uploadAdditionalImages(product.ProductsID);
       } else {
         console.error('Failed to create product');
       }
     } catch (error) {
       console.error('Error creating product:', error);
+    }
+  };
+
+  const uploadAdditionalImages = async (productId) => {
+    const additionalImages = productData.images.slice(1).filter(image => image !== ImagenNoDisponible);
+
+    for (const image of additionalImages) {
+      const formData = new FormData();
+      formData.append('productId', productId);
+      formData.append('imageUrl', image);
+      formData.append('type', 0);
+      formData.append('color', null);
+      formData.append('colorName', null);
+
+      try {
+        const response = await fetch('http://localhost:3000/productImages', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          console.log('Additional image uploaded successfully');
+        } else {
+          console.error('Failed to upload additional image');
+        }
+      } catch (error) {
+        console.error('Error uploading additional image:', error);
+      }
     }
   };
 

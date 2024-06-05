@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import { FileInput, Label, Dropdown, Button } from "flowbite-react";
-import ImagenNoDisponible from "../../../public/ImagenNoDisponible.png";
+import React, { useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { FileInput, Label, Dropdown, Button } from 'flowbite-react';
+import ImagenNoDisponible from '../../../public/ImagenNoDisponible.png';
 
 export default function AdminCreateProduct() {
   const [productData, setProductData] = useState({
-    name: "",
-    description: "",
-    seller: "",
-    price: "",
-    stock: "",
+    name: '',
+    description: '',
+    seller: '',
+    price: '',
+    stock: '',
     mainImage: ImagenNoDisponible,
     images: [ImagenNoDisponible, ImagenNoDisponible, ImagenNoDisponible],
   });
 
   const [sellers, setSellers] = useState({});
-  const [selectedSeller, setSelectedSeller] = useState("");
+  const [selectedSeller, setSelectedSeller] = useState('');
 
   useEffect(() => {
     fetchSellers();
@@ -24,17 +24,18 @@ export default function AdminCreateProduct() {
 
   const fetchSellers = async () => {
     try {
-      const response = await fetch("http://localhost:3000/sellers");
+      const response = await fetch('http://localhost:3000/sellers');
       const data = await response.json();
+      console.log('Sellers fetched:', data);
       const sellersDict = data.reduce((acc, seller) => {
-        if (seller.name !== "Amazon") {
+        if (seller.name !== 'Amazon') {
           acc[seller.SellersID] = seller.name;
         }
         return acc;
       }, {});
       setSellers(sellersDict);
     } catch (error) {
-      console.error("Error fetching sellers:", error);
+      console.error('Error fetching sellers:', error);
     }
   };
 
@@ -51,9 +52,7 @@ export default function AdminCreateProduct() {
       const file = e.target.files[0];
       setProductData((prevData) => {
         const newImages = [...prevData.images];
-        const firstPlaceholderIndex = newImages.findIndex(
-          (img) => img === ImagenNoDisponible
-        );
+        const firstPlaceholderIndex = newImages.findIndex(img => img === ImagenNoDisponible);
         if (firstPlaceholderIndex !== -1) {
           newImages[firstPlaceholderIndex] = file;
         } else {
@@ -62,10 +61,7 @@ export default function AdminCreateProduct() {
         return {
           ...prevData,
           images: newImages,
-          mainImage:
-            prevData.mainImage === ImagenNoDisponible
-              ? file
-              : prevData.mainImage,
+          mainImage: prevData.images.length === 0 ? file : prevData.mainImage,
         };
       });
     }
@@ -81,75 +77,39 @@ export default function AdminCreateProduct() {
 
   const createProduct = async () => {
     const formData = new FormData();
-    formData.append("name", productData.name);
-    formData.append("description", productData.description);
-    formData.append("seller", productData.seller);
-    formData.append("price", productData.price);
-    formData.append("stock", productData.stock);
+    formData.append('name', productData.name);
+    formData.append('description', productData.description);
+    formData.append('seller', productData.seller);
+    formData.append('price', productData.price);
+    formData.append('stock', productData.stock);
 
     if (productData.images[0] !== ImagenNoDisponible) {
-      formData.append("mainImage", productData.images[0]);
+      formData.append('mainImage', productData.images[0]);
     }
 
     try {
-      const response = await fetch("http://localhost:3000/products", {
-        method: "POST",
+      const response = await fetch('http://localhost:3000/products', {
+        method: 'POST',
         body: formData,
         headers: {
-          Accept: "application/json",
-        },
+          'Accept': 'application/json'
+        }
       });
-
       if (response.ok) {
-        const product = await response.json();
-        console.log("Product created successfully");
-        await uploadAdditionalImages(product.ProductsID);
+        console.log('Product created successfully');
       } else {
-        console.error("Failed to create product");
+        console.error('Failed to create product');
       }
     } catch (error) {
-      console.error("Error creating product:", error);
-    }
-  };
-
-  const uploadAdditionalImages = async (productId) => {
-    const additionalImages = productData.images
-      .slice(1)
-      .filter((image) => image !== ImagenNoDisponible);
-
-    for (const image of additionalImages) {
-      const formData = new FormData();
-      formData.append("productId", productId);
-      formData.append("imageUrl", image);
-      formData.append("type", 0);
-      formData.append("color", null);
-      formData.append("colorName", null);
-
-      try {
-        const response = await fetch("http://localhost:3000/productImages", {
-          method: "POST",
-          body: formData,
-          headers: {
-            Accept: "application/json",
-          },
-        });
-
-        if (response.ok) {
-          console.log("Additional image uploaded successfully");
-        } else {
-          console.error("Failed to upload additional image");
-        }
-      } catch (error) {
-        console.error("Error uploading additional image:", error);
-      }
+      console.error('Error creating product:', error);
     }
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full">
-      <div className="flex justify-center items-center mb-4 w-1/2">
-        <div className="mr-8 flex-1">
-          <label className="text-gray-700 text-sm font-bold mb-2">
+    <div className="flex flex-col justify-center items-center">
+      <div className="flex justify-center items-center m-4 bg-red-600 w-1/2">
+        <div className="mr-8">
+          <label className="text-gray-700 text-sm font-bold">
             Product Name:
           </label>
           <input
@@ -157,10 +117,10 @@ export default function AdminCreateProduct() {
             name="name"
             value={productData.name}
             onChange={handleInputChange}
-            className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight  focus:shadow-outline border-transparent focus:border-transparent focus:ring-0"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
-        <div className="flex-1">
+        <div>
           <label className="text-gray-700 text-sm font-bold mb-2">
             Description:
           </label>
@@ -169,19 +129,19 @@ export default function AdminCreateProduct() {
             name="description"
             value={productData.description}
             onChange={handleInputChange}
-            className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight  border-transparent focus:border-transparent focus:ring-0 "
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
       </div>
-      <div className="flex justify-around w-1/2 ">
-        <div className="flex-1 mr-8">
-          <label className="text-gray-700 text-sm font-bold mb-2">
+      <div className="flex justify-center items-center m-4 bg-slate-600 w-1/2">
+        <div className="mr-8">
+          <label className="text-gray-700 text-sm font-bold">
             Seller:
           </label>
-
           <Dropdown
             label={selectedSeller ? sellers[selectedSeller] : "Select a seller"}
             color="gray"
+            className="w-full"
           >
             {Object.entries(sellers).map(([id, name]) => (
               <Dropdown.Item key={id} onClick={() => handleSellerSelect(id)}>
@@ -190,9 +150,9 @@ export default function AdminCreateProduct() {
             ))}
           </Dropdown>
         </div>
-        <div className="flex-1 flex">
-          <div className="mr-4 w-1/2">
-            <label className="text-gray-700 text-sm font-bold mb-2">
+        <div className="flex">
+          <div className="mr-4">
+            <label className="text-gray-700 text-sm font-bold">
               Price:
             </label>
             <input
@@ -200,11 +160,11 @@ export default function AdminCreateProduct() {
               name="price"
               value={productData.price}
               onChange={handleInputChange}
-              className="shadow appearance-none ounded w-full py-2 px-3 text-gray-700 leading-tight border-transparent focus:border-transparent focus:ring-0  "
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
-          <div className="w-1/2">
-            <label className="text-gray-700 text-sm font-bold mb-2">
+          <div>
+            <label className="text-gray-700 text-sm font-bold">
               Stock:
             </label>
             <input
@@ -212,7 +172,7 @@ export default function AdminCreateProduct() {
               name="stock"
               value={productData.stock}
               onChange={handleInputChange}
-              className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight border-transparent focus:border-transparent focus:ring-0"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
         </div>
@@ -228,19 +188,22 @@ export default function AdminCreateProduct() {
           >
             {productData.images.map((image, index) => (
               <SwiperSlide key={index}>
-                <div className="carousel-item">
-                  <div className="w-full h-48 flex justify-center items-center rounded-lg overflow-hidden">
+                <div className="carousel-item p-2">
+                  <div
+                    className="w-full h-48 flex justify-center items-center"
+                    style={{ height: '200px', margin: '5px' }}
+                  >
                     {image instanceof File ? (
                       <img
                         src={URL.createObjectURL(image)}
                         alt={`Product ${index + 1}`}
-                        className="w-full h-full object-contain"
+                        className="object-contain w-full h-full"
                       />
                     ) : (
                       <img
                         src={image}
                         alt={`Product ${index + 1}`}
-                        className="w-full h-full object-contain"
+                        className="object-contain w-full h-full"
                       />
                     )}
                   </div>
@@ -249,10 +212,10 @@ export default function AdminCreateProduct() {
             ))}
           </Swiper>
         </div>
-        <div className="w-1/2 flex flex-col items-center justify-center flex-shrink-0 ">
+        <div className="w-1/2 flex flex-col items-center justify-center flex-shrink-0">
           <Label
             htmlFor="dropzone-file"
-            className="flex h-5/6 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            className="flex h-96 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
           >
             <div className="flex flex-col items-center justify-center pb-6 pt-5">
               <svg
@@ -271,12 +234,9 @@ export default function AdminCreateProduct() {
                 />
               </svg>
               <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-semibold">Click to upload</span> or drag
-                and drop
+                <span className="font-semibold">Click to upload</span> or drag and drop
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                SVG, PNG, JPG or WEBP (MAX. 800x400px)
-              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
             </div>
             <FileInput
               id="dropzone-file"
@@ -285,22 +245,20 @@ export default function AdminCreateProduct() {
             />
           </Label>
         </div>
-        <div className="w-1/4 flex flex-col items-start justify-center p-4 flex-shrink-0 ml-6">
+        <div className="w-1/4 flex flex-col items-start justify-center p-4 flex-shrink-0">
           <h2 className="text-2xl font-semibold">{productData.name}</h2>
           <p className="text-lg mb-2">{productData.description}</p>
-          {productData.price !== "" && (
+          {productData.price !== '' && (
             <p className="text-lg mb-2 font-bold">${productData.price}</p>
           )}
-          {productData.stock !== "" && (
+          {productData.stock !== '' && (
             <p className="text-lg mb-2">
               <span className="font-bold">Stock:</span> {productData.stock}
             </p>
           )}
         </div>
       </div>
-      <Button color="success" pill onClick={createProduct}>
-        Create product
-      </Button>
+      <Button onClick={createProduct}>Create Product</Button>
     </div>
   );
 }

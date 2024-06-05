@@ -108,7 +108,6 @@ CREATE TABLE Reviews (
   `ReviewsID` int PRIMARY KEY AUTO_INCREMENT,
   `UsersID` int,
   `ProductsID` int,
-  `title` varchar(50),
   `body` varchar(255),
   `star` ENUM ('ONE_STAR', 'TWO_STAR', 'TREE_STAR', 'FOUR_STAR', 'FIVE_STAR'),
   `date` datetime DEFAULT now(),

@@ -10,11 +10,11 @@ INSERT INTO Users (name, lastname, mail, password, phoneNumber, gender, country,
 
 -- 2. Insert Addresses
 INSERT INTO Addresses (UsersID, address) VALUES
-(1, 'San Ramón, Alajuela'),
-(1, 'Santa Clara, San Carlos'),
-(2, 'Florencia, San Carlos'),
-(3, 'Calle Pechuga, San Ramón'),
-(3, 'Santa Clara, San Carlos (Solo Jueves)');
+(2, 'San Ramón, Alajuela'),
+(2, 'Santa Clara, San Carlos'),
+(3, 'Florencia, San Carlos'),
+(4, 'Calle Pechuga, San Ramón'),
+(4, 'Santa Clara, San Carlos (Solo Jueves)');
 
 -- 3. Insert Sellers
 INSERT INTO Sellers (SellersID, name, url, type) VALUES
@@ -104,66 +104,66 @@ INSERT INTO PriceHistory ( ProductID, price) VALUES
 
 -- 8. Insert Reviews
 INSERT INTO Reviews (UsersID, ProductsID, body, star) VALUES
-(1, 6, 'This MacBook Pro is amazing! The performance is top-notch and the battery life is impressive. Highly recommended!', 'FIVE_STAR'),
-(2, 6, 'The Mac M3 Pro is incredibly fast and handles all my tasks with ease. The display is stunning too!', 'FIVE_STAR'),
-(3, 6, 'I am very satisfied with this MacBook. It is very reliable and has a great build quality. Perfect for professionals.', 'FIVE_STAR'),
-(4, 6, 'I love this laptop! The speed and performance are unmatched. It is a bit pricey, but worth every penny.', 'FIVE_STAR'),
-(1, 1, 'The AirPods Max are the best headphones I have ever owned. The sound quality is exceptional and the design is beautiful.', 'FIVE_STAR'),
-(2, 1, 'These headphones are amazing! The sound quality is superb and the noise cancellation is very effective. Highly recommended!', 'FIVE_STAR'),
-(3, 1, 'The AirPods Max are worth every penny. The sound quality is incredible and the build quality is top-notch. Highly recommended!', 'FIVE_STAR'),
-(4, 1, 'I am very impressed with the AirPods Max. The sound quality is excellent and the noise cancellation is very effective. Highly recommended!', 'FIVE_STAR'),
-(1, 4, 'The iPhone 15 is a fantastic phone. The camera quality is amazing and the performance is top-notch. Highly recommended!', 'FIVE_STAR'),
-(2, 4, 'This phone is incredible! The camera quality is outstanding and the performance is unmatched. Highly recommended!', 'FIVE_STAR'),
-(3, 4, 'The iPhone 15 is the best phone I have ever owned. The camera quality is superb and the performance is excellent. Highly recommended!', 'FIVE_STAR'),
-(4, 4, 'I love this phone! The camera quality is exceptional and the performance is top-notch. Highly recommended!', 'FIVE_STAR'),
-(1, 3, 'The iPad Pro is an amazing tablet. The display is stunning and the performance is excellent. Highly recommended!', 'FIVE_STAR'),
-(2, 3, 'This tablet is fantastic! The display is beautiful and the performance is top-notch. Highly recommended!', 'FIVE_STAR'),
-(3, 3, 'The iPad Pro is worth every penny. The display is incredible and the performance is unmatched. Highly recommended!', 'FIVE_STAR'),
-(4, 3, 'I am very impressed with the iPad Pro. The display is stunning and the performance is excellent. Highly recommended!', 'FIVE_STAR'),
-(1, 5, 'The Mac M3 Air is a great laptop. The performance is good and the build quality is excellent. Highly recommended!', 'FOUR_STAR'),
-(2, 5, 'This laptop is very good! The performance is decent and the build quality is solid. Highly recommended!', 'FOUR_STAR'),
-(3, 5, 'The Mac M3 Air is not worth the price. The performance is mediocre and the build quality is poor. Not recommended.', 'TWO_STAR'),
-(4, 5, 'I am very disappointed with this laptop. The performance is slow and the build quality is cheap. Not recommended.', 'ONE_STAR'),
-(1, 2, 'The Apple Vision is an amazing product. The display is stunning and the performance is top-notch. Highly recommended!', 'FIVE_STAR'),
-(2, 2, 'This product is fantastic! The display is beautiful and the performance is excellent. Highly recommended!', 'FIVE_STAR'),
-(3, 2, 'The Apple Vision is worth every penny. The display is incredible and the performance is unmatched. Highly recommended!', 'FIVE_STAR'),
-(4, 2, 'I am very impressed with the Apple Vision. The display is stunning and the performance is excellent. Highly recommended!', 'FIVE_STAR'),
-(1, 7, 'The Barracuda headset is amazing! The sound quality is excellent and the design is comfortable. Highly recommended!', 'FIVE_STAR'),
-(2, 7, 'This headset is fantastic! The sound quality is superb and the design is comfortable. Highly recommended!', 'FIVE_STAR'),
-(3, 7, 'The Barracuda headset is worth every penny. The sound quality is incredible and the design is comfortable. Highly recommended!', 'FIVE_STAR'),
-(4, 7, 'I am very impressed with the Barracuda headset. The sound quality is excellent and the design is comfortable. Highly recommended!', 'FIVE_STAR'),
-(1, 8, 'The Razer Blade is an amazing laptop. The performance is top-notch and the build quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(2, 8, 'This laptop is fantastic! The performance is excellent and the build quality is top-notch. Highly recommended!', 'FIVE_STAR'),
-(3, 8, 'The Razer Blade is worth every penny. The performance is incredible and the build quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(4, 8, 'I am very impressed with the Razer Blade. The performance is top-notch and the build quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(1, 13, 'The Sonos Arc is an amazing soundbar. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(2, 13, 'This soundbar is fantastic! The sound quality is superb and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(3, 13, 'The Sonos Arc is worth every penny. The sound quality is incredible and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(4, 13, 'I am very impressed with the Sonos Arc. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(1, 15, 'The Sonos Move 2 is an amazing speaker. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(2, 15, 'This speaker is fantastic! The sound quality is superb and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(3, 15, 'The Sonos Move 2 is worth every penny. The sound quality is incredible and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(4, 15, 'I am very impressed with the Sonos Move 2. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(1, 16, 'The Sonos Roam is an amazing speaker. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(2, 16, 'This speaker is fantastic! The sound quality is superb and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(3, 16, 'The Sonos Roam is worth every penny. The sound quality is incredible and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(4, 16, 'I am very impressed with the Sonos Roam. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(1, 17, 'The Sonos Sub is an amazing subwoofer. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(2, 17, 'This subwoofer is fantastic! The sound quality is superb and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
-(1, 19, 'The Yeezy Alien is an amazing shoe. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(2, 19, 'This shoe is fantastic! The design is superb and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(3, 19, 'The Yeezy Alien is worth every penny. The design is incredible and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(4, 19, 'I am very impressed with the Yeezy Alien. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(1, 21, 'The Yeezy Bone is an amazing shoe. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(2, 21, 'This shoe is fantastic! The design is superb and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(3, 21, 'The Yeezy Bone is worth every penny. The design is incredible and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(4, 21, 'I am very impressed with the Yeezy Bone. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(1, 23, 'The Yeezy Synth is an amazing shoe. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(2, 23, 'This shoe is fantastic! The design is superb and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(3, 23, 'The Yeezy Synth is worth every penny. The design is incredible and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(4, 23, 'I am very impressed with the Yeezy Synth. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(1, 24, 'The Yeezy Zebra is an amazing shoe. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
-(2, 24, 'This shoe is fantastic! The design is superb and the quality is excellent. Highly recommended!', 'FIVE_STAR');
+(2, 6, 'This MacBook Pro is amazing! The performance is top-notch and the battery life is impressive. Highly recommended!', 'FIVE_STAR'),
+(3, 6, 'The Mac M3 Pro is incredibly fast and handles all my tasks with ease. The display is stunning too!', 'FIVE_STAR'),
+(4, 6, 'I am very satisfied with this MacBook. It is very reliable and has a great build quality. Perfect for professionals.', 'FIVE_STAR'),
+(5, 6, 'I love this laptop! The speed and performance are unmatched. It is a bit pricey, but worth every penny.', 'FIVE_STAR'),
+(2, 1, 'The AirPods Max are the best headphones I have ever owned. The sound quality is exceptional and the design is beautiful.', 'FIVE_STAR'),
+(3, 1, 'These headphones are amazing! The sound quality is superb and the noise cancellation is very effective. Highly recommended!', 'FIVE_STAR'),
+(4, 1, 'The AirPods Max are worth every penny. The sound quality is incredible and the build quality is top-notch. Highly recommended!', 'FIVE_STAR'),
+(5, 1, 'I am very impressed with the AirPods Max. The sound quality is excellent and the noise cancellation is very effective. Highly recommended!', 'FIVE_STAR'),
+(2, 4, 'The iPhone 15 is a fantastic phone. The camera quality is amazing and the performance is top-notch. Highly recommended!', 'FIVE_STAR'),
+(3, 4, 'This phone is incredible! The camera quality is outstanding and the performance is unmatched. Highly recommended!', 'FIVE_STAR'),
+(4, 4, 'The iPhone 15 is the best phone I have ever owned. The camera quality is superb and the performance is excellent. Highly recommended!', 'FIVE_STAR'),
+(5, 4, 'I love this phone! The camera quality is exceptional and the performance is top-notch. Highly recommended!', 'FIVE_STAR'),
+(2, 3, 'The iPad Pro is an amazing tablet. The display is stunning and the performance is excellent. Highly recommended!', 'FIVE_STAR'),
+(3, 3, 'This tablet is fantastic! The display is beautiful and the performance is top-notch. Highly recommended!', 'FIVE_STAR'),
+(4, 3, 'The iPad Pro is worth every penny. The display is incredible and the performance is unmatched. Highly recommended!', 'FIVE_STAR'),
+(5, 3, 'I am very impressed with the iPad Pro. The display is stunning and the performance is excellent. Highly recommended!', 'FIVE_STAR'),
+(2, 5, 'The Mac M3 Air is a great laptop. The performance is good and the build quality is excellent. Highly recommended!', 'FOUR_STAR'),
+(3, 5, 'This laptop is very good! The performance is decent and the build quality is solid. Highly recommended!', 'FOUR_STAR'),
+(4, 5, 'The Mac M3 Air is not worth the price. The performance is mediocre and the build quality is poor. Not recommended.', 'TWO_STAR'),
+(5, 5, 'I am very disappointed with this laptop. The performance is slow and the build quality is cheap. Not recommended.', 'ONE_STAR'),
+(2, 2, 'The Apple Vision is an amazing product. The display is stunning and the performance is top-notch. Highly recommended!', 'FIVE_STAR'),
+(3, 2, 'This product is fantastic! The display is beautiful and the performance is excellent. Highly recommended!', 'FIVE_STAR'),
+(4, 2, 'The Apple Vision is worth every penny. The display is incredible and the performance is unmatched. Highly recommended!', 'FIVE_STAR'),
+(5, 2, 'I am very impressed with the Apple Vision. The display is stunning and the performance is excellent. Highly recommended!', 'FIVE_STAR'),
+(2, 7, 'The Barracuda headset is amazing! The sound quality is excellent and the design is comfortable. Highly recommended!', 'FIVE_STAR'),
+(3, 7, 'This headset is fantastic! The sound quality is superb and the design is comfortable. Highly recommended!', 'FIVE_STAR'),
+(4, 7, 'The Barracuda headset is worth every penny. The sound quality is incredible and the design is comfortable. Highly recommended!', 'FIVE_STAR'),
+(5, 7, 'I am very impressed with the Barracuda headset. The sound quality is excellent and the design is comfortable. Highly recommended!', 'FIVE_STAR'),
+(2, 8, 'The Razer Blade is an amazing laptop. The performance is top-notch and the build quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(3, 8, 'This laptop is fantastic! The performance is excellent and the build quality is top-notch. Highly recommended!', 'FIVE_STAR'),
+(4, 8, 'The Razer Blade is worth every penny. The performance is incredible and the build quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(5, 8, 'I am very impressed with the Razer Blade. The performance is top-notch and the build quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(2, 13, 'The Sonos Arc is an amazing soundbar. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(3, 13, 'This soundbar is fantastic! The sound quality is superb and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(4, 13, 'The Sonos Arc is worth every penny. The sound quality is incredible and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(5, 13, 'I am very impressed with the Sonos Arc. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(2, 15, 'The Sonos Move 2 is an amazing speaker. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(3, 15, 'This speaker is fantastic! The sound quality is superb and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(4, 15, 'The Sonos Move 2 is worth every penny. The sound quality is incredible and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(5, 15, 'I am very impressed with the Sonos Move 2. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(2, 16, 'The Sonos Roam is an amazing speaker. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(3, 16, 'This speaker is fantastic! The sound quality is superb and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(4, 16, 'The Sonos Roam is worth every penny. The sound quality is incredible and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(5, 16, 'I am very impressed with the Sonos Roam. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(2, 17, 'The Sonos Sub is an amazing subwoofer. The sound quality is excellent and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(3, 17, 'This subwoofer is fantastic! The sound quality is superb and the design is beautiful. Highly recommended!', 'FIVE_STAR'),
+(4, 19, 'The Yeezy Alien is an amazing shoe. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(5, 19, 'This shoe is fantastic! The design is superb and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(4, 19, 'The Yeezy Alien is worth every penny. The design is incredible and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(5, 19, 'I am very impressed with the Yeezy Alien. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(2, 21, 'The Yeezy Bone is an amazing shoe. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(3, 21, 'This shoe is fantastic! The design is superb and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(4, 21, 'The Yeezy Bone is worth every penny. The design is incredible and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(5, 21, 'I am very impressed with the Yeezy Bone. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(2, 23, 'The Yeezy Synth is an amazing shoe. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(3, 23, 'This shoe is fantastic! The design is superb and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(4, 23, 'The Yeezy Synth is worth every penny. The design is incredible and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(5, 23, 'I am very impressed with the Yeezy Synth. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(2, 24, 'The Yeezy Zebra is an amazing shoe. The design is beautiful and the quality is excellent. Highly recommended!', 'FIVE_STAR'),
+(3, 24, 'This shoe is fantastic! The design is superb and the quality is excellent. Highly recommended!', 'FIVE_STAR');
 
 -- 9. Insert ProductImages
 INSERT INTO ProductImages (ProductsID, imageUrl, type, color, colorName) VALUES
@@ -275,9 +275,9 @@ INSERT INTO ProductImages (ProductsID, imageUrl, type, color, colorName) VALUES
 
 -- 10. Insert Orders
 INSERT INTO Orders (UsersID, address, price, taxes) VALUES
-(1, 'San Ramón, Alajuela', 1214.50, 157.89),
-(2, 'Florencia, San Carlos', 2340.00, 304.20),
-(3, 'Calle Pechuga, San Ramón', 895.00, 116.35);
+(2, 'San Ramón, Alajuela', 1214.50, 157.89),
+(3, 'Florencia, San Carlos', 2340.00, 304.20),
+(4, 'Calle Pechuga, San Ramón', 895.00, 116.35);
 
 -- 11. Insert OrderDetails
 INSERT INTO OrderDetails (OrdersID, ProductID) VALUES
@@ -296,9 +296,9 @@ INSERT INTO Shipments (OrdersID, tracking, price, totalPrice, state) VALUES
 
 -- 13. Insert TransactionLogs
 INSERT INTO TransactionLogs ( UsersID, OrderID, type, quantity) VALUES
-(1, 1, 'purchase', 1214.50),
-(2, 2, 'purchase', 2340.00),
-(3, 3, 'purchase', 895.00);
+(2, 1, 'purchase', 1214.50),
+(3, 2, 'purchase', 2340.00),
+(4, 3, 'purchase', 895.00);
 
 -- 14. Insert CartItems
 INSERT INTO CartItems (UsersID, ProductID) VALUES

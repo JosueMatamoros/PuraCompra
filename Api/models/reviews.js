@@ -23,7 +23,7 @@ const Reviews = sequelize.define('reviews', {
       allowNull: false,
   },
   star:{
-      type: ENUM('ONE_STAR', 'TWO_STAR', 'THREE_STAR', 'FOUR_STAR', 'FIVE_STAR'),
+      type: ENUM('ONE_STAR', 'TWO_STAR', 'TREE_STAR', 'FOUR_STAR', 'FIVE_STAR'),
       allowNull: false,
   },
   date :{

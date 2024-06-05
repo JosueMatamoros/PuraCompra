@@ -2,8 +2,13 @@ import Reviews from '../models/reviews.js';
 
 export const createReview = async (request, response) => {
   try {
-    const { reviewsId, UsersId, ProductsId, title, body, star, date } = request.body;
-    const newReview = await Reviews.create({ reviewsId, UsersId, ProductsId, title, body, star, date: date || new Date() });
+    const { UsersId, ProductsId, body, star } = request.body;
+    const newReview = await Reviews.create({
+      UsersId,
+      ProductsId,
+      body,
+      star,
+    });
     response.status(201).json(newReview);
   } catch (error) {
     response.status(500).json({ message: error.message });

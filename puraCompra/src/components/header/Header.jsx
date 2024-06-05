@@ -49,7 +49,7 @@ export default function Header() {
       </div>
       <Navbar />
       <div className='flex gap-4 pt-2 items-center relative'>
-        <TiShoppingCart className='text-2xl cursor-pointer' onClick={() => setIsCartOpen(true)} />
+       {user?.role === 'admin' ? ("") : ( <TiShoppingCart className='text-2xl cursor-pointer' onClick={() => setIsCartOpen(true)} />)}
 
         {user ? (
           <div onClick={toggleMenu}>
@@ -64,9 +64,12 @@ export default function Header() {
             <ListGroup className="w-48">
               {user ? (
                 <>
-                  <ListGroup.Item onClick={() => handleNavigate('/account')} icon={HiUserCircle}>
+                  {user?.role === 'admin' ? ( <ListGroup.Item onClick={() => handleNavigate('/account')} icon={HiUserCircle}>
+                    Admin
+                  </ListGroup.Item>) : ( <ListGroup.Item onClick={() => handleNavigate('/account')} icon={FaRegUserCircle}>
                     Profile
-                  </ListGroup.Item>
+                  </ListGroup.Item>)}
+                  
                   <ListGroup.Item onClick={logOut} icon={IoIosLogOut}>
                     Logout
                   </ListGroup.Item>

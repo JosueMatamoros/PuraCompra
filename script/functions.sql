@@ -40,6 +40,18 @@ SELECT AddUser(
     'admin'
 );
 
+SELECT AddUser(
+    'Jane',
+    'Smith',
+    'jane.smith@example.com',
+    'anotherpassword123',
+    '0987654321',
+    'female',
+    'Canada',
+    NULL
+);
+
+
 select * from Users;
 
 -- Function to update a user
@@ -347,6 +359,17 @@ BEGIN
     RETURN msg;
 END //
 DELIMITER ;
+
+-- Suponiendo que el ID del producto recién insertado es 1
+SELECT UpdateProduct(
+    1,  -- ProductsID
+    2,  -- Sellers (nuevo vendedor)
+    'Airpods Ultra Max',  -- Nuevo nombre del producto
+    20,  -- Nuevo stock
+    'New redesign product',  -- Nueva descripción
+    899.99,  -- Nuevo precio
+    'http://example.com/updated_image.jpg'  -- Nueva URL
+);
 
 -- Function to delete a product
 DELIMITER //

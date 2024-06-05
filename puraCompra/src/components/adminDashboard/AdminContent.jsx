@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, List, ListItem, Typography, Box, Table, TableHead, TableRow, TableCell, TableBody, TextField } from '@mui/material';
+import { Button, List, ListItem, Typography, Box, Table, TableHead, TableRow, TableCell, TableBody, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -15,6 +15,8 @@ export default function AdminContent() {
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [editingStockId, setEditingStockId] = useState(null);
   const [stockValues, setStockValues] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
   const navigate = useNavigate();
 
@@ -45,6 +47,18 @@ export default function AdminContent() {
     } catch (error) {
       console.error('Error deleting product:', error);
     }
+  };
+
+  const handleDeleteClick = (productId) => {
+    setProductToDelete(productId);
+    setShowModal(true);
+  };
+
+  const handleModalConfirm = async () => {
+    if (productToDelete !== null) {
+      await deleteProduct(productToDelete);
+    }
+    setShowModal(false);
   };
 
   useEffect(() => {
@@ -269,7 +283,7 @@ export default function AdminContent() {
                         variant="outlined" 
                         size="small" 
                         color="error" 
-                        onClick={() => deleteProduct(product.ProductsID)} 
+                        onClick={() => handleDeleteClick(product.ProductsID)} 
                         startIcon={<DeleteIcon />} 
                         sx={{ 
                           borderColor: '#d3d3d3', 
@@ -291,6 +305,26 @@ export default function AdminContent() {
           </Table>
         </Box>
       </Box>
+
+      <Dialog
+        open={showModal}
+        onClose={() => setShowModal(false)}
+      >
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this product?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowModal(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleModalConfirm} color="error">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

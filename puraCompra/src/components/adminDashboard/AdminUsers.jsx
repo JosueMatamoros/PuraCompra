@@ -5,6 +5,9 @@ export default function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showRoleDropdown, setShowRoleDropdown] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [actionType, setActionType] = useState("");
+  const [newRole, setNewRole] = useState("");
 
   // Función para obtener los usuarios desde el backend
   const fetchUsers = async () => {
@@ -15,6 +18,16 @@ export default function AdminUsers() {
     } catch (error) {
       console.error("Error fetching users:", error);
     }
+  };
+
+  const handleAction = async () => {
+    if (actionType === "delete") {
+      await deleteUser(selectedUser);
+    } else if (actionType === "updateRole") {
+      await updateUserRole(selectedUser, newRole);
+    }
+    setShowModal(false);
+    setShowRoleDropdown(false);
   };
 
   const updateUserRole = async (userId, newRole) => {
@@ -109,17 +122,21 @@ export default function AdminUsers() {
                           <ul>
                             <li
                               className="cursor-pointer px-4 py-2 hover:bg-gray-200"
-                              onClick={() =>
-                                updateUserRole(user.UsersID, "admin")
-                              }
+                              onClick={() => {
+                                setNewRole("admin");
+                                setActionType("updateRole");
+                                setShowModal(true);
+                              }}
                             >
                               Admin
                             </li>
                             <li
                               className="cursor-pointer px-4 py-2 hover:bg-gray-200"
-                              onClick={() =>
-                                updateUserRole(user.UsersID, "user")
-                              }
+                              onClick={() => {
+                                setNewRole("user");
+                                setActionType("updateRole");
+                                setShowModal(true);
+                              }}
                             >
                               User
                             </li>
@@ -129,7 +146,11 @@ export default function AdminUsers() {
                     </div>
                     <button
                       className="bg-transparent border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white rounded-full p-2"
-                      onClick={() => deleteUser(user.UsersID)}
+                      onClick={() => {
+                        setSelectedUser(user.UsersID);
+                        setActionType("delete");
+                        setShowModal(true);
+                      }}
                     >
                       <svg
                         className="h-4 w-4"
@@ -159,6 +180,37 @@ export default function AdminUsers() {
           </div>
         </div>
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-30">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h2 className="text-lg font-semibold mb-4">
+              {actionType === "delete"
+                ? "Confirm Deletion"
+                : "Confirm Role Change"}
+            </h2>
+            <p className="mb-4">
+              {actionType === "delete"
+                ? "Are you sure you want to delete this user?"
+                : `Are you sure you want to change the role to ${newRole}?`}
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+                onClick={handleAction}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

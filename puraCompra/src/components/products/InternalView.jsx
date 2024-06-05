@@ -140,9 +140,13 @@ export default function InternalView() {
                   <span className="text-stone-800 font-bold">Color:</span> {hoveredColor || colors[0].name}
                 </p>
               )}
-              <p className="text-lg mb-2">
-                <span className="text-stone-800 font-bold">Stock:</span> {product.stock}
-              </p>
+              {product.stock > 0 ? (
+                <p className="text-lg mb-2">
+                  <span className="text-stone-800 font-bold">Stock:</span> {product.stock}
+                </p>
+              ) : (
+                <p className="text-lg mb-2 text-red-500">Out of Stock</p>
+              )}
             </div>
 
             {colors.length > 0 && (

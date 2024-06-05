@@ -30,7 +30,7 @@ export default function Payment() {
   return (
     <div className='flex h-screen'>
       <div className='bg-stone-100 w-1/4 p-6'>
-        <Link to='/cart'>
+        <Link to='/'>
           <HiArrowLeft className='text-2xl mb-4 text-slate-950' />
         </Link>
         <div className='mt-10 space-y-6'>

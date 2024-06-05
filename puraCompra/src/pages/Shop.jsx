@@ -50,11 +50,6 @@ export default function Shop() {
           </button>
         </div>
         <div className="flex items-center justify-center flex-grow mb-8">
-          {loading && (
-            <div className="text-center">
-              <Spinner aria-label="Center-aligned spinner example" size="lg" />
-            </div>
-          )}
           {error && (
             <div className="flex items-center justify-center mt-4">
               <p className="text-red-500">{error}</p>

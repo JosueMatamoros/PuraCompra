@@ -93,3 +93,16 @@ export const countShipmentsByState = async (req, res) => {
     res.status(500).json({ message: 'Internal server error', error });
   }
 };
+
+export const getShipmentsByOrderId = async (req, res) => {
+  const { orderId } = req.params;
+  try {
+    const shipment = await Shipments.findOne({ where: { OrdersID: orderId } });
+    if (!shipment) {
+      return res.status(404).json({ error: 'Shipment not found' });
+    }
+    res.json(shipment);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching shipment' });
+  }
+};

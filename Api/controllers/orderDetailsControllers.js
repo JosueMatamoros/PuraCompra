@@ -21,19 +21,16 @@ export const getOrderDetails = async (request, response) => {
     }
 };
 
-// Get order detail by ID
-export const getOrderDetailById = async (request, response) => {
+// Get order details by order ID
+export const getOrderDetailsByOrderId = async (request, response) => {
     try {
-    const orderDetail = await OrderDetails.findByPk(request.params.id);
-    if (orderDetail) {
-        response.json(orderDetail);
-    } else {
-        response.status(404).json({ message: "Order detail not found" });
-    }
+      const { id } = request.params; 
+      const orderDetails = await OrderDetails.findAll({ where: { OrdersID: id } });
+      response.json(orderDetails);
     } catch (error) {
-    response.status(500).json({ message: error.message });
+      response.status(500).json({ message: error.message });
     }
-};
+  };
 
 // Update an order detail
 export const updateOrderDetail = async (request, response) => {

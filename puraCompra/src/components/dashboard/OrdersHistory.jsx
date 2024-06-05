@@ -12,7 +12,7 @@ import {
   Button,
 } from "@mui/material";
 
-export default function Orders() {
+export default function OrdersHistory() {
   const { user } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   const [shipments, setShipments] = useState({});
@@ -123,7 +123,7 @@ export default function Orders() {
         <div className="flex flex-col space-y-4">
           {orders.map(
             (order) =>
-              getShipmentState(order.OrdersID) !== "DELIVERED" && (
+              getShipmentState(order.OrdersID) === "DELIVERED" && (
                 <div
                   key={order.OrdersID}
                   className="p-4 border border-gray-200 rounded shadow-sm flex flex-col"
@@ -143,8 +143,8 @@ export default function Orders() {
                     <div className="flex flex-col justify-center0">
                       <div
                         className={`p-2 font-bold ${
-                          getShipmentState(order.OrdersID) === "IN_PROCESS"
-                            ? "text-green-600"
+                          getShipmentState(order.OrdersID) === "DELIVERED"
+                            ? "text-red-600"
                             : ""
                         }`}
                       >

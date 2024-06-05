@@ -1,12 +1,12 @@
 import express from 'express';
 
-import {getOrderDetails, createOrderDetail, getOrderDetailById, updateOrderDetail, deleteOrderDetail} from '../controllers/orderDetailsControllers.js';
+import {getOrderDetails, createOrderDetail, getOrderDetailsByOrderId, updateOrderDetail, deleteOrderDetail} from '../controllers/orderDetailsControllers.js';
 
 const router = express.Router();
 
 router.get('/', getOrderDetails);
 router.post('/', createOrderDetail);
-router.get('/:id', getOrderDetailById);
+router.get('/:id', getOrderDetailsByOrderId);
 router.put('/:id', updateOrderDetail);
 router.delete('/:id', deleteOrderDetail);
 

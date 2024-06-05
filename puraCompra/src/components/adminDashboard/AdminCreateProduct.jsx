@@ -139,10 +139,10 @@ export default function AdminCreateProduct() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex justify-center items-center m-4 bg-red-600 w-1/2">
-        <div className="mr-8">
-          <label className="text-gray-700 text-sm font-bold">
+    <div className="flex flex-col justify-center items-center w-full">
+      <div className="flex justify-center items-center m-4 w-1/2">
+        <div className="mr-8 flex-1">
+          <label className="text-gray-700 text-sm font-bold mb-2">
             Product Name:
           </label>
           <input
@@ -150,10 +150,10 @@ export default function AdminCreateProduct() {
             name="name"
             value={productData.name}
             onChange={handleInputChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight border-transparent focus:border-transparent focus:ring-0"
           />
         </div>
-        <div>
+        <div className='flex-1'>
           <label className="text-gray-700 text-sm font-bold mb-2">
             Description:
           </label>
@@ -162,19 +162,18 @@ export default function AdminCreateProduct() {
             name="description"
             value={productData.description}
             onChange={handleInputChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight border-transparent focus:border-transparent focus:ring-0"
           />
         </div>
       </div>
-      <div className="flex justify-center items-center m-4 bg-slate-600 w-1/2">
-        <div className="mr-8">
-          <label className="text-gray-700 text-sm font-bold">
+      <div className="flex justify-around w-1/2 ">
+        <div className="flex-1 mr-8">
+          <label className="text-gray-700 text-sm font-bold mb-2">
             Seller:
           </label>
           <Dropdown
             label={selectedSeller ? sellers[selectedSeller] : "Select a seller"}
             color="gray"
-            className="w-full"
           >
             {Object.entries(sellers).map(([id, name]) => (
               <Dropdown.Item key={id} onClick={() => handleSellerSelect(id)}>
@@ -183,9 +182,9 @@ export default function AdminCreateProduct() {
             ))}
           </Dropdown>
         </div>
-        <div className="flex">
-          <div className="mr-4">
-            <label className="text-gray-700 text-sm font-bold">
+        <div className="flex-1 flex">
+          <div className="mr-4 w-1/2">
+            <label className="text-gray-700 text-sm font-bold mb-2">
               Price:
             </label>
             <input
@@ -193,7 +192,7 @@ export default function AdminCreateProduct() {
               name="price"
               value={productData.price}
               onChange={handleInputChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight border-transparent focus:border-transparent focus:ring-0"
             />
           </div>
           <div>
@@ -205,7 +204,7 @@ export default function AdminCreateProduct() {
               name="stock"
               value={productData.stock}
               onChange={handleInputChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight border-transparent focus:border-transparent focus:ring-0"
             />
           </div>
         </div>
@@ -248,7 +247,7 @@ export default function AdminCreateProduct() {
         <div className="w-1/2 flex flex-col items-center justify-center flex-shrink-0">
           <Label
             htmlFor="dropzone-file"
-            className="flex h-96 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            className="flex w-full h-5/6 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
           >
             <div className="flex flex-col items-center justify-center pb-6 pt-5">
               <svg
@@ -291,7 +290,7 @@ export default function AdminCreateProduct() {
           )}
         </div>
       </div>
-      <Button onClick={createProduct}>Create Product</Button>
+      <Button pill color="success" onClick={createProduct}>Create Product</Button>
     </div>
   );
 }

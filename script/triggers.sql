@@ -255,7 +255,7 @@ BEGIN
 END //
 DELIMITER ;
 
-Drop trigger BeforeDeleteProductImage;
+-- Drop trigger BeforeDeleteProductImage;
 
 -- test
 -- INSERT INTO ProductImages (ProductsID, imageUrl, type, color) VALUES (6, '', false, NULL);

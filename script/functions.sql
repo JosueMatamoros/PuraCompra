@@ -361,15 +361,15 @@ END //
 DELIMITER ;
 
 -- Suponiendo que el ID del producto recién insertado es 1
-SELECT UpdateProduct(
-    1,  -- ProductsID
-    2,  -- Sellers (nuevo vendedor)
-    'Airpods Ultra Max',  -- Nuevo nombre del producto
-    20,  -- Nuevo stock
-    'New redesign product',  -- Nueva descripción
-    899.99,  -- Nuevo precio
-    'http://example.com/updated_image.jpg'  -- Nueva URL
-);
+# SELECT UpdateProduct(
+#     1,  -- ProductsID
+#     2,  -- Sellers (nuevo vendedor)
+#     'Airpods Ultra Max',  -- Nuevo nombre del producto
+#     20,  -- Nuevo stock
+#     'New redesign product',  -- Nueva descripción
+#     899.99,  -- Nuevo precio
+#     'http://example.com/updated_image.jpg'  -- Nueva URL
+# );
 
 -- Function to delete a product
 DELIMITER //

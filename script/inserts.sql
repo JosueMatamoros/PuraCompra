@@ -277,7 +277,11 @@ INSERT INTO ProductImages (ProductsID, imageUrl, type, color, colorName) VALUES
 INSERT INTO Orders (UsersID, address, price, taxes) VALUES
 (2, 'San Ramón, Alajuela', 1214.50, 157.89),
 (3, 'Florencia, San Carlos', 2340.00, 304.20),
-(4, 'Calle Pechuga, San Ramón', 895.00, 116.35);
+(4, 'Calle Pechuga, San Ramón', 895.00, 116.35),
+(2, 'San Ramón, Alajuela', 1500.00, 195.00),
+(3, 'Florencia, San Carlos', 2000.00, 260.00),
+(4, 'Calle Pechuga, San Ramón', 2500.00, 325.00),
+(5, 'Santa Clara, San Carlos', 1800.00, 234.00);
 
 -- 11. Insert OrderDetails
 INSERT INTO OrderDetails (OrdersID, ProductID) VALUES
@@ -286,19 +290,35 @@ INSERT INTO OrderDetails (OrdersID, ProductID) VALUES
 (3, 3),
 (1,3),
 (2,4),
-(3,5);
+(3,5),
+(4, 1),
+(4, 3),
+(5, 2),
+(5, 4),
+(6, 5),
+(6, 6),
+(7, 7),
+(7, 8);
 
 -- 12. Insert Shipments
 INSERT INTO Shipments (OrdersID, tracking, price, totalPrice, state) VALUES
 (1, 123456789, 100.00, 1314.50, 'IN_PROCESS'),
 (2, NULL, 120.00, 2460.00, 'PENDING'),
-(3, 123456789, 75.00, 970.00, 'DELIVERED');
+(3, 123456789, 75.00, 970.00, 'DELIVERED'),
+(4, 123456789, 50.00, 1745.00, 'PENDING'),
+(5, 1122334, 75.00, 2335.00, 'IN_PROCESS'),
+(6, 9988776, 100.00, 2925.00, 'DELIVERED'),
+(7, 4455667, 80.00, 2114.00, 'PENDING');
 
 -- 13. Insert TransactionLogs
 INSERT INTO TransactionLogs ( UsersID, OrderID, type, quantity) VALUES
 (2, 1, 'purchase', 1214.50),
 (3, 2, 'purchase', 2340.00),
-(4, 3, 'purchase', 895.00);
+(4, 3, 'purchase', 895.00),
+(2, 4, 'purchase', 1500.00),
+(3, 5, 'purchase', 2000.00),
+(4, 6, 'purchase', 2500.00),
+(5, 7, 'purchase', 1800.00);
 
 -- 14. Insert CartItems
 INSERT INTO CartItems (UsersID, ProductID) VALUES

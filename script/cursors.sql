@@ -43,7 +43,6 @@ DELIMITER ;
 CALL process_products();
 
 
-
 DELIMITER //
 
 CREATE PROCEDURE process_users()

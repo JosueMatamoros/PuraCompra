@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { ListGroup, ListGroupItem } from 'flowbite-react';
+import { Button, List, ListItem, Typography, Box, Table, TableHead, TableRow, TableCell, TableBody, TextField } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import Header from '../header/Header';
-import ActionButtons from '../buttons/ActionButtons';
-// importar para navergar entre paginas
 import { useNavigate } from 'react-router-dom';
-
 
 export default function AdminContent() {
   const [products, setProducts] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState('all');
   const [selectedStock, setSelectedStock] = useState('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [updateTrigger, setUpdateTrigger] = useState(false); // Estado para forzar la actualización
+  const [updateTrigger, setUpdateTrigger] = useState(false);
+  const [editingStockId, setEditingStockId] = useState(null);
+  const [stockValues, setStockValues] = useState({});
 
   const navigate = useNavigate();
 
   const handleAddProduct = () => {
     navigate('/adminCreateProduct');
   };
-
 
   const fetchProducts = async () => {
     try {
@@ -36,33 +38,59 @@ export default function AdminContent() {
         method: 'DELETE',
       });
       if (response.ok) {
-        fetchProducts(); // Refresh the products list
+        fetchProducts();
       } else {
         console.error('Failed to delete product');
       }
     } catch (error) {
       console.error('Error deleting product:', error);
     }
-  }
-
+  };
 
   useEffect(() => {
     fetchProducts();
-  }, [updateTrigger]); // Ejecutar el useEffect cuando updateTrigger cambie
+  }, [updateTrigger]);
 
   const handleBrandChange = (brand) => {
     setSelectedBrand(brand);
   };
 
-  const handleStockChange = (productId, newStock) => {
-    setProducts(products.map(product => product.ProductsID === productId ? { ...product, stock: newStock } : product));
-    setUpdateTrigger(!updateTrigger); // Forzar la actualización
+  const handleStockChange = async (productId) => {
+    const newStock = stockValues[productId];
+    try {
+      const response = await fetch(`http://localhost:3000/products/${productId}/stock`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ stock: newStock }),
+      });
+      if (response.ok) {
+        setProducts(products.map(product => product.ProductsID === productId ? { ...product, stock: newStock } : product));
+        setUpdateTrigger(!updateTrigger);
+        setEditingStockId(null);
+      } else {
+        console.error('Failed to update stock');
+      }
+    } catch (error) {
+      console.error('Error updating stock:', error);
+    }
   };
 
+  const handleStockInputChange = (productId, value) => {
+    setStockValues({
+      ...stockValues,
+      [productId]: value
+    });
+  };
+
+  const handleStockChangeFilter = (stock) => {
+    setSelectedStock(stock);
+  };
 
   const filteredProducts = products.filter(product => {
     let matchesBrand = selectedBrand === 'all' || product.brand === selectedBrand;
-    let matchesStock = selectedStock === 'all' || 
+    let matchesStock = selectedStock === 'all' ||
                        (selectedStock === 'in-stock' && product.stock > 0) ||
                        (selectedStock === 'out-of-stock' && product.stock === 0);
     return matchesBrand && matchesStock;
@@ -71,88 +99,198 @@ export default function AdminContent() {
   return (
     <>
       <Header />
-      <div className="p-6 bg-white shadow rounded-lg">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold text-2xl">Products</h2>
-          <div className="flex items-center gap-4">
-          <button className="bg-blue-500 text-white py-2 px-4 rounded" onClick={handleAddProduct}>Add Product</button>
-
-            <div className="relative">
-              <button 
-                className="bg-transparent border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white py-2 px-4 rounded flex items-center gap-2"
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
-              >
-                Filters <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {isFilterOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-20 p-4">
-                  <h4 className="font-semibold mb-2">Filter by Brand</h4>
-                  <ListGroup>
-                    <ListGroupItem active={selectedBrand === 'all'} onClick={() => handleBrandChange('all')}>
-                      All
-                    </ListGroupItem>
-                    <ListGroupItem active={selectedBrand === 'brand1'} onClick={() => handleBrandChange('brand1')}>
-                      Brand 1
-                    </ListGroupItem>
-                    <ListGroupItem active={selectedBrand === 'brand2'} onClick={() => handleBrandChange('brand2')}>
-                      Brand 2
-                    </ListGroupItem>
-                    {/* Add more brands as needed */}
-                  </ListGroup>
-                  <h4 className="font-semibold mt-4 mb-2">Filter by Stock</h4>
-                  <ListGroup>
-                    <ListGroupItem active={selectedStock === 'all'} onClick={() => handleStockChangeFilter('all')}>
-                      All
-                    </ListGroupItem>
-                    <ListGroupItem active={selectedStock === 'in-stock'} onClick={() => handleStockChangeFilter('in-stock')}>
-                      In Stock
-                    </ListGroupItem>
-                    <ListGroupItem active={selectedStock === 'out-of-stock'} onClick={() => handleStockChangeFilter('out-of-stock')}>
-                      Out of Stock
-                    </ListGroupItem>
-                  </ListGroup>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="border shadow-sm rounded-lg">
-          <table className="min-w-full bg-white">
-            <thead>
-              <tr>
-                <th className="py-2 text-left">Image</th>
-                <th className="py-2 text-left">Name</th>
-                <th className="py-2 text-left">SKU</th>
-                <th className="py-2 text-left">Inventory</th>
-                <th className="py-2 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
+      <Box className="rounded-lg w-full">
+        <Box className="flex items-center justify-between px-6 py-4 border-b">
+          <Typography variant="h6" component="h1">Products</Typography>
+          <Box className="flex items-center gap-4">
+            <Button 
+              variant="outlined" 
+              size="small" 
+              onClick={handleAddProduct} 
+              startIcon={<AddIcon />} 
+              sx={{ 
+                borderColor: '#d3d3d3', 
+                color: 'black',
+                backgroundColor: 'transparent',
+                '&:hover': {
+                  borderColor: '#d3d3d3',
+                  backgroundColor: 'grey.100',
+                },
+              }}
+            >
+              Add Product
+            </Button>
+            <Button 
+              variant="outlined" 
+              size="small" 
+              onClick={() => setIsFilterOpen(!isFilterOpen)} 
+              startIcon={<FilterListIcon />} 
+              sx={{ 
+                borderColor: '#d3d3d3', 
+                color: 'black',
+                backgroundColor: 'transparent',
+                '&:hover': {
+                  borderColor: '#d3d3d3',
+                  backgroundColor: 'grey.100',
+                },
+              }}
+            >
+              Filter
+            </Button>
+          </Box>
+        </Box>
+        {isFilterOpen && (
+          <Box className="px-6 py-4 border-b">
+            <Typography variant="subtitle1" className="font-semibold mb-2">Filter by Brand</Typography>
+            <List>
+              <ListItem button selected={selectedBrand === 'all'} onClick={() => handleBrandChange('all')}>
+                All
+              </ListItem>
+              <ListItem button selected={selectedBrand === 'brand1'} onClick={() => handleBrandChange('brand1')}>
+                Brand 1
+              </ListItem>
+              <ListItem button selected={selectedBrand === 'brand2'} onClick={() => handleBrandChange('brand2')}>
+                Brand 2
+              </ListItem>
+              {/* Add more brands as needed */}
+            </List>
+            <Typography variant="subtitle1" className="font-semibold mt-4 mb-2">Filter by Stock</Typography>
+            <List>
+              <ListItem button selected={selectedStock === 'all'} onClick={() => handleStockChangeFilter('all')}>
+                All
+              </ListItem>
+              <ListItem button selected={selectedStock === 'in-stock'} onClick={() => handleStockChangeFilter('in-stock')}>
+                In Stock
+              </ListItem>
+              <ListItem button selected={selectedStock === 'out-of-stock'} onClick={() => handleStockChangeFilter('out-of-stock')}>
+                Out of Stock
+              </ListItem>
+            </List>
+          </Box>
+        )}
+        <Box className="relative w-full overflow-auto">
+          <Table sx={{ tableLayout: 'fixed', width: '100%' }}>
+            <TableHead>
+              <TableRow>
+                <TableCell align='left' >Image</TableCell>
+                <TableCell align="center">Name</TableCell>
+                <TableCell align="center">SKU</TableCell>
+                <TableCell align="center">Inventory</TableCell>
+                <TableCell align='center'>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
               {filteredProducts.map((product) => (
-                <tr key={product.ProductsID} className="border-t">
-                  <td className="py-2">
-                    <div className="w-16 h-16">
+                <TableRow key={product.ProductsID}>
+                  <TableCell align="left">
+                    <Box className="w-16 h-16">
                       <img
                         src={`http://localhost:3000${product.imageUrl}` || '/placeholder.svg'}
                         alt="Product image"
                         className="w-full h-full object-contain rounded-md"
                       />
-                    </div>
-                  </td>
-                  <td className="py-2">{product.name}</td>
-                  <td className="py-2">{product.ProductsID}</td>
-                  <td className="py-2">{product.stock}</td>
-                  <td className="py-2">
-                    <ActionButtons productId={product.ProductsID} onStockChange={handleStockChange} deleteProduct={deleteProduct} />
-                  </td>
-                </tr>
+                    </Box>
+                  </TableCell>
+                  <TableCell align="center">{product.name}</TableCell>
+                  <TableCell align="center">{product.ProductsID}</TableCell>
+                  <TableCell align="center">
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {editingStockId === product.ProductsID ? (
+                        <TextField
+                          type="number"
+                          size="small"
+                          value={stockValues[product.ProductsID] || product.stock}
+                          onChange={(e) => handleStockInputChange(product.ProductsID, e.target.value)}
+                          InputProps={{
+                            inputProps: { 
+                              min: 0, 
+                              style: { 
+                                MozAppearance: 'textfield' 
+                              } 
+                            },
+                            sx: {
+                              '& input[type=number]::-webkit-outer-spin-button': {
+                                WebkitAppearance: 'none',
+                                margin: 0,
+                              },
+                              '& input[type=number]::-webkit-inner-spin-button': {
+                                WebkitAppearance: 'none',
+                                margin: 0,
+                              },
+                            }
+                          }}
+                          sx={{ width: '60px' }}
+                        />
+                      ) : (
+                        <Typography>{product.stock}</Typography>
+                      )}
+                    </Box>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Box className="flex items-center gap-2 justify-end">
+                      {editingStockId === product.ProductsID ? (
+                        <Button 
+                          variant="outlined" 
+                          size="small" 
+                          onClick={() => handleStockChange(product.ProductsID)} 
+                          startIcon={<AddIcon />} 
+                          sx={{ 
+                            borderColor: '#d3d3d3', 
+                            color: 'black',
+                            backgroundColor: 'transparent',
+                            '&:hover': {
+                              borderColor: '#d3d3d3',
+                              backgroundColor: 'grey.100',
+                            },
+                          }}
+                        >
+                          Save
+                        </Button>
+                      ) : (
+                        <Button 
+                          variant="outlined" 
+                          size="small" 
+                          onClick={() => setEditingStockId(product.ProductsID)} 
+                          startIcon={<EditIcon />} 
+                          sx={{ 
+                            borderColor: '#d3d3d3', 
+                            color: 'black',
+                            backgroundColor: 'transparent',
+                            '&:hover': {
+                              borderColor: '#d3d3d3',
+                              backgroundColor: 'grey.100',
+                            },
+                          }}
+                        >
+                          Modify Stock
+                        </Button>
+                      )}
+                      <Button 
+                        variant="outlined" 
+                        size="small" 
+                        color="error" 
+                        onClick={() => deleteProduct(product.ProductsID)} 
+                        startIcon={<DeleteIcon />} 
+                        sx={{ 
+                          borderColor: '#d3d3d3', 
+                          color: 'black',
+                          backgroundColor: 'transparent',
+                          '&:hover': {
+                            borderColor: '#d3d3d3',
+                            backgroundColor: 'grey.100',
+                          },
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </Box>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+            </TableBody>
+          </Table>
+        </Box>
+      </Box>
     </>
   );
 }

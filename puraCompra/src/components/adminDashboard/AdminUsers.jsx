@@ -64,9 +64,6 @@ export default function AdminUsers() {
       <div className="p-6 bg-white shadow rounded-lg">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold">User List</h3>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded">
-            Add User
-          </button>
         </div>
         <table className="min-w-full bg-white">
           <thead>

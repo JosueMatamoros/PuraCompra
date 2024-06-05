@@ -5,8 +5,6 @@ export default function AdminShipments() {
   const [shipments, setShipments] = useState([]);
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
-  const [selectedShipment, setSelectedShipment] = useState(null);
-  const [tracking, setTracking] = useState("");
 
   const fetchShipments = async () => {
     try {
@@ -38,19 +36,26 @@ export default function AdminShipments() {
     }
   };
 
-  const updateShipmentTracking = async (shipmentId) => {
+  const generateUniqueTrackingNumber = () => {
+    const generateRandomNumber = () => Math.floor(100000000 + Math.random() * 900000000);
+    let trackingNumber;
+    do {
+      trackingNumber = generateRandomNumber();
+    } while (shipments.some(shipment => shipment.tracking === trackingNumber.toString()));
+    return trackingNumber.toString();
+  };
+
+  const updateShipmentTracking = async (shipmentId, newTracking) => {
     try {
       const response = await fetch(`http://localhost:3000/shipments/${shipmentId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ tracking }),
+        body: JSON.stringify({ tracking: newTracking, state: 'IN_PROCESS' }),
       });
       if (response.ok) {
         await fetchShipments(); // Refresh the shipments list
-        setSelectedShipment(null); // Deselect shipment
-        setTracking(""); // Clear the tracking input
       } else {
         console.error("Failed to update shipment tracking");
       }
@@ -78,6 +83,24 @@ export default function AdminShipments() {
     }
   };
 
+  const deleteShipment = async (shipmentId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/shipments/${shipmentId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        await fetchShipments(); // Refresh the shipments list
+      } else {
+        console.error("Failed to delete shipment");
+      }
+    } catch (error) {
+      console.error("Error deleting shipment:", error);
+    }
+  };
+
   useEffect(() => {
     fetchShipments();
     fetchOrders();
@@ -91,6 +114,11 @@ export default function AdminShipments() {
       date: order ? new Date(order.date).toLocaleDateString() : 'N/A',
       buyerName: user ? `${user.name} ${user.lastname}` : 'N/A'
     };
+  };
+
+  const handleMarkInProcess = (shipmentId) => {
+    const newTracking = generateUniqueTrackingNumber();
+    updateShipmentTracking(shipmentId, newTracking);
   };
 
   const pendingShipments = shipments.filter(shipment => shipment.state === 'PENDING');
@@ -121,55 +149,29 @@ export default function AdminShipments() {
                 <td className="py-2">{buyerName}</td>
                 <td className="py-2">{shipment.state}</td>
                 <td className="py-2">
-                  {selectedShipment === shipment.ShipmentsID && isPending ? (
-                    <input
-                      type="text"
-                      value={tracking}
-                      onChange={(e) => setTracking(e.target.value)}
-                      className="border px-2 py-1"
-                    />
-                  ) : (
-                    shipment.tracking || "N/A"
-                  )}
+                  {shipment.tracking || "N/A"}
                 </td>
                 <td className="py-2 flex justify-end gap-2">
                   {isPending ? (
-                    selectedShipment === shipment.ShipmentsID ? (
-                      <button
-                        onClick={() => updateShipmentTracking(shipment.ShipmentsID)}
-                        className="bg-blue-500 text-white py-1 px-3 rounded"
-                      >
-                        Save
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => {
-                          setSelectedShipment(shipment.ShipmentsID);
-                          setTracking(shipment.tracking || "");
-                        }}
-                        className="bg-transparent border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white rounded-full p-2"
-                      >
-                        <svg
-                          className="h-4 w-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 7l-7 7-7-7"
-                          />
-                        </svg>
-                      </button>
-                    )
+                    <button
+                      onClick={() => handleMarkInProcess(shipment.ShipmentsID)}
+                      className="bg-yellow-500 text-white py-1 px-3 rounded"
+                    >
+                      Mark In Process
+                    </button>
                   ) : shipment.state === 'IN_PROCESS' ? (
                     <button
                       onClick={() => markShipmentAsDelivered(shipment.ShipmentsID)}
                       className="bg-green-500 text-white py-1 px-3 rounded"
                     >
                       Mark as Delivered
+                    </button>
+                  ) : shipment.state === 'DELIVERED' ? (
+                    <button
+                      onClick={() => deleteShipment(shipment.ShipmentsID)}
+                      className="bg-red-500 text-white py-1 px-3 rounded"
+                    >
+                      Delete Shipment
                     </button>
                   ) : null}
                 </td>

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { FileInput, Label, Dropdown, Button } from 'flowbite-react';
+import { FileInput, Label, Dropdown, Button, Toast } from 'flowbite-react';
 import ImagenNoDisponible from '../../../public/ImagenNoDisponible.png';
+import { useNavigate } from 'react-router-dom';
+import { HiCheck } from 'react-icons/hi';
 
 export default function AdminCreateProduct() {
   const [productData, setProductData] = useState({
@@ -15,8 +17,11 @@ export default function AdminCreateProduct() {
     images: [ImagenNoDisponible, ImagenNoDisponible, ImagenNoDisponible],
   });
 
+  const navigate = useNavigate();
+
   const [sellers, setSellers] = useState({});
   const [selectedSeller, setSelectedSeller] = useState('');
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     fetchSellers();
@@ -99,6 +104,8 @@ export default function AdminCreateProduct() {
         const product = await response.json();
         console.log('Product created successfully');
         await uploadAdditionalImages(product.ProductsID);
+        setShowToast(true);
+        setTimeout(() => {setShowToast(false); navigate('/products')}, 3000);
       } else {
         console.error('Failed to create product');
       }
@@ -140,6 +147,17 @@ export default function AdminCreateProduct() {
 
   return (
     <div className="flex flex-col justify-center items-center w-full">
+      {showToast && (
+        <div className="fixed bottom-4 right-4 transform transition-transform duration-300 ease-in-out">
+        <Toast>
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+            <HiCheck className="h-5 w-5" />
+          </div>
+          <div className="ml-3 text-sm font-normal">The product was added successfully!</div>
+          <Toast.Toggle />
+        </Toast>
+      </div>
+      )}
       <div className="flex justify-center items-center m-4 w-1/2">
         <div className="mr-8 flex-1">
           <label className="text-gray-700 text-sm font-bold mb-2">

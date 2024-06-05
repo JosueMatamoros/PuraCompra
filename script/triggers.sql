@@ -265,7 +265,6 @@ Drop trigger BeforeDeleteProductImage;
 
 -- Trigger para reducir el stock de un producto basado en la cantidad de productos de una orden
 DELIMITER //
-
 CREATE TRIGGER update_stock_after_order
 AFTER INSERT ON OrderDetails
 FOR EACH ROW
@@ -276,7 +275,5 @@ BEGIN
   SET stock = stock - qty
   WHERE ProductsID = NEW.ProductID AND stock >= qty;
 END;
-
 //
-
 DELIMITER ;

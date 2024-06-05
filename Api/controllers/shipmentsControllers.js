@@ -42,8 +42,8 @@ export const updateShipment = async (request, response) => {
     if (tracking !== undefined) {
       updateData.tracking = tracking;
       updateData.state = 'IN_PROCESS';
-    } else if (state === 'DELIVED') {
-      updateData.state = 'DELIVED';
+    } else if (state === 'DELIVERED') {
+      updateData.state = 'DELIVERED';
     } else {
       return response.status(400).json({ message: "Invalid update request" });
     }

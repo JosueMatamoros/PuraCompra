@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -7,23 +7,51 @@ import { useNavigate } from 'react-router-dom';
 
 const ProductsCarrousel = ({ products, carrouselId }) => {
   const navigate = useNavigate();
+  const swiperRef = useRef(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
 
   const handleCardClick = (productId) => {
     navigate(`/product/${productId}`);
   };
 
-  const productUrls = {
-    1: 'https://www.bestbuy.com',
-    2: '/product/2',
-    3: '/product/3',
-  };
-  
+  useEffect(() => {
+    const swiperInstance = swiperRef.current.swiper;
+
+    const updateNavigation = () => {
+      setIsBeginning(swiperInstance.isBeginning);
+      setIsEnd(swiperInstance.isEnd);
+    };
+
+    if (swiperInstance) {
+      swiperInstance.on('slideChange', updateNavigation);
+      swiperInstance.on('reachEnd', updateNavigation);
+      swiperInstance.on('reachBeginning', updateNavigation);
+
+      // Initial update
+      updateNavigation();
+    }
+
+    return () => {
+      if (swiperInstance) {
+        swiperInstance.off('slideChange', updateNavigation);
+        swiperInstance.off('reachEnd', updateNavigation);
+        swiperInstance.off('reachBeginning', updateNavigation);
+      }
+    };
+  }, []);
+
   return (
     <div className="relative horizontal-swiper">
       <Swiper
+        ref={swiperRef}
         direction="horizontal"
         spaceBetween={16}
         slidesPerView={1}
+        onSlideChange={(swiper) => {
+          setIsBeginning(swiper.isBeginning);
+          setIsEnd(swiper.isEnd);
+        }}
         navigation={{
           nextEl: `.swiper-button-next-${carrouselId}`,
           prevEl: `.swiper-button-prev-${carrouselId}`,
@@ -62,8 +90,12 @@ const ProductsCarrousel = ({ products, carrouselId }) => {
       </Swiper>
 
       {/* Navigation buttons */}
-      <div className={`swiper-button-prev swiper-button-prev-${carrouselId} absolute left-0 top-1/2 transform -translate-y-1/2 z-10`}></div>
-      <div className={`swiper-button-next swiper-button-next-${carrouselId} absolute right-0 top-1/2 transform -translate-y-1/2 z-10`}></div>
+      <div 
+        className={`swiper-button-prev swiper-button-prev-${carrouselId} absolute left-0 top-1/2 transform -translate-y-1/2 z-10 ${isBeginning ? 'hidden' : 'block'}`}
+      ></div>
+      <div 
+        className={`swiper-button-next swiper-button-next-${carrouselId} absolute right-0 top-1/2 transform -translate-y-1/2 z-10 ${isEnd ? 'hidden' : 'block'}`}
+      ></div>
     </div>
   );
 };

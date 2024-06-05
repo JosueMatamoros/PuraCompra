@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
-import Header from "../header/Header";
-import Footer from "../footer/Footer";
 
 export default function Orders() {
   const { user } = useContext(AuthContext);
